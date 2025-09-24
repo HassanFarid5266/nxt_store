@@ -10,7 +10,6 @@
           class="swiper-slide"
         >
           <slot :item="item" :index="index">
-            <!-- Default slot content if needed -->
           </slot>
         </div>
       </div>
@@ -28,6 +27,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { Swiper } from 'swiper'
+import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 
 const props = defineProps({
   items: {
@@ -90,6 +90,7 @@ const swiper = ref(null)
 
 onMounted(() => {
   const swiperConfig = {
+    modules: [Navigation, Pagination, Autoplay],
     slidesPerView: props.slidesPerView,
     spaceBetween: props.spaceBetween,
     breakpoints: props.breakpoints,
@@ -113,6 +114,7 @@ onMounted(() => {
     swiperConfig.autoplay = {
       delay: 5000,
       disableOnInteraction: false,
+      pauseOnMouseEnter: true
     }
   }
 

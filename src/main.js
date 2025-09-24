@@ -13,7 +13,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'aos/dist/aos.css'
-
+import 'boxicons/css/boxicons.min.css'
 const app = createApp(App)
 
 app.use(createPinia())

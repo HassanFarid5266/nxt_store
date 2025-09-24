@@ -1,32 +1,12 @@
 <template>
   <main class="layout-home">
     <!-- SLIDER -->
-    <section v-if="banners.length" class="boxed welcome">
-      <div class="swiper carousel" id="welcome">
-        <div class="swiper-wrapper">
-          <article v-for="item in banners" :key="item.name" class="swiper-slide">
-            <div class="card card-slide">
-              <div class="card-image">
-                <img :src="item.image" class="image" :alt="item.alt" loading="lazy" />
-              </div>
-              <div class="card-body">
-                <h3 class="card-title text-ellipsis text-ellipsis-2">
-                  <router-link :to="`/product/${item.name}`">{{ item.title }}</router-link>
-                </h3>
-                <p class="card-subtitle">{{ item.excerpt }}</p>
-                <router-link :to="`/product/${item.name}`" class="btn btn-primary" style="margin-top: 20px;">
-                  See details
-                  <i class="bx bx-right-arrow-alt con-end"></i>
-                </router-link>
-              </div>
-            </div>
-          </article>
-        </div>
-        <div class="swiper-pagination"></div>
-        <button class="slide-prev btn btn-primary bx bx-left-arrow-alt"></button>
-        <button class="slide-next btn btn-primary bx bx-right-arrow-alt"></button>
-      </div>
-    </section>
+    <HeroSlider
+      :slides="banners"
+      slider-id="welcome"
+      :autoplay="true"
+      :space-between="20"
+    />
 
     <!-- FEATURED -->
     <section v-if="featured.length" class="boxed featured-1">
@@ -43,8 +23,12 @@
           </div>
         </div>
         <div class="swiper-pagination"></div>
-        <button class="slide-prev btn btn-primary bx bx-left-arrow-alt"></button>
-        <button class="slide-next btn btn-primary bx bx-right-arrow-alt"></button>
+        <button class="slide-prev btn btn-primary">
+          <i class="bx bx-left-arrow-alt"></i>
+        </button>
+        <button class="slide-next btn btn-primary">
+          <i class="bx bx-right-arrow-alt"></i>
+        </button>
       </div>
     </section>
 
@@ -58,8 +42,13 @@
             <TestimonialCard :testimonial="testimonial" />
           </div>
         </div>
-        <button class="slide-prev btn btn-primary btn-sm bx bx-left-arrow-alt"></button>
-        <button class="slide-next btn btn-primary btn-sm bx bx-right-arrow-alt"></button>
+        <div class="swiper-pagination"></div>
+        <button class="slide-prev btn btn-primary btn-sm">
+          <i class="bx bx-left-arrow-alt"></i>
+        </button>
+        <button class="slide-next btn btn-primary btn-sm">
+          <i class="bx bx-right-arrow-alt"></i>
+        </button>
       </div>
     </section>
 
@@ -82,6 +71,8 @@
 <script setup>
 import { computed, onMounted, nextTick } from 'vue'
 import { Swiper } from 'swiper'
+import { Navigation, Pagination, Autoplay } from 'swiper/modules'
+import HeroSlider from '@/components/HeroSlider.vue'
 import TestimonialCard from '@/components/TestimonialCard.vue'
 import ProductCard from '@/components/ProductCard.vue'
 import MediaProductCard from '@/components/MediaProductCard.vue'
@@ -100,13 +91,21 @@ const initSwipers = () => {
   // Featured carousel
   if (featured.value.length) {
     new Swiper("#featured", {
+      modules: [Navigation, Pagination, Autoplay],
       slidesPerView: 1,
+      spaceBetween: 20,
       navigation: {
-        nextEl: ".slide-next",
-        prevEl: ".slide-prev",
+        nextEl: "#featured .slide-next",
+        prevEl: "#featured .slide-prev",
       },
       pagination: {
-        el: ".swiper-pagination",
+        el: "#featured .swiper-pagination",
+        clickable: true,
+      },
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true
       },
       breakpoints: {
         340: { slidesPerView: 1 },
@@ -118,29 +117,24 @@ const initSwipers = () => {
     })
   }
 
-  // Welcome carousel
-  if (banners.value.length) {
-    new Swiper("#welcome", {
-      slidesPerView: "auto",
-      spaceBetween: 20,
-      navigation: {
-        nextEl: ".slide-next",
-        prevEl: ".slide-prev",
-      },
-      pagination: {
-        el: ".swiper-pagination",
-      },
-    })
-  }
-
   // Feedbacks carousel
   if (testimonials.value.length) {
     new Swiper("#feedbacks", {
+      modules: [Navigation, Pagination, Autoplay],
       slidesPerView: 1,
-      pagination: true,
+      spaceBetween: 20,
       navigation: {
-        nextEl: ".slide-next",
-        prevEl: ".slide-prev",
+        nextEl: "#feedbacks .slide-next",
+        prevEl: "#feedbacks .slide-prev",
+      },
+      pagination: {
+        el: "#feedbacks .swiper-pagination",
+        clickable: true,
+      },
+      autoplay: {
+        delay: 6000,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true
       },
       breakpoints: {
         340: { slidesPerView: 1 },

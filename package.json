@@ -12,11 +12,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "aos": "^2.3.4",
+    "boxicons": "^2.1.4",
     "pinia": "^3.0.3",
-    "vue": "^3.5.18",
-    "vue-router": "^4.5.1",
     "swiper": "^11.0.0",
-    "aos": "^2.3.4"
+    "vue": "^3.5.18",
+    "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",

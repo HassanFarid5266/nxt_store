@@ -7,7 +7,7 @@
       <router-link v-if="product.category" :to="`/shop/${product.category.name}/`" class="media-badge">
         {{ product.category.title }}
       </router-link>
-      <RatingStars v-if="showRating" :rating="product.rating || 5" :show-number="true" />
+      <RatingStars v-if="showRating" :rating="product.rating" :show-number="true" />
       <h3 class="media-title text-ellipsis">
         <router-link :to="`/product/${product.name}/`">
           {{ product.title }}

@@ -1,25 +1,35 @@
 .layout-home {
-	margin-top: 60px;
+  margin-top: 60px;
 
-	.welcome {
-		margin-bottom: 120px;
+  .welcome {
+    margin-bottom: 120px;
 
-		.swiper-slide {
-			width: 90%;
-		}
+    .swiper-slide {
+      width: 90%;
+    }
 
-		@media (max-width: 768px) {
-			margin-bottom: 30px;
+    @media (max-width: 768px) {
+      margin-bottom: 30px;
 
-			.swiper-slide {
-				width: 100%;
-			}
-		}
+      .swiper-slide {
+        width: 100%;
+      }
+    }
+  }
+
+  .feedbacks,
+  .featured-1,
+  .featured-2 {
+    margin-bottom: 100px;
+  }
+}
+
+.featured-1,.feedbacks {
+  .carousel {
+	.swiper-wrapper {
+	  .swiper-slide  {
+		padding: 0px !important;
+	  }
 	}
-
-	.feedbacks,
-	.featured-1,
-	.featured-2 {
-		margin-bottom: 100px;
-	}
+  }
 }

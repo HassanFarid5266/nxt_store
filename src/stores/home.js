@@ -66,35 +66,44 @@ export const useHomeStore = defineStore('home', () => {
       excerpt: "Seamless online meetings with secure video and chat",
       category: { name: "communication", title: "Communication" },
       variations: [{ price: "200", discount: null }]
-    }
+    },
+    {
+      name: "pos-awesome",
+      image: "/src/assets/images/products/pos-awesome.png",
+      alt: "POS Awesome",
+      title: "POS Awesome", 
+      excerpt: "Upscale POS system with unified order tracking",
+      category: { name: "pos", title: "POS Systems" },
+      variations: [{ price: "700", discount: null }]
+    },
   ])
 
   // Testimonials data
   const testimonials = ref([
     {
       name: "testimonial1",
-      feedback: "The Frappe apps from NexTash are incredibly useful and user-friendly. They've significantly improved our workflow and productivity.",
+      feedback: "I’ve been using apps from this store for a while, and they have consistently performed well. Easy to integrate and reliable, they have made managing tasks much simpler. The customer support is quick to respond and very helpful.",
       feedback_image: "/src/assets/images/review.webp",
       full_name: "Ahmed Hassan",
       designation: "Project Manager, Tech Solutions"
     },
     {
       name: "testimonial2", 
-      feedback: "Outstanding customer support and high-quality products. The NXT Theme transformed our ERPNext interface completely.",
+      feedback: "I’ve been using apps from this store for a while, and they have consistently performed well. Easy to integrate and reliable, they have made managing tasks much simpler. The customer support is quick to respond and very helpful.",
       feedback_image: "/src/assets/images/review.webp",
       full_name: "Sarah Johnson",
       designation: "IT Director, Global Corp"
     },
     {
       name: "testimonial3",
-      feedback: "POS Awesome has revolutionized our retail operations. The unified order tracking is exactly what we needed.",
+      feedback: "I’ve been using apps from this store for a while, and they have consistently performed well. Easy to integrate and reliable, they have made managing tasks much simpler. The customer support is quick to respond and very helpful.",
       feedback_image: "/src/assets/images/review.webp",
       full_name: "Mike Chen",
       designation: "Retail Manager, QuickMart"
     },
     {
       name: "testimonial4",
-      feedback: "The Frappe apps from this store are fantastic. They are intuitive and have greatly improved our efficiency.",
+      feedback: "I’ve been using apps from this store for a while, and they have consistently performed well. Easy to integrate and reliable, they have made managing tasks much simpler. The customer support is quick to respond and very helpful.",
       feedback_image: "/src/assets/images/review.webp",
       full_name: "Lisa Williams",
       designation: "Business Analyst, Enterprise Solutions"
