@@ -12,7 +12,7 @@
           <a class="nav-link" target="_blank" href="https://nextash.com/faqs/">FAQs</a>
           <a class="nav-link" target="_blank" href="https://nextash.com/contact-us/">Contact</a>
         </nav>
-        <nav class="cart-section">
+        <!-- <nav class="cart-section">
           <button
             @click="toggleCart"
             class="cart-button"
@@ -21,7 +21,7 @@
             <i class="bx bx-shopping-bag"></i>
             <span v-if="cartStore.itemCount > 0" class="cart-count">{{ cartStore.itemCount }}</span>
           </button>
-        </nav>
+        </nav> -->
         <nav class="auth-items">
           <div v-if="isLoggedIn" class="dropdown">
             <a href="javascript:void(0)" data-nxt-toggle="dropdown" class="nav-link nav-auth-menu">
@@ -31,7 +31,7 @@
             </a>
             <div class="dropdown-menu">
               <router-link to="/account" class="dropdown-item">Profile</router-link>
-              <a href="/logout" id="logout" class="dropdown-item" @click.prevent="logout">Logout</a>
+              <router-link to="/logout" id="logout" class="dropdown-item" @click.prevent="logout">Logout</router-link>
             </div>
           </div>
           <router-link v-else to="/login" class="btn btn-primary btn-sm">Login / Signup</router-link>
@@ -44,6 +44,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useCartStore } from '@/stores/cart'
 

@@ -69,6 +69,24 @@ export function $msg(opts) {
   });
 }
 
+export function showMessage(message, type = 'info') {
+  const iconMap = {
+    success: 'bx-check-circle',
+    error: 'bx-x-circle',
+    warning: 'bx-error-circle',
+    info: 'bx-info-circle'
+  };
+
+  $msg({
+    title: type.charAt(0).toUpperCase() + type.slice(1),
+    desc: message,
+    type: type,
+    icon: iconMap[type] || iconMap.info,
+    close: true,
+    duration: 4000
+  });
+}
+
 export function timeAgo(timestamp, tag = true) {
   const inputTime = new Date(timestamp);
   const now = new Date();
