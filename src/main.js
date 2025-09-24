@@ -6,7 +6,7 @@ import App from './App.vue'
 import router from './router'
 
 // CSS imports
-import '@/assets/scss/style.scss'
+import '@/assets/css/style.css'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'

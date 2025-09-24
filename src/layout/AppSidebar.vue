@@ -11,7 +11,7 @@
       <div class="sidebar-auth">
         <div v-if="user" class="sidebar-user">
           <div class="user-info">
-            <img :src="user.user_image || '/assets/nextash_store/images/man.png'" alt="User" class="user-avatar">
+            <img :src="user.user_image || '@/assets/images/man.png'" alt="User" class="user-avatar">
             <span class="user-name">{{ user.name }}</span>
           </div>
           <div class="user-actions">

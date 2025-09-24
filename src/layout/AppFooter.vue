@@ -4,7 +4,7 @@
     <div class="grid grid-footer boxed">
       <div>
         <router-link to="/" class="logo" role="img" aria-label="nextash">
-          <img src="/assets/nextash_store/images/logos/logo.png" width="80" class="image" alt="Nextash Logo" />
+          <img src="@/assets/images/logos/logo.png" width="80" class="image" alt="Nextash Logo" />
         </router-link>
         <div class="social-group">
           <a href="#" class="bx bxl-facebook-circle social-link"></a>

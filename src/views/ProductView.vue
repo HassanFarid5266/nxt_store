@@ -91,7 +91,7 @@
           <!-- Add Review Form -->
           <form v-if="isLoggedIn" @submit.prevent="submitReview" class="media media-image-rounded review-form">
             <div class="media-image">
-              <img :src="user?.user_image || '/assets/nextash_store/images/review.webp'" class="image" />
+              <img :src="user?.user_image || '@/assets/images/review.webp'" class="image" />
             </div>
             <div class="form-group media-body">
               <textarea 

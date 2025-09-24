@@ -19,7 +19,7 @@
         <form @submit.prevent="uploadProfileImage" enctype="multipart/form-data">
           <div class="profile-avatar">
             <img 
-              :src="imagePreview || user?.user_image || '/assets/nextash_store/images/man.png'" 
+              :src="imagePreview || user?.user_image || '@/assets/images/man.png'" 
               class="image" 
               :alt="`${user?.first_name} ${user?.last_name}`"
             >

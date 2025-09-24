@@ -3,7 +3,7 @@
   <header class="navbar">
     <div class="boxed">
       <router-link to="/" class="logo">
-        <img src="/assets/nextash_store/images/logos/logo.png" id="logo" alt="Nextash Clouds Logo" />
+        <img src="@/assets/images/logos/logo.png" id="logo" alt="Nextash Clouds Logo" />
       </router-link>
       <div class="nav-items">
         <nav class="menu-items">
@@ -15,7 +15,7 @@
         <nav class="auth-items">
           <div v-if="user" class="dropdown" :class="{ active: showDropdown }">
             <a href="javascript:void(0)" @click="toggleDropdown" class="nav-link nav-auth-menu">
-              <img :src="user.user_image || '/assets/nextash_store/images/man.png'" alt="">
+              <img :src="user.user_image || '@/assets/images/man.png'" alt="">
               <span class="dropdown-toggle"></span>
             </a>
             <div class="dropdown-menu">

@@ -29,10 +29,10 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import AppNavbar from '@/components/layout/AppNavbar.vue'
-import AppFooter from '@/components/layout/AppFooter.vue'
-import AppSidebar from '@/components/layout/AppSidebar.vue'
-import CtaSection from '@/components/common/CtaSection.vue'
+import AppNavbar from '@/layout/AppNavbar.vue'
+import AppFooter from '@/layout/AppFooter.vue'
+import AppSidebar from '@/layout/AppSidebar.vue'
+import CtaSection from '@/components/CtaSection.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()

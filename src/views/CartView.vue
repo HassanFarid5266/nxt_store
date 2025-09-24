@@ -115,7 +115,7 @@
         <div class="card-foot center">
           <p class="card-desc">Payments methods we accept</p>
           <p class="card-desc">
-            <img src="/assets/nextash_store/images/cards.webp" width="150" alt="Payment methods" />
+            <img src="@/assets/images/cards.webp" width="150" alt="Payment methods" />
           </p>
           <router-link 
             to="/checkout" 
