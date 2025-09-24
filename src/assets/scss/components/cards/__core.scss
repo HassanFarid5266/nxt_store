@@ -1,0 +1,225 @@
+.card {
+  --card-bg: var(--light);
+  --card-b: 1px solid var(--border);
+  --card-bs: var(--shadow);
+  --card-fd: column;
+  --card-fw: nowrap;
+  --card-id: stretch;
+  --card-br: var(--rounded);
+  --card-h: auto;
+  --card-w: 100%;
+  --card-m: 0 0 1rem 0;
+  --card-head-p: 1rem;
+  --card-head-w: auto;
+  --card-head-h: auto;
+  --card-body-p: 1rem;
+  --card-body-w: auto;
+  --card-body-h: auto;
+  --card-foot-p: 1rem;
+  --card-foot-w: auto;
+  --card-foot-h: auto;
+  --card-title-c: var(--text);
+  --card-title-fs: 1.6rem;
+  --card-title-m: 0 0 5px 0;
+  --card-title-fw: 700;
+  --card-title-lh: 2.4rem;
+  --card-subtitle-c: var(--text);
+  --card-subtitle-fs: 1.1rem;
+  --card-subtitle-m: 0 0 5px 0;
+  --card-subtitle-fw: 600;
+  --card-subtitle-lh: 1.6rem;
+  --card-desc-c: var(--muted);
+  --card-desc-fs: 1.1rem;
+  --card-desc-m: 0 0 5px 0;
+  --card-desc-fw: normal;
+  --card-desc-lh: 1.8rem;
+  --card-badge-c: var(--primary);
+  --card-badge-b: none;
+  --card-badge-bg: transparent;
+  --card-badge-fs: 11px;
+  --card-badge-p: 0;
+  --card-badge-m: 0 0 10px 0;
+  --card-badge-br: 0;
+  --card-icon-c: var(--primary);
+  --card-icon-bg: var(--body);
+  --card-icon-fs: 3rem;
+  --card-icon-p: 1rem;
+  --card-icon-m: 0 0 15px 0;
+  --card-icon-br: 50px;
+  --card-image-p: 0;
+  --card-image-m: 0;
+  --card-image-w: 100%;
+  --card-image-h: 150px;
+  --card-image-br: var(--rounded) var(--rounded) 0 0;
+  --card-btn-m: 10px 0;
+  background-color: var(--card-bg);
+  color: var(--card-c);
+  border-radius: var(--card-br);
+  border: var(--card-b);
+  box-shadow: var(--card-bs);
+  display: flex;
+  flex-direction: var(--card-fd);
+  align-items: var(--card-id);
+  flex-wrap: var(--card-fw);
+  height: var(--card-h);
+  width: var(--card-w);
+  margin: var(--card-m);
+  position: relative;
+  z-index: 10;
+  .card-head {
+    padding: var(--card-head-p);
+    width: var(--card-head-w);
+    height: var(--card-head-h);
+  }
+  .card-body {
+    padding: var(--card-body-p);
+    width: var(--card-body-w);
+    height: var(--card-body-h);
+  }
+  .card-foot {
+    padding: var(--card-foot-p);
+    width: var(--card-foot-w);
+    height: var(--card-foot-h);
+  }
+  .card-title {
+    font-size: var(--card-title-fs);
+    color: var(--card-title-c);
+    font-family: var(--card-title-ff);
+    font-weight: var(--card-title-fw);
+    margin: var(--card-title-m);
+    line-height: var(--card-title-lh);
+    a {
+      color: var(--card-title-c);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--primary);
+        text-decoration: underline;
+      }
+    }
+  }
+  .card-subtitle {
+    font-size: var(--card-subtitle-fs);
+    color: var(--card-subtitle-c);
+    font-weight: var(--card-subtitle-fw);
+    margin: var(--card-subtitle-m);
+    line-height: var(--card-subtitle-lh);
+    a {
+      color: var(--card-subtitle-c);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--primary);
+        text-decoration: underline;
+      }
+    }
+  }
+  .card-desc {
+    color: var(--card-desc-c);
+    font-size: var(--card-desc-fs);
+    font-weight: var(--card-desc-fw);
+    margin: var(--card-desc-m);
+    line-height: var(--card-desc-lh);
+    a {
+      color: var(--card-desc-c);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--primary);
+        text-decoration: underline;
+      }
+    }
+  }
+  .card-image {
+    height: var(--card-image-h);
+    min-height: var(--card-image-h);
+    width: var(--card-image-w);
+    min-width: var(--card-image-w);
+    border-radius: var(--card-image-br);
+    margin: var(--card-image-m);
+    padding: var(--card-image-p);
+
+    .image {
+      height: 100%;
+      min-height: 100%;
+      width: 100%;
+      min-width: 100%;
+      object-fit: cover;
+      object-position: top;
+      border-radius: inherit;
+      pointer-events: none;
+      user-select: none;
+    }
+  }
+  .card-badges {
+    display: flex;
+    align-items: center;
+  }
+  .card-badge {
+    background-color: var(--card-badge-bg);
+    color: var(--card-badge-c);
+    border: 2px solid var(--card-badge-b);
+    border-radius: var(--card-badge-br);
+    font-size: var(--card-badge-fs);
+    padding: var(--card-badge-p);
+    margin: var(--card-badge-m);
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    .icon {
+      margin-right: 3px;
+      font-size: 16px;
+    }
+  }
+  .card-icon {
+    background-color: var(--card-icon-bg);
+    color: var(--card-icon-c);
+    border-radius: var(--card-icon-br);
+    font-size: var(--card-icon-fs);
+    padding: var(--card-icon-p);
+    margin: var(--card-icon-m);
+    display: inline-block;
+  }
+  .card-btn {
+    margin: var(--card-btn-m);
+  }
+  .card-actions {
+    display: flex;
+    .card-action {
+      font-size: 1.5rem;
+      padding: 5px;
+      border-radius: 50px;
+      text-decoration: none;
+      color: var(--muted);
+      &:hover {
+        color: var(--primary);
+      }
+    }
+  }
+  .card-link {
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: 500;
+    font-size: 1.1rem;
+    &:hover {
+      text-decoration: underline;
+      color: var(--text);
+    }
+  }
+}
+
+.card-shadowless {
+  --card-bs: 0px 0px;
+}
+.card-borderless {
+  --card-bc: transparent;
+}
+.card-active {
+  border: 3px solid var(--primary);
+}
+.card-centered {
+  text-align: center;
+  justify-content: center;
+}

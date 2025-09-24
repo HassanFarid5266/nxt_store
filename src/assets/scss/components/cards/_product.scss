@@ -1,0 +1,15 @@
+.card-product {
+  --card-bg: var(--light);
+  --card-b: none;
+  --card-bs: var(--shadow);
+  --card-subtitle-c: var(--muted);
+  --card-image-h: 200px;
+  --card-image-br: var(--rounded);
+  --card-title-fs: 1.2rem;
+  --card-title-lh: 1.8rem;
+  .card-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

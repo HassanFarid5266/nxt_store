@@ -1,0 +1,12 @@
+.layout-faqs {
+  display: grid;
+  grid-template-columns: 50% 45%;
+  justify-content: space-between;
+  padding-top: 40px;
+  padding-bottom: 40px;
+
+  @media (max-width: screen-size(sm)) {
+    grid-template-columns: 100%;
+    gap: 40px;
+  }
+}

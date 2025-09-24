@@ -1,0 +1,10 @@
+.layout-shop {
+  display: grid;
+  grid-template-columns: auto 75%;
+  gap: 20px;
+  align-items: flex-start;
+  
+  @media (max-width: screen-size(sm)) {
+    grid-template-columns: 100%;
+  }
+}

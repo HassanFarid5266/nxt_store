@@ -1,0 +1,128 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  background-color: var(--body);
+
+  .boxed {
+    display: flex;
+    align-items: center;
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      margin: 0;
+      margin-right: 15px;
+      position: relative;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1.2rem;
+
+      img {
+        width: 50px;
+      }
+
+      &::after {
+        content: " Marketplace";
+        padding-left: 10px;
+        border-left: 1px solid #ddd;
+      }
+    }
+  }
+
+  .nav-items {
+    display: flex;
+    align-items: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 100%;
+
+    .menu-items,
+    .auth-items {
+      display: flex;
+      align-items: center;
+
+      .btn {
+        margin-left: 5px;
+      }
+
+      .nav-link {
+        color: var(--text);
+        text-decoration: none;
+        padding: 10px 15px;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+          color: var(--primary);
+        }
+      }
+
+      .nav-auth-menu {
+        img {
+          padding: 3px;
+          border: 2px dashed var(--primary);
+          width: 40px;
+          min-width: 40px;
+          height: 40px;
+          min-height: 40px;
+          object-fit: contain;
+          border-radius: 50px;
+        }
+      }
+
+      @media (max-width: screen-size(lg)) {
+        display: none;
+      }
+    }
+
+    .auth-items {
+      margin-left: auto;
+    }
+  }
+
+  .menu-btn {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    display: none;
+
+    @media (max-width: screen-size(lg)) {
+      display: block;
+    }
+
+    &::before,
+    &::after {
+      content: "";
+      width: 30px;
+      height: 2px;
+      background-color: var(--text);
+      margin: 3px 0;
+      transition: 0.4s;
+      display: block;
+      border-radius: 50px;
+    }
+
+    &::after {
+      width: 25px;
+      float: right;
+    }
+
+    &.close-icon {
+      &::before {
+        transform: translate(0, 4px) rotate(-45deg);
+      }
+
+      &::after {
+        transform: translate(0, -4px) rotate(45deg);
+        width: 30px;
+      }
+    }
+  }
+}

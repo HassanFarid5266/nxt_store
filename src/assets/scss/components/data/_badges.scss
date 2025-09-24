@@ -1,0 +1,57 @@
+.badges-group {
+  margin-bottom: 120px;
+}
+
+.badge {
+  --badge-bg: var(--body);
+  --badge-bg-hover: var(--light);
+  --badge-border: var(--border);
+  --badge-border-hover: var(--border);
+  --badge-color: var(--text);
+  --badge-color-hover: var(--text);
+  --badge-wgt: 500;
+  --badge-size: 14px;
+  --badge-padding: 4px 10px;
+  --badge-rounded: 50px;
+  text-decoration: none;
+  display: inline-block;
+  text-transform: uppercase;
+  font-weight: var(--badge-wgt);
+  color: var(--badge-color);
+  font-size: var(--badge-size);
+  padding: var(--badge-padding);
+  border-radius: var(--badge-rounded);
+  border: 2px solid var(--badge-border);
+  &:hover {
+    border-color: var(--badge-border-hover);
+    color: var(--badge-color-hover);
+    background-color: var(--badge-bg-hover);
+  }
+}
+
+
+.badge-primary {
+  --badge-bg: var(--primary-subtle);
+  --badge-border: var(--primary);
+  --badge-color: var(--primary);
+  --badge-bg-hover: var(--primary-subtle);
+  --badge-border-hover: var(--primary);
+  --badge-color-hover: var(--primary);
+}
+.badge-dark {
+  --badge-bg: var(--dark-subtle);
+  --badge-border: var(--dark);
+  --badge-color: var(--dark);
+  --badge-bg-hover: var(--dark-subtle);
+  --badge-border-hover: var(--dark);
+  --badge-color-hover: var(--dark);
+}
+
+.badge-light {
+  --badge-bg: var(--light-subtle);
+  --badge-border: var(--border);
+  --badge-color: var(--text);
+  --badge-bg-hover: var(--light-subtle);
+  --badge-border-hover: var(--text);
+  --badge-color-hover: var(--text);
+}

@@ -1,0 +1,9 @@
+.card-review {
+  --card-bs: var(--shadow-lg);
+  --card-b: transparent;
+  --card-desc-fs: 16px;
+  --card-body-p: 0 2rem;
+  --card-bg: var(--light);
+  backdrop-filter: blur(20px);
+  margin-bottom: 30px;
+}

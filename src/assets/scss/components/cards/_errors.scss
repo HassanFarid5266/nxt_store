@@ -1,0 +1,12 @@
+.card-error {
+  --card-bc: transparent;
+  --card-b: none;
+  --card-bs: 0px 0px;
+  --card-m: 100px auto 150px auto;
+  --card-bg: transparent;
+  --card-image-h: 300px;
+  --card-title-fs: 2rem;
+  --card-title-m: 2rem 0 1rem 0;
+  text-align: center;
+  width: clamp(270px, 80vw, 560px);
+}

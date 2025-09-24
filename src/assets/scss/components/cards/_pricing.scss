@@ -1,0 +1,17 @@
+.card-pricing {
+  --card-m: 0 0 3rem 0;
+  --card-head-p: 2rem;
+  --card-body-p: 1rem 2rem;
+  --card-foot-p: 2rem;
+  --card-title-fs: 3.5rem;
+  --card-title-lh: 4.5rem;
+  backdrop-filter: blur(20px);
+
+  .card-head {
+
+    small {
+      font-size: 1rem;
+      color: var(--muted);
+    }
+  }
+}

@@ -1,0 +1,16 @@
+.layout-cart {
+  display: grid;
+  grid-template-columns: 60% auto;
+  gap: 20px;
+  align-items: flex-start;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  .card {
+    --card-head-p: 2.5rem;
+    --card-body-p:1rem 2.5rem;
+    --card-foot-p: 2.5rem;
+}
+  @media (max-width: screen-size(sm)) {
+    grid-template-columns: 100%;
+  }
+}

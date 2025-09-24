@@ -1,0 +1,7 @@
+.auth-layout {
+  margin-top: 140px;
+  margin-bottom: 140px;
+  .card-form {
+    --card-w: clamp(320px, 80vw, 600px);
+  }
+}

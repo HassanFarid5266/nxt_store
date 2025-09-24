@@ -1,0 +1,43 @@
+$config: (
+  colors: (
+    light: (
+      primary: #D91F26,
+      secondary: #6d0000,
+      success: #00b00f,
+      danger: #ff0000,
+      info: #1e6cd9,
+      warning: #ff2a2a,
+      muted: #c5cace,
+      dark: #2f2929,
+      light: #2a2929,
+      body: #121212,
+      text: #eeeaea,
+      border: #3c3636,
+    ),
+    dark: (
+      primary: #ff2a2a,
+      secondary: #6d0000,
+      success: #00b00f,
+      danger: #ff0000,
+      info: #1e6cd9,
+      warning: #ff2a2a,
+      muted: #42464a,
+      dark: #121111,
+      light: #fff5f5,
+      body: #ffffff,
+      text: #000000,
+    ),
+  ),
+  assets: (
+    images: "/assets/nextash_store/images/",
+    fonts: "/assets/nextash_store/fonts/",
+  ),
+  breakpoints: (
+    xs: 340px,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1280px,
+    xxl: 1400px,
+  ),
+);

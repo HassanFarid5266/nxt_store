@@ -1,0 +1,45 @@
+.card-slide {
+  --card-h: 400px;
+  --card-image-w: 100%;
+  --card-image-h: 100%;
+  --card-m: 0 0 2rem 0;
+  --card-body-p: 3rem;
+  --card-title-fs: 2.6rem;
+  --card-title-lh: 3.4rem;
+  overflow: hidden;
+  .card-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+  }
+  .card-body {
+    z-index: 3;
+    margin-top: auto;
+  }
+
+  &::before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    height: 100%;
+    width: 100%;
+    content: "";
+    background: linear-gradient(
+        60deg,
+        rgba(0, 0, 0, 1) 0%,
+        rgba(0, 0, 0, 0.8) 40%,
+        rgba(0, 0, 0, 0.7) 50%,
+        rgba(0, 0, 0, 0.1) 100%
+      ),
+      linear-gradient(
+          60deg,
+          rgba(0, 0, 0, 1) 0%,
+          rgba(0, 0, 0, 0.8) 40%,
+          rgba(0, 0, 0, 0.7) 50%,
+          rgba(0, 0, 0, 0.1) 100%
+        )
+        top right;
+  }
+}

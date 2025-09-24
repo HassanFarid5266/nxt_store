@@ -1,0 +1,8 @@
+.contact-layout {
+  margin-top: 30px;
+  margin-bottom: 100px;
+
+  .card {
+    --card-w: clamp(310px, 80vw, 600px);
+  }
+}

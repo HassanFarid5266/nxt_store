@@ -1,0 +1,15 @@
+.card-form {
+  --card-m: auto;
+  --card-b: none;
+  --card-bs: transparent;
+  --card-body-h: auto;
+  --card-head-p: 3rem;
+  --card-body-p: 0rem 3rem;
+  --card-foot-p: 3rem;
+
+  @media (max-width: screen-size(sm)) {
+    --card-head-p: 1.5rem;
+    --card-body-p: 0rem 1.5rem;
+    --card-foot-p: 1.5rem;
+  }
+}

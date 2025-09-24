@@ -1,0 +1,12 @@
+.layout-order {
+  display: grid;
+  grid-template-columns: 45% 45%;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 50px;
+
+  
+  @media (max-width: screen-size(sm)) {
+    grid-template-columns: 100%;
+  }
+}

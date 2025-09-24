@@ -1,0 +1,61 @@
+.progress {
+  --progress-bg: var(--primary);
+  --progress-h: 5px;
+  --progress-m:0 0 35px 0;
+  --progress-count: 0%;
+  --progress-fs: 0.9rem;
+  background-color: var(--light);
+  border-radius: 50px;
+  height: var(--progress-h);
+  position: relative;
+  margin: var( --progress-m);
+  width: 100%;
+
+  &::before {
+    content: "";
+    background-color: var(--progress-bg);
+    width: var(--progress-count);
+    border-radius: inherit;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: width 0.5s;
+  }
+  &::after {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: -8px;
+    content: attr(data-count);
+    font-size: var(--progress-fs);
+    font-weight: 600;
+  }
+}
+
+.progress-success {
+  --progress-bg: var(--success) !important;
+}
+.progress-danger {
+  --progress-bg: var(--danger);
+}
+.progress-warning {
+  --progress-bg: var(--warning);
+}
+.progress-info {
+  --progress-bg: var(--info);
+}
+.progress-dark {
+  --progress-bg: var(--dark);
+}
+.progress-light {
+  --progress-bg: var(--light);
+}
+.progress-sm {
+  --progress-h: 2px;
+  --progress-fs: 0.9rem;
+}
+.progress-lg {
+  --progress-h: 10px;
+  --progress-fs: 1.2rem;
+}

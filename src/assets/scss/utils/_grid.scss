@@ -1,0 +1,38 @@
+.grid {
+  --grid-c: auto;
+  --grid-r: auto;
+  --grid-g: 20px;
+  --grid-m: 20px;
+  display: grid;
+  gap: var(--grid-g);
+  margin-top: var(--grid-m);
+  margin-bottom: var(--grid-m);
+  grid-template-columns: var(--grid-c);
+  grid-template-rows: var(--grid-r);
+}
+
+.grid-shop {
+  --grid-c: repeat(3, 1fr);
+
+  @media (max-width: screen-size(sm)) {
+    --grid-c: 100%;
+  }
+}
+
+.grid-footer {
+  --grid-c: 60% 15% 15%;
+  justify-content: space-between;
+
+  @media (max-width: screen-size(sm)) {
+    --grid-c: 30% 20% 30%;
+  }
+}
+
+.grid-related,
+.grid-downloads {
+  --grid-c: repeat(2, 1fr);
+
+  @media (max-width: screen-size(sm)) {
+    --grid-c: 100%;
+  }
+}

@@ -1,0 +1,21 @@
+.form-cols-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+
+  @media (max-width: screen-size(sm)) {
+    grid-template-columns: 100%;
+    gap: 0px;
+  }
+}
+
+.form-cols-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+
+  @media (max-width: screen-size(sm)) {
+    grid-template-columns: 100%;
+    gap: 0px;
+  }
+}

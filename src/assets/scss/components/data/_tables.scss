@@ -1,0 +1,86 @@
+.table {
+  --table-fs: 1rem;
+  --table-p: 0.5rem 0.8rem;
+  --table-hf-fs: 0.9rem;
+  --table-hf-lh: 1.4rem;
+  --table-hf-fw: 600;
+  --table-hf-bg: var(--dark);
+  --table-hf-fg: var(--muted);
+  --table-b-fs: 1rem;
+  --table-b-lh: 1.6rem;
+  --table-b-fw: 600;
+  --table-b-bg: var(--body);
+  --table-b-fg: var(--text);
+  --table-bc: var(--border);
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  thead,
+  tfoot {
+    color: var(--table-hf-fg);
+    background-color: var(--table-hf-bg);
+    font-size: var(--table-hf-fs);
+    font-weight: var(--table-hf-fw);
+    line-height: var(--table-hf-lh);
+    text-transform: uppercase;
+  }
+
+  tbody {
+    color: var(--table-b-fg);
+    background-color: var(--table-b-bg);
+    font-size: var(--table-b-fs);
+    font-weight: var(--table-b-fw);
+    line-height: var(--table-b-lh);
+  }
+
+  th,
+  td {
+    border-bottom: 1px solid var(--table-bc);
+    padding: var(--table-p);
+  }
+}
+
+.table-sm {
+  font-size: 0.8rem;
+}
+
+.table-hoverable {
+  tr:hover {
+    background-color: var(--light);
+  }
+}
+
+.table-bordered {
+  table,
+  th,
+  td {
+    border: 2px solid var(--table-bc);
+  }
+}
+
+.table-borderless {
+  table,
+  th,
+  td {
+    border: none;
+  }
+}
+
+.table-striped-even {
+  tbody {
+    tr:nth-child(even) {
+      background-color: var(--light);
+    }
+  }
+}
+.table-striped-reverse {
+  tbody {
+    tr:nth-child(odd) {
+      background-color: var(--light);
+    }
+  }
+}
+.table-responsive {
+  overflow: auto;
+}

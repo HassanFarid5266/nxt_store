@@ -1,0 +1,12 @@
+.card-summary {
+  .card-body {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+
+    .card-title,
+    .card-subtitle {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}

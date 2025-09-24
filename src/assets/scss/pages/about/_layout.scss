@@ -1,0 +1,24 @@
+.layout-about {
+    padding-top: 40px;
+    padding-bottom: 40px;
+
+    .content {
+        margin: auto;
+        width: clamp(310px, 80vw, 700px);
+
+        img {
+            transform: scale(1.2);
+            margin-top: 80px;
+            margin-bottom: 80px;
+
+            @media (max-width: screen-size(sm)) {
+                margin-top: 50px;
+                margin-bottom: 50px;
+            }
+        }
+
+        @media (max-width: screen-size(sm)) {
+            width: 100%;
+        }
+    }
+}

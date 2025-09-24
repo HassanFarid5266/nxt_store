@@ -1,0 +1,73 @@
+.form-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"  viewBox="0 0 16 16" stroke="#fff"><path stroke="#fff" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 1rem;
+  background-size: 16px 12px;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+.input-group {
+  display: flex;
+  align-items: center;
+}
+
+.form-label {
+  margin-bottom: 0.3rem;
+  font-size: var(--font-size);
+  font-weight: 500;
+  display: block;
+}
+
+.form-field {
+  display: block;
+  width: 100%;
+  background-color: var(--light);
+  border-radius: var(--rounded);
+  color: var(--text);
+  outline: none;
+  padding: 1rem;
+  font-size: 1rem;
+  font-family: Arial, Helvetica, sans-serif;
+  resize: none;
+  border: 2px solid #444;
+  box-shadow: var(--shadow);
+  &:focus {
+    box-shadow: inset var(--primary) 0px 0px 0px 2px;
+  }
+  &:disabled {
+    background-color: var(--light-subtle);
+    cursor: not-allowed;
+  }
+  &::placeholder {
+    color: var(--muted);
+    font-size: var(--font-size);
+  }
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: #ffffff;
+  }
+}
+.input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  margin-top: 0.3rem;
+  input {
+    width: 100%;
+    margin-right: 0.5rem;
+    color: var(--text);
+
+    &:last-child {
+      margin-right: 0;
+      margin-left: 0.5rem;
+    }
+  }
+}
