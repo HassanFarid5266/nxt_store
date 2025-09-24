@@ -1,73 +1,79 @@
-<!-- Shop Page View -->
 <template>
-  <div>
-    <!-- Page Head -->
-    <section class="page-head boxed">
-      <h1 class="page-title">Shop</h1>
-      <ul class="breadcrumb" role="navigation" aria-label="Breadcrumb">
-        <li class="page-item">
-          <router-link to="/" class="page-link" aria-label="Home">Home</router-link>
-        </li>
-        <li class="page-item active">Shop</li>
-      </ul>
-    </section>
+  <!-- Page Head -->
+  <section class="page-head boxed">
+    <h1 class="page-title">Shop</h1>
+    <ul class="breadcrumb" role="navigation" aria-label="Breadcrumb">
+      <li class="page-item">
+        <router-link to="/" class="page-link" aria-label="Home">Home</router-link>
+      </li>
+      <li class="page-item active">Shop</li>
+    </ul>
+  </section>
 
-    <!-- Main Content -->
-    <main class="layout-shop boxed">
-      <section class="col-left">
-        <div class="product-filters">
-          <form @submit.prevent="searchProducts">
-            <div class="page-search">
-              <input 
-                type="search" 
-                placeholder="Search..." 
-                v-model="searchQuery"
-                class="field" 
-              />
-              <button type="submit" class="bx bx-search btn-search"></button>
-            </div>
-          </form>
-          
-          <div class="categories">
-            <h3 class="section-subtitle">Categories</h3>
-            <label 
-              v-for="category in categories" 
-              :key="category.name"
-              class="check check-block" 
-              :for="category.name"
-            >
-              <input 
-                type="checkbox" 
-                name="category" 
-                class="category" 
-                :id="category.name" 
-                :value="category.name"
-                v-model="selectedCategories"
-                @change="filterProducts"
-              />
-              {{ category.name }}
-            </label>
+  <!-- Main Content -->
+  <main class="layout-shop boxed">
+    <section class="col-left">
+      <div class="product-filters">
+        <form id="searchForm" @submit.prevent="searchProducts">
+          <div class="page-search">
+            <input 
+              type="search" 
+              placeholder="Search..." 
+              id="search"
+              name="search"
+              v-model="searchQuery"
+              class="field" 
+            />
+            <button type="submit" class="bx bx-search btn-search"></button>
           </div>
-        </div>
-      </section>
-      
-      <section class="col-right">
-        <div class="page-meta">
-          <h4 class="page-title">Products <span class="count">({{ totalCount }})</span></h4>
-          <div class="select">
-            <label for="sort">Sort</label>
-            <select v-model="sortOrder" @change="filterProducts">
-              <option value="DESC">Recent</option>
-              <option value="ASC">Oldest</option>
-            </select>
-          </div>
-        </div>
+        </form>
         
-        <div class="grid grid-shop">
-          <div v-if="loading" class="loading">Loading products...</div>
-          <div v-else-if="products.length === 0" class="no-records">No products exist!</div>
+        <div class="categories">
+          <h3 class="section-subtitle">Categories</h3>
+          <input type="hidden" id="categories" :value="routeCategory" name="categories">
+          <label 
+            v-for="item in categories" 
+            :key="item.name"
+            class="check check-block" 
+            :for="item.name"
+          >
+            <input 
+              type="checkbox" 
+              name="category" 
+              class="category" 
+              :id="item.name" 
+              :value="item.name"
+              v-model="selectedCategories"
+              @change="filterProducts"
+              :checked="routeCategory === item.name"
+            />
+            {{ item.name }}
+          </label>
+        </div>
+      </div>
+    </section>
+    
+    <section class="col-right">
+      <div class="page-meta">
+        <h4 class="page-title">Products <span class="count" id="count">({{ totalCount }})</span></h4>
+        <div class="select">
+          <label for="sort">Sort</label>
+          <select name="sort" id="sort" v-model="sortOrder" @change="filterProducts">
+            <option value="DESC" selected>Recent</option>
+            <option value="ASC">Oldest</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="grid grid-shop" id="listing">
+        <template v-if="loading && currentPage === 1">
+          <div class="loading">Loading products...</div>
+        </template>
+        <template v-else-if="products.length === 0">
+          <div class="no-records">No products found!</div>
+        </template>
+        <template v-else>
           <div 
-            v-else 
             v-for="product in products" 
             :key="product.name"
             class="card card-product"
@@ -83,32 +89,45 @@
               <p class="card-subtitle text-ellipsis-2">{{ product.excerpt }}</p>
             </div>
             <div class="card-foot">
-              <h3 class="card-subtitle">{{ product.price }}</h3>
+              <h3 class="card-subtitle">
+                <template v-if="product.variations && product.variations.length">
+                  <template v-if="product.variations[0].discount">
+                    {{ product.variations[0].discount }} <del>${{ product.variations[0].price }}</del>
+                  </template>
+                  <template v-else>
+                    ${{ product.variations[0].price }}
+                  </template>
+                </template>
+                <template v-else>
+                  Custom price
+                </template>
+              </h3>
               <div class="card-ratings ratings">
                 <span class="bx bxs-star active"></span><b>5</b>
               </div>
             </div>
           </div>
-        </div>
-        
-        <div v-if="hasMore" class="pagination">
-          <button 
-            class="btn btn-primary btn-sm btn-pill" 
-            @click="loadMore"
-            :disabled="loading"
-          >
-            {{ loading ? 'Loading...' : 'Load more' }}
-          </button>
-        </div>
-      </section>
-    </main>
-  </div>
+        </template>
+      </div>
+      
+      <div class="pagination">
+        <button 
+          v-if="hasMore"
+          class="btn btn-primary btn-sm btn-pill" 
+          id="loadmore"
+          @click="loadMore"
+          :disabled="loading"
+        >
+          {{ loading ? 'Loading...' : 'Load more' }}
+        </button>
+      </div>
+    </section>
+  </main>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { ApiUrl, apiRequest, searchParams } from '@/utils/api'
 
 const route = useRoute()
 
@@ -123,10 +142,18 @@ const searchQuery = ref('')
 const selectedCategories = ref([])
 const sortOrder = ref('DESC')
 
+const routeCategory = computed(() => route.params.category || '')
+
 const fetchCategories = async () => {
   try {
-    const response = await apiRequest(ApiUrl('nextash_store.events.products.get_categories'))
-    categories.value = response.message || []
+    // TODO: Replace with actual API call
+    // Simulating API call for now
+    categories.value = [
+      { name: "Web Development" },
+      { name: "Mobile Apps" },
+      { name: "E-commerce" },
+      { name: "Design" }
+    ]
   } catch (error) {
     console.error('Error fetching categories:', error)
   }
@@ -136,32 +163,39 @@ const fetchProducts = async (page = 1, append = false) => {
   loading.value = true
   
   try {
-    const params = {
-      limit: 6,
-      page: page,
-      sort: sortOrder.value,
-      categories: selectedCategories.value.join(','),
-      search: searchQuery.value,
-    }
-    
-    const queryString = searchParams(params)
-    const response = await apiRequest(ApiUrl(`nextash_store.events.products.listing?${queryString}`))
-    const data = response.message
-    
-    if (data.count === 0) {
-      totalCount.value = 0
-      products.value = []
-    } else {
-      totalCount.value = data.count
-      if (append) {
-        products.value = [...products.value, ...data.results]
-      } else {
-        products.value = data.results
+    // TODO: Replace with actual API call
+    // Simulating API response for now
+    const mockProducts = [
+      {
+        name: "product1",
+        image: "/images/product1.jpg",
+        alt: "Product 1",
+        title: "Sample Product 1",
+        excerpt: "This is a sample product description",
+        category: "Web Development",
+        variations: [{ price: "99.99", discount: null }]
+      },
+      {
+        name: "product2", 
+        image: "/images/product2.jpg",
+        alt: "Product 2",
+        title: "Sample Product 2",
+        excerpt: "Another sample product",
+        category: "Mobile Apps",
+        variations: [{ price: "149.99", discount: "$199.99" }]
       }
+    ]
+    
+    if (append) {
+      products.value = [...products.value, ...mockProducts]
+    } else {
+      products.value = mockProducts
     }
     
-    hasMore.value = !!data.next
+    totalCount.value = mockProducts.length
+    hasMore.value = false // Set to true if more pages available
     currentPage.value = page
+    
   } catch (error) {
     console.error('Error fetching products:', error)
   } finally {
@@ -189,9 +223,8 @@ const loadMore = () => {
 onMounted(async () => {
   await fetchCategories()
   
-  const categoryFromRoute = route.params.category
-  if (categoryFromRoute) {
-    selectedCategories.value = [categoryFromRoute]
+  if (routeCategory.value) {
+    selectedCategories.value = [routeCategory.value]
   }
   
   await fetchProducts()
@@ -199,7 +232,7 @@ onMounted(async () => {
 
 // Watch for route changes
 watch(() => route.params.category, (newCategory) => {
-  if (newCategory) {
+  if (newCategory && !selectedCategories.value.includes(newCategory)) {
     selectedCategories.value = [newCategory]
     filterProducts()
   }

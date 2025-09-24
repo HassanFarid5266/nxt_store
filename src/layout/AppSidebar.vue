@@ -1,45 +1,49 @@
-<!-- App Sidebar Component -->
 <template>
-  <div id="sidebar" class="sidebar">
-    <div class="sidebar-content">
-      <nav class="sidebar-menu">
-        <router-link to="/" class="sidebar-link" @click="closeSidebar">Home</router-link>
-        <a class="sidebar-link" target="_blank" href="https://nextash.com/about-us/">About</a>
-        <a class="sidebar-link" target="_blank" href="https://nextash.com/faqs/">FAQs</a>
-        <a class="sidebar-link" target="_blank" href="https://nextash.com/contact-us/">Contact</a>
-      </nav>
-      <div class="sidebar-auth">
-        <div v-if="user" class="sidebar-user">
-          <div class="user-info">
-            <img :src="user.user_image || '@/assets/images/man.png'" alt="User" class="user-avatar">
-            <span class="user-name">{{ user.name }}</span>
-          </div>
-          <div class="user-actions">
-            <router-link to="/account" class="sidebar-link" @click="closeSidebar">Profile</router-link>
-            <a href="#" @click="logout" class="sidebar-link">Logout</a>
-          </div>
-        </div>
-        <router-link v-else to="/login" class="btn btn-primary" @click="closeSidebar">Login / Signup</router-link>
-      </div>
+  <aside class="sidebar" id="sidebar">
+    <div class="boxed">
+      <h4 class="section-subtitle">Navigate</h4>
+      <ul class="list menu-list">
+        <li class="list-item">
+          <router-link to="/" class="list-link">Home</router-link>
+        </li>
+        <li class="list-item">
+          <a target="_blank" href="https://nextash.com/about-us/" class="list-link">About</a>
+        </li>
+        <li class="list-item">
+          <a target="_blank" href="https://nextash.com/faqs/" class="list-link">FAQs</a>
+        </li>
+        <li class="list-item">
+          <a target="_blank" href="https://nextash.com/contact-us/" class="list-link">Contact</a>
+        </li>
+        
+        <template v-if="isLoggedIn">
+          <li class="list-item">
+            <router-link to="/account" class="list-link">{{ user?.name || 'Account' }}</router-link>
+          </li>
+          <li class="list-item">
+            <a href="/logout" id="logout" class="list-link" @click.prevent="logout">Logout</a>
+          </li>
+        </template>
+        <template v-else>
+          <li class="list-item">
+            <router-link to="/login" class="list-link">Login / Signup</router-link>
+          </li>
+        </template>
+      </ul>
     </div>
-  </div>
+  </aside>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
-const user = ref(authStore.user)
 
-const closeSidebar = () => {
-  document.getElementById('sidebar')?.classList.remove('active')
-  document.body.style.overflowY = 'auto'
-  document.documentElement.style.overflowY = 'auto'
-}
+const isLoggedIn = computed(() => authStore.isLoggedIn)
+const user = computed(() => authStore.user)
 
 const logout = async () => {
   await authStore.logout()
-  closeSidebar()
 }
 </script>

@@ -10,6 +10,16 @@ const router = createRouter({
       component: HomeView,
     },
     {
+      path: "/about",
+      name: "about",
+      component: () => import("@/views/AboutView.vue"),
+    },
+    {
+      path: "/contact",
+      name: "contact",
+      component: () => import("@/views/ContactView.vue"),
+    },
+    {
       path: "/shop/:category?",
       name: "shop",
       component: () => import("@/views/ShopView.vue"),
@@ -28,6 +38,7 @@ const router = createRouter({
       path: "/checkout",
       name: "checkout",
       component: () => import("@/views/CheckoutView.vue"),
+      meta: { requiresAuth: true },
     },
     {
       path: "/login",
@@ -46,23 +57,17 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: "/checkout",
-      name: "checkout",
-      component: () => import("@/views/CheckoutView.vue"),
-      meta: { requiresAuth: true },
-    },
-    {
       path: "/orders",
       name: "orders",
       component: () => import("@/views/OrdersView.vue"),
       meta: { requiresAuth: true },
     },
-    {
-      path: "/order/:id",
-      name: "order-detail",
-      component: () => import("@/views/OrderDetailView.vue"),
-      meta: { requiresAuth: true },
-    },
+    // {
+    //   path: "/order/:id",
+    //   name: "order-detail",
+    //   component: () => import("@/views/OrderDetailView.vue"),
+    //   meta: { requiresAuth: true },
+    // },
     {
       path: "/faqs",
       name: "faqs",
@@ -72,6 +77,17 @@ const router = createRouter({
       path: "/forgot-password",
       name: "forgot-password",
       component: () => import("@/views/auth/ForgotPasswordView.vue"),
+    },
+    {
+      path: "/update-password",
+      name: "update-password",
+      component: () => import("@/views/auth/UpdatePasswordView.vue"),
+    },
+    {
+      path: "/downloads",
+      name: "downloads",
+      component: () => import("@/views/DownloadsView.vue"),
+      meta: { requiresAuth: true },
     },
     // Policy pages
     {
@@ -113,15 +129,17 @@ const router = createRouter({
 });
 
 // Navigation guard for protected routes
-router.beforeEach((to, from, next) => {
-  const { useAuthStore } = require("@/stores/auth");
-  const authStore = useAuthStore();
+router.beforeEach(async (to, from, next) => {
+  if (to.meta.requiresAuth) {
+    const { useAuthStore } = await import("@/stores/auth");
+    const authStore = useAuthStore();
 
-  if (to.meta.requiresAuth && !authStore.isLoggedIn) {
-    next("/login");
-  } else {
-    next();
+    if (!authStore.isLoggedIn) {
+      next("/login");
+      return;
+    }
   }
+  next();
 });
 
 export default router;

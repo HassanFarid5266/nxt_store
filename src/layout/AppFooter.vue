@@ -1,4 +1,3 @@
-<!-- App Footer Component -->
 <template>
   <footer class="footer">
     <div class="grid grid-footer boxed">
@@ -20,6 +19,9 @@
         <li class="list-item" role="listitem">
           <router-link to="/" class="list-link">Home</router-link>
         </li>
+        <!-- <li class="list-item" role="listitem">
+          <router-link to="/shop" class="list-link">Shop</router-link>
+        </li> -->
         <li class="list-item" role="listitem">
           <a target="_blank" href="https://nextash.com/about-us/" class="list-link">About</a>
         </li>

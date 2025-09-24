@@ -1,4 +1,3 @@
-<!-- App Navbar Component -->
 <template>
   <header class="navbar">
     <div class="boxed">
@@ -8,55 +7,41 @@
       <div class="nav-items">
         <nav class="menu-items">
           <router-link to="/" class="nav-link">Home</router-link>
+          <!-- <router-link to="/shop" class="nav-link">Shop</router-link> -->
           <a class="nav-link" target="_blank" href="https://nextash.com/about-us/">About</a>
           <a class="nav-link" target="_blank" href="https://nextash.com/faqs/">FAQs</a>
           <a class="nav-link" target="_blank" href="https://nextash.com/contact-us/">Contact</a>
         </nav>
         <nav class="auth-items">
-          <div v-if="user" class="dropdown" :class="{ active: showDropdown }">
-            <a href="javascript:void(0)" @click="toggleDropdown" class="nav-link nav-auth-menu">
-              <img :src="user.user_image || '@/assets/images/man.png'" alt="">
+          <div v-if="isLoggedIn" class="dropdown">
+            <a href="javascript:void(0)" data-nxt-toggle="dropdown" class="nav-link nav-auth-menu">
+              <img v-if="user?.user_image" :src="user.user_image" alt="">
+              <img v-else src="@/assets/images/man.png" alt="">
               <span class="dropdown-toggle"></span>
             </a>
             <div class="dropdown-menu">
               <router-link to="/account" class="dropdown-item">Profile</router-link>
-              <a href="#" @click="logout" class="dropdown-item">Logout</a>
+              <a href="/logout" id="logout" class="dropdown-item" @click.prevent="logout">Logout</a>
             </div>
           </div>
           <router-link v-else to="/login" class="btn btn-primary btn-sm">Login / Signup</router-link>
         </nav>
       </div>
-      <button type="button" class="menu-btn" @click="toggleSidebar"></button>
+      <button type="button" class="menu-btn"></button>
     </div>
   </header>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
-const user = ref(authStore.user)
-const showDropdown = ref(false)
 
-const toggleDropdown = () => {
-  showDropdown.value = !showDropdown.value
-}
-
-const toggleSidebar = () => {
-  document.getElementById('sidebar')?.classList.toggle('active')
-  document.body.style.overflowY = document.getElementById('sidebar')?.classList.contains('active') ? 'hidden' : 'auto'
-}
+const isLoggedIn = computed(() => authStore.isLoggedIn)
+const user = computed(() => authStore.user)
 
 const logout = async () => {
   await authStore.logout()
-  showDropdown.value = false
 }
-
-// Close dropdown when clicking outside
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.dropdown')) {
-    showDropdown.value = false
-  }
-})
 </script>

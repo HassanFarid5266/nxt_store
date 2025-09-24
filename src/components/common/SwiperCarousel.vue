@@ -4,11 +4,7 @@
     <h3 v-if="title" class="section-title">{{ title }}</h3>
     <div class="swiper carousel" :id="carouselId">
       <div class="swiper-wrapper">
-        <div 
-          v-for="(item, index) in items" 
-          :key="index" 
-          class="swiper-slide"
-        >
+        <div v-for="(item, index) in items" :key="index" class="swiper-slide">
           <slot :item="item" :index="index">
             <!-- Default slot content if needed -->
           </slot>
