@@ -33,12 +33,12 @@
         </template>
       </h3>
       <div v-if="showButton || showAddToCart" class="card-actions">
-        <button v-if="showAddToCart" @click="addToCart" :disabled="addingToCart"
+        <!-- <button v-if="showAddToCart" @click="addToCart" :disabled="addingToCart"
           class="btn btn-pill btn-sm btn-primary add-to-cart-btn" style="margin-right: 10px;">
           <i v-if="addingToCart" class="bx bx-loader-alt bx-spin"></i>
           <i v-else class="bx bx-cart-add"></i>
           {{ addingToCart ? 'Adding...' : 'Add to Cart' }}
-        </button>
+        </button> -->
 
         <router-link v-if="showButton" :to="`/product/${product.name}/`"
           class="btn btn-pill btn-sm btn-outline-primary">
@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
 import RatingStars from './RatingStars.vue'
 import { useCartStore } from '@/stores/cart'
 
@@ -103,15 +103,15 @@ const props = defineProps({
 })
 
 const cartStore = useCartStore()
-const addingToCart = ref(false)
+
+// Use centralized addingToCart state from cart store
+const addingToCart = computed(() => cartStore.isAddingToCart(props.product.name))
 
 const addToCart = async () => {
   if (!props.product.variations || props.product.variations.length === 0) {
     console.error('No variations available for this product')
     return
   }
-
-  addingToCart.value = true
 
   try {
     const defaultVariation = props.product.variations[0]
@@ -125,39 +125,6 @@ const addToCart = async () => {
     }
   } catch (error) {
     console.error('Add to cart error:', error)
-  } finally {
-    addingToCart.value = false
   }
 }
 </script>
-
-<style scoped>
-.card-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-}
-
-.add-to-cart-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.add-to-cart-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-@media (max-width: 576px) {
-  .card-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .add-to-cart-btn {
-    margin-right: 0 !important;
-  }
-}
-</style>

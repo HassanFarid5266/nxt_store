@@ -1,4 +1,3 @@
-<!-- Badge Component -->
 <template>
   <component :is="tag" :href="href" :to="to" :class="badgeClasses" v-bind="$attrs">
     <slot>{{ text }}</slot>

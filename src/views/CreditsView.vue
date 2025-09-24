@@ -62,15 +62,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.loading-container,
-.error-container {
-  text-align: center;
-  padding: 2rem;
-}
-
-.error-container {
-  color: var(--color-danger, #dc3545);
-}
-</style>

@@ -6,6 +6,7 @@ export const useCartStore = defineStore('cart', () => {
   const items = ref([])
   const loading = ref(false)
   const isOpen = ref(false)
+  const addingToCart = ref({})
 
   // Computed properties
   const itemCount = computed(() => {
@@ -63,10 +64,14 @@ export const useCartStore = defineStore('cart', () => {
   }
 
   const addToCart = async (product, variation = null, quantity = 1) => {
-    loading.value = true
+    const productKey = product.name
+
+    // Set individual product loading state
+    addingToCart.value[productKey] = true
+
     try {
       const selectedVariation = variation || (product.variations && product.variations[0]) || null
-      
+
       if (!selectedVariation) {
         throw new Error('No variation selected')
       }
@@ -96,7 +101,7 @@ export const useCartStore = defineStore('cart', () => {
       console.error('Error adding to cart:', error)
       return { success: false, message: error.message || 'Failed to add product to cart' }
     } finally {
-      loading.value = false
+      addingToCart.value[productKey] = false
     }
   }
 
@@ -187,6 +192,19 @@ export const useCartStore = defineStore('cart', () => {
     isOpen.value = false
   }
 
+  // Helper functions for addingToCart state
+  const isAddingToCart = (productName) => {
+    return !!addingToCart.value[productName]
+  }
+
+  const setAddingToCart = (productName, isAdding) => {
+    addingToCart.value[productName] = isAdding
+  }
+
+  const clearAddingToCart = () => {
+    addingToCart.value = {}
+  }
+
   // Initialize cart on store creation
   const initializeCart = async () => {
     await fetchCart()
@@ -196,6 +214,7 @@ export const useCartStore = defineStore('cart', () => {
     items,
     loading,
     isOpen,
+    addingToCart,
     itemCount,
     subtotal,
     tax,
@@ -209,6 +228,9 @@ export const useCartStore = defineStore('cart', () => {
     toggleCart,
     openCart,
     closeCart,
+    isAddingToCart,
+    setAddingToCart,
+    clearAddingToCart,
     initializeCart
   }
 })

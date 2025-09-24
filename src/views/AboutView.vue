@@ -1,4 +1,3 @@
-<!-- About Page View -->
 <template>
   <div>
     <!-- Page Head -->
@@ -54,20 +53,3 @@ onMounted(() => {
   loadAboutContent()
 })
 </script>
-
-<style scoped>
-.layout-about {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.content {
-  line-height: 1.6;
-}
-
-.loading-state,
-.error-state {
-  text-align: center;
-  padding: 2rem;
-}
-</style>

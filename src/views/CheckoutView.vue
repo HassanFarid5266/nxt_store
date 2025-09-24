@@ -1,4 +1,3 @@
-<!-- Checkout Page View -->
 <template>
   <div>
     <!-- Page Head -->

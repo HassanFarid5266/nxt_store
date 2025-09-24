@@ -1,4 +1,3 @@
-<!-- Checkout Form Component -->
 <template>
   <main class="layout-cart boxed">
     <form class="card" @submit.prevent="processCheckout" id="checkout">
@@ -372,60 +371,3 @@ onUnmounted(() => {
   }
 })
 </script>
-
-<!-- <style scoped>
-.form-cols-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
-@media (max-width: 768px) {
-  .form-cols-2 {
-    grid-template-columns: 1fr;
-  }
-}
-
-.error-message {
-  color: #fa755a;
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
-}
-
-.order-items {
-  margin-bottom: 1rem;
-}
-
-.order-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #eee;
-}
-
-.order-item:last-child {
-  border-bottom: none;
-}
-
-.item-name {
-  font-weight: 500;
-}
-
-.item-price {
-  color: var(--primary-color, #007bff);
-  font-weight: 600;
-}
-
-#card-element {
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
-  min-height: 40px;
-}
-
-.btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-</style> -->

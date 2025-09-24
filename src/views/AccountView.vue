@@ -1,4 +1,3 @@
-<!-- Account/Profile Page View -->
 <template>
   <div>
     <!-- Page Head -->

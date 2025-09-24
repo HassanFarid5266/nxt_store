@@ -49,7 +49,3 @@ onMounted(async () => {
   }
 })
 </script>
-
-<style>
-/* Global styles can be added here if needed */
-</style>

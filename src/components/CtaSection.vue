@@ -1,23 +1,12 @@
 <template>
-  <section 
-    class="card card-cta card-centered boxed" 
-    :class="sectionClass"
-    data-aos-duration="1000" 
-    data-aos="fade-up" 
-    data-aos-once="true"
-    data-aos-easing="ease-in-out"
-  >
+  <section class="card card-cta card-centered boxed" :class="sectionClass" data-aos-duration="1000" data-aos="fade-up"
+    data-aos-once="true" data-aos-easing="ease-in-out">
     <div class="card-body">
       <h3 class="card-title">{{ title }}</h3>
       <p class="card-subtitle">{{ subtitle }}</p>
-      <component 
-        :is="linkType" 
-        :to="linkType === 'router-link' ? to : undefined"
-        :href="linkType === 'a' ? href : undefined" 
-        :target="target"
-        class="btn btn-primary btn-lg btn-pill"
-        :class="buttonClass"
-      >
+      <component :is="linkType" :to="linkType === 'router-link' ? to : undefined"
+        :href="linkType === 'a' ? href : undefined" :target="target" class="btn btn-primary btn-lg btn-pill"
+        :class="buttonClass">
         {{ buttonText }}
       </component>
     </div>

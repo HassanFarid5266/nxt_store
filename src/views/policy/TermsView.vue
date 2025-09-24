@@ -1,4 +1,3 @@
-<!-- Terms of Use Page -->
 <template>
   <div>
     <!-- Page Head -->
@@ -70,35 +69,3 @@ onMounted(() => {
   loadTerms()
 })
 </script>
-
-<style scoped>
-.layout-policy {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.policy-content {
-  line-height: 1.6;
-}
-
-.policy-content h3,
-.policy-content h4 {
-  color: var(--primary);
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-}
-
-.policy-content h3:first-child {
-  margin-top: 0;
-}
-
-.policy-content p {
-  margin-bottom: 1rem;
-}
-
-.loading-state,
-.error-state {
-  text-align: center;
-  padding: 2rem;
-}
-</style>
