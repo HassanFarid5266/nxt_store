@@ -12,6 +12,16 @@
           <a class="nav-link" target="_blank" href="https://nextash.com/faqs/">FAQs</a>
           <a class="nav-link" target="_blank" href="https://nextash.com/contact-us/">Contact</a>
         </nav>
+        <nav class="cart-section">
+          <button
+            @click="toggleCart"
+            class="cart-button"
+            :class="{ 'cart-open': cartStore.isOpen }"
+          >
+            <i class="bx bx-shopping-bag"></i>
+            <span v-if="cartStore.itemCount > 0" class="cart-count">{{ cartStore.itemCount }}</span>
+          </button>
+        </nav>
         <nav class="auth-items">
           <div v-if="isLoggedIn" class="dropdown">
             <a href="javascript:void(0)" data-nxt-toggle="dropdown" class="nav-link nav-auth-menu">
@@ -35,13 +45,19 @@
 <script setup>
 import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useCartStore } from '@/stores/cart'
 
 const authStore = useAuthStore()
+const cartStore = useCartStore()
 
 const isLoggedIn = computed(() => authStore.isLoggedIn)
 const user = computed(() => authStore.user)
 
 const logout = async () => {
   await authStore.logout()
+}
+
+const toggleCart = () => {
+  cartStore.toggleCart()
 }
 </script>

@@ -29,9 +29,9 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import AppNavbar from '@/layout/AppNavbar.vue'
-import AppFooter from '@/layout/AppFooter.vue'
-import AppSidebar from '@/layout/AppSidebar.vue'
+import AppNavbar from '@/layout/Navbar.vue'
+import AppFooter from '@/layout/Footer.vue'
+import AppSidebar from '@/layout/Sidebar.vue'
 import CtaSection from '@/components/CtaSection.vue'
 import { useAuthStore } from '@/stores/auth'
 

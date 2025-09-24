@@ -1,5 +1,5 @@
 <template>
-  <main class="product-layout">
+  <main v-if="product" class="product-layout">
     <!-- Page Head -->
     <section class="page-head">
       <div class="page-image">
@@ -10,11 +10,37 @@
           <span class="page-badge" style="color: white;">{{ product.category }}</span>
           <h1 class="page-title">{{ product.title }}</h1>
           <p class="page-desc">{{ product.excerpt }}</p>
-          <span>  
-            <a target="_blank" :href="`https://wa.me/+9203083077165?text=Hello NexTash,i am intrested in ${product.name}, can we talk?`" class="btn btn-primary" style="margin-right:10px; margin-bottom: 20px;">Book a Demo</a>
-            
-            <a v-if="product.video" data-fslightbox="gallery" :href="product.video" class="btn btn-error">Check Demo Video</a>
-          </span>
+          <div class="product-actions">
+            <div v-if="product.variations && product.variations.length" class="variation-selector">
+              <label for="variation">Select Package:</label>
+              <select v-model="selectedVariation" id="variation" class="form-field">
+                <option v-for="variation in product.variations" :key="variation.name" :value="variation">
+                  {{ variation.title }} - ${{ variation.price }}
+                </option>
+              </select>
+            </div>
+
+            <div class="action-buttons">
+              <button
+                @click="addToCart"
+                :disabled="addingToCart || !selectedVariation"
+                class="btn btn-primary add-to-cart-btn"
+                style="margin-right: 10px; margin-bottom: 20px;"
+              >
+                <i v-if="addingToCart" class="bx bx-loader-alt bx-spin"></i>
+                <i v-else class="bx bx-cart-add"></i>
+                {{ addingToCart ? 'Adding...' : 'Add to Cart' }}
+              </button>
+
+              <a target="_blank" :href="`https://wa.me/+9203083077165?text=Hello NexTash,i am intrested in ${product.name}, can we talk?`" class="btn btn-outline-primary" style="margin-right: 10px; margin-bottom: 20px;">Book a Demo</a>
+
+              <a v-if="product.video" data-fslightbox="gallery" :href="product.video" class="btn btn-error">Check Demo Video</a>
+            </div>
+
+            <div v-if="cartMessage" class="cart-message" :class="cartMessage.includes('success') ? 'success' : 'error'">
+              {{ cartMessage }}
+            </div>
+          </div>
         </div> 
       </div>
     </section>
@@ -127,9 +153,20 @@
               </div>
               <div class="card-body" v-html="item.description"></div>
               <div class="card-foot">
+                <button
+                  @click="addToCartWithVariation(item)"
+                  :disabled="addingToCart"
+                  class="btn btn-primary btn-block btn-pill add-to-cart-btn"
+                  style="margin-bottom: 10px;"
+                >
+                  <i v-if="addingToCart" class="bx bx-loader-alt bx-spin"></i>
+                  <i v-else class="bx bx-cart-add"></i>
+                  {{ addingToCart ? 'Adding...' : 'Add to Cart' }}
+                </button>
+
                 <a :href="`https://wa.me/+9203083077165?text=Hello NexTash,i want to purchase ${item.title} package of ${product.name}, can we talk?`" target="_blank" class="media-desc" style="text-decoration: none;">
-                  <button class="btn btn-primary btn-block btn-pill">
-                    {{ item.link_title || "Get Package" }}
+                  <button class="btn btn-outline-primary btn-block btn-pill">
+                    {{ item.link_title || "Contact for Demo" }}
                   </button>
                 </a>
               </div>
@@ -195,8 +232,8 @@
         <div>
           <h3 class="section-title">Related</h3>
           <template v-if="relateable && relateable.length">
-            <article 
-              v-for="item in relateable" 
+            <article
+              v-for="item in relateable"
               :key="item.name"
               v-show="item.name !== product.name"
               class="media media-product"
@@ -205,7 +242,7 @@
                 <img :src="item.image" class="image" :alt="item.alt" />
               </router-link>
               <div class="media-body">
-                <router-link class="media-badge" :to="`/shop/${item.category.name}`">{{ item.category.title }}</router-link>
+                <span class="media-badge">{{ item.category }}</span>
                 <h3 class="media-title text-ellipsis">
                   <router-link :to="`/product/${item.name}`">{{ item.title }}</router-link>
                 </h3>
@@ -233,69 +270,45 @@
       </div>
     </section>
   </main>
+
+  <!-- Loading state -->
+  <main v-else-if="productsStore.loading" class="product-layout">
+    <section class="page-head boxed">
+      <div class="loading">Loading product...</div>
+    </section>
+  </main>
+
+  <!-- Product not found -->
+  <main v-else class="product-layout">
+    <section class="page-head boxed">
+      <h1 class="page-title">Product Not Found</h1>
+      <p>The product you're looking for doesn't exist.</p>
+      <router-link to="/shop" class="btn btn-primary">Back to Shop</router-link>
+    </section>
+  </main>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { useProductsStore } from '@/stores/products'
+import { useCartStore } from '@/stores/cart'
 
 const route = useRoute()
 const authStore = useAuthStore()
+const productsStore = useProductsStore()
+const cartStore = useCartStore()
 
-const product = ref({
-  name: 'sample-product',
-  title: 'Sample Product',
-  excerpt: 'This is a sample product description',
-  category: 'Web Development',
-  featured_image: '/images/product-featured.jpg',
-  description: '<p>This is the detailed description of the product.</p>',
-  rating_count: 10,
-  video: '',
-  email: 'support@nextash.com',
-  phone: '+92 300 8307716',
-  demo: 'https://demo.nextash.com',
-  demo_user: 'demo@nextash.com',
-  demo_password: 'Demo@123',
-  images: [
-    { idx: 0, image: '/images/gallery1.jpg' },
-    { idx: 1, image: '/images/gallery2.jpg' },
-    { idx: 2, image: '/images/gallery3.jpg' }
-  ],
-  variations: [
-    {
-      name: 'basic',
-      title: 'Basic Package',
-      price: '99.99',
-      excerpt: 'Basic features included',
-      description: '<p>Basic package description</p>',
-      link_title: 'Get Basic'
-    },
-    {
-      name: 'premium',
-      title: 'Premium Package', 
-      price: '199.99',
-      excerpt: 'All features included',
-      description: '<p>Premium package description</p>',
-      link_title: 'Get Premium'
-    }
-  ]
-})
-
-const relateable = ref([
-  {
-    name: 'related-product-1',
-    image: '/images/related1.jpg',
-    alt: 'Related Product 1',
-    title: 'Related Product 1',
-    category: { name: 'web-dev', title: 'Web Development' },
-    variations: [{ price: '79.99', discount: null }]
-  }
-])
+const product = ref(null)
+const relateable = ref([])
 
 const reviewsSort = ref('desc')
 const newReview = ref('')
 const currentImageIndex = ref(0)
+const selectedVariation = ref(null)
+const addingToCart = ref(false)
+const cartMessage = ref('')
 
 const rotation = [0, 2, -5, 5, -2, 4, 3, -4, 0, 3]
 const transform = [20, 0, -20, 13, 0, -16, 15, 18, 10, -7, 4, 8]
@@ -331,25 +344,98 @@ const loadReviews = () => {
   console.log('Loading reviews with sort:', reviewsSort.value)
 }
 
+const addToCart = async () => {
+  if (!selectedVariation.value) {
+    cartMessage.value = 'Please select a package'
+    setTimeout(() => cartMessage.value = '', 3000)
+    return
+  }
+
+  addingToCart.value = true
+  cartMessage.value = ''
+
+  try {
+    const result = await cartStore.addToCart(product.value, selectedVariation.value, 1)
+
+    if (result.success) {
+      cartMessage.value = 'Product added to cart successfully!'
+      // Open cart drawer to show added item
+      cartStore.openCart()
+    } else {
+      cartMessage.value = result.message || 'Failed to add product to cart'
+    }
+  } catch (error) {
+    cartMessage.value = 'Error adding product to cart'
+    console.error('Add to cart error:', error)
+  } finally {
+    addingToCart.value = false
+    setTimeout(() => cartMessage.value = '', 5000)
+  }
+}
+
+const addToCartWithVariation = async (variation) => {
+  addingToCart.value = true
+  cartMessage.value = ''
+
+  try {
+    const result = await cartStore.addToCart(product.value, variation, 1)
+
+    if (result.success) {
+      cartMessage.value = 'Product added to cart successfully!'
+      cartStore.openCart()
+    } else {
+      cartMessage.value = result.message || 'Failed to add product to cart'
+    }
+  } catch (error) {
+    cartMessage.value = 'Error adding product to cart'
+    console.error('Add to cart error:', error)
+  } finally {
+    addingToCart.value = false
+    setTimeout(() => cartMessage.value = '', 5000)
+  }
+}
+
 const submitReview = () => {
   if (!newReview.value.trim()) return
-  
+
   // TODO: Implement review submission
   console.log('Submitting review:', newReview.value)
   newReview.value = ''
 }
 
 onMounted(async () => {
-  // TODO: Fetch actual product data based on route.params.id
-  
-  // Auto-slide gallery
-  autoSlideInterval = setInterval(() => {
-    if (stopAuto) {
-      clearInterval(autoSlideInterval)
-      return
+  // Load products from store
+  await productsStore.loadProducts()
+
+  // Get product by name from route
+  const productName = route.params.id
+  const foundProduct = productsStore.getProductByName(productName)
+
+  if (foundProduct) {
+    product.value = foundProduct
+
+    // Set default selected variation
+    if (foundProduct.variations && foundProduct.variations.length > 0) {
+      selectedVariation.value = foundProduct.variations[0]
     }
-    moveToNext()
-  }, 2000)
+
+    // Get related products
+    relateable.value = productsStore.getRelatedProducts(foundProduct, 3)
+  } else {
+    console.error('Product not found:', productName)
+    // Redirect to 404 or shop page
+  }
+
+  // Auto-slide gallery
+  if (product.value?.images?.length > 1) {
+    autoSlideInterval = setInterval(() => {
+      if (stopAuto) {
+        clearInterval(autoSlideInterval)
+        return
+      }
+      moveToNext()
+    }, 2000)
+  }
 
   // Initialize lightbox if available
   try {
@@ -384,5 +470,68 @@ onMounted(async () => {
 .z-index {
   z-index: 1;
   transform: translate(0) rotate(0) !important;
+}
+
+.product-actions {
+  margin-bottom: 20px;
+}
+
+.variation-selector {
+  margin-bottom: 15px;
+}
+
+.variation-selector label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #333;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.add-to-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-to-cart-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cart-message {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.cart-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.cart-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+@media (max-width: 768px) {
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .action-buttons .btn {
+    margin-right: 0 !important;
+  }
 }
 </style>

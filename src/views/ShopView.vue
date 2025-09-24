@@ -31,23 +31,23 @@
         <div class="categories">
           <h3 class="section-subtitle">Categories</h3>
           <input type="hidden" id="categories" :value="routeCategory" name="categories">
-          <label 
-            v-for="item in categories" 
+          <label
+            v-for="item in categories"
             :key="item.name"
-            class="check check-block" 
+            class="check check-block"
             :for="item.name"
           >
-            <input 
-              type="checkbox" 
-              name="category" 
-              class="category" 
-              :id="item.name" 
+            <input
+              type="checkbox"
+              name="category"
+              class="category"
+              :id="item.name"
               :value="item.name"
               v-model="selectedCategories"
               @change="filterProducts"
               :checked="routeCategory === item.name"
             />
-            {{ item.name }}
+            {{ item.title }}
           </label>
         </div>
       </div>
@@ -69,12 +69,12 @@
         <template v-if="loading && currentPage === 1">
           <div class="loading">Loading products...</div>
         </template>
-        <template v-else-if="products.length === 0">
+        <template v-else-if="filteredProducts.length === 0">
           <div class="no-records">No products found!</div>
         </template>
         <template v-else>
           <div 
-            v-for="product in products" 
+            v-for="product in filteredProducts" 
             :key="product.name"
             class="card card-product"
           >
@@ -82,7 +82,7 @@
               <img :src="product.image" class="image" :alt="product.alt" />
             </router-link>
             <div class="card-body">
-              <router-link :to="`/shop/${product.category}`" class="card-badge">{{ product.category }}</router-link>
+              <span class="card-badge">{{ product.category }}</span>
               <h3 class="card-title text-ellipsis">
                 <router-link :to="`/product/${product.name}`">{{ product.title }}</router-link>
               </h3>
@@ -102,8 +102,25 @@
                   Custom price
                 </template>
               </h3>
-              <div class="card-ratings ratings">
-                <span class="bx bxs-star active"></span><b>5</b>
+              <div class="card-actions">
+                <button
+                  @click="addToCart(product)"
+                  :disabled="addingToCart[product.name]"
+                  class="btn btn-pill btn-sm btn-primary add-to-cart-btn"
+                  style="margin-bottom: 10px;"
+                >
+                  <i v-if="addingToCart[product.name]" class="bx bx-loader-alt bx-spin"></i>
+                  <i v-else class="bx bx-cart-add"></i>
+                  {{ addingToCart[product.name] ? 'Adding...' : 'Add to Cart' }}
+                </button>
+
+                <router-link
+                  :to="`/product/${product.name}`"
+                  class="btn btn-pill btn-sm btn-outline-primary"
+                >
+                  View Details
+                  <i class="bx bx-right-arrow-alt icon-end"></i>
+                </router-link>
               </div>
             </div>
           </div>
@@ -128,13 +145,15 @@
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useProductsStore } from '@/stores/products'
+import { useCartStore } from '@/stores/cart'
 
 const route = useRoute()
+const productsStore = useProductsStore()
+const cartStore = useCartStore()
 
-const products = ref([])
-const categories = ref([])
-const loading = ref(false)
-const totalCount = ref(0)
+const addingToCart = ref({})
+
 const currentPage = ref(1)
 const hasMore = ref(false)
 
@@ -144,97 +163,125 @@ const sortOrder = ref('DESC')
 
 const routeCategory = computed(() => route.params.category || '')
 
-const fetchCategories = async () => {
-  try {
-    // TODO: Replace with actual API call
-    // Simulating API call for now
-    categories.value = [
-      { name: "Web Development" },
-      { name: "Mobile Apps" },
-      { name: "E-commerce" },
-      { name: "Design" }
-    ]
-  } catch (error) {
-    console.error('Error fetching categories:', error)
-  }
-}
+// Use store data
+const products = computed(() => productsStore.products)
+const categories = computed(() => productsStore.categories)
+const loading = computed(() => productsStore.loading)
 
-const fetchProducts = async (page = 1, append = false) => {
-  loading.value = true
+const filteredProducts = computed(() => {
+  let filtered = [...productsStore.allProducts]
   
-  try {
-    // TODO: Replace with actual API call
-    // Simulating API response for now
-    const mockProducts = [
-      {
-        name: "product1",
-        image: "/images/product1.jpg",
-        alt: "Product 1",
-        title: "Sample Product 1",
-        excerpt: "This is a sample product description",
-        category: "Web Development",
-        variations: [{ price: "99.99", discount: null }]
-      },
-      {
-        name: "product2", 
-        image: "/images/product2.jpg",
-        alt: "Product 2",
-        title: "Sample Product 2",
-        excerpt: "Another sample product",
-        category: "Mobile Apps",
-        variations: [{ price: "149.99", discount: "$199.99" }]
-      }
-    ]
-    
-    if (append) {
-      products.value = [...products.value, ...mockProducts]
-    } else {
-      products.value = mockProducts
-    }
-    
-    totalCount.value = mockProducts.length
-    hasMore.value = false // Set to true if more pages available
-    currentPage.value = page
-    
-  } catch (error) {
-    console.error('Error fetching products:', error)
-  } finally {
-    loading.value = false
+  // Filter by search query
+  if (searchQuery.value) {
+    filtered = filtered.filter(product => 
+      product.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      product.excerpt.toLowerCase().includes(searchQuery.value.toLowerCase())
+    )
   }
+  
+  // Filter by categories
+  if (selectedCategories.value.length > 0) {
+    filtered = filtered.filter(product => {
+      const category = productsStore.allCategories.find(cat => cat.name === selectedCategories.value.find(sc => sc === cat.name))
+      return category && product.category === category.title
+    })
+  }
+  
+  // Sort products
+  if (sortOrder.value === 'ASC') {
+    filtered.sort((a, b) => a.title.localeCompare(b.title))
+  } else {
+    filtered.sort((a, b) => b.title.localeCompare(a.title))
+  }
+  
+  return filtered
+})
+
+const totalCount = computed(() => filteredProducts.value.length)
+
+const fetchData = async () => {
+  await productsStore.loadProducts()
+  hasMore.value = false // All products loaded at once
 }
 
 const searchProducts = () => {
-  currentPage.value = 1
-  fetchProducts(1, false)
+  // Products are filtered reactively through computed property
 }
 
 const filterProducts = () => {
-  currentPage.value = 1
-  fetchProducts(1, false)
+  // Products are filtered reactively through computed property
+}
+
+const addToCart = async (product) => {
+  if (!product.variations || product.variations.length === 0) {
+    console.error('No variations available for this product')
+    return
+  }
+
+  addingToCart.value[product.name] = true
+
+  try {
+    const defaultVariation = product.variations[0]
+    const result = await cartStore.addToCart(product, defaultVariation, 1)
+
+    if (result.success) {
+      // Show success feedback
+      cartStore.openCart()
+    } else {
+      console.error('Failed to add to cart:', result.message)
+    }
+  } catch (error) {
+    console.error('Add to cart error:', error)
+  } finally {
+    addingToCart.value[product.name] = false
+  }
 }
 
 const loadMore = () => {
-  if (hasMore.value) {
-    fetchProducts(currentPage.value + 1, true)
-  }
+  // All products loaded at once for this simple implementation
 }
 
 // Set initial category from route if provided
 onMounted(async () => {
-  await fetchCategories()
-  
+  await fetchData()
+
   if (routeCategory.value) {
     selectedCategories.value = [routeCategory.value]
   }
-  
-  await fetchProducts()
 })
 
 // Watch for route changes
 watch(() => route.params.category, (newCategory) => {
   if (newCategory && !selectedCategories.value.includes(newCategory)) {
     selectedCategories.value = [newCategory]
-    filterProducts()
   }
 })
 </script>
+
+<style scoped>
+.card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.add-to-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.add-to-cart-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (min-width: 768px) {
+  .card-actions {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+</style>

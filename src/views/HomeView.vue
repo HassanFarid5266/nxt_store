@@ -190,48 +190,125 @@ const initSwipers = () => {
 
 const fetchHomeData = async () => {
   try {
-    // TODO: Replace with actual API call
-    // Dummy data for now
+    // Real NexTash Store data
     banners.value = [
       {
-        name: "banner1",
-        image: "/images/banner1.jpg",
-        alt: "Banner 1",
-        title: "Sample Banner 1",
-        excerpt: "This is a sample banner"
+        name: "nxt-theme",
+        image: "/src/assets/images/products/nxt-theme.png",
+        alt: "NXT Theme - Rich UI/UX Theme for Frappe",
+        title: "NXT Theme - Transform Your Frappe Experience",
+        excerpt: "A rich UI/UX theme designed to enhance Frappe applications with modern design"
+      },
+      {
+        name: "pos-awesome",
+        image: "/src/assets/images/products/pos-awesome.png", 
+        alt: "POS Awesome - Advanced POS System",
+        title: "POS Awesome - Next Generation POS",
+        excerpt: "Upscale POS system with unified order tracking and intuitive UI/UX(Version-15)"
+      },
+      {
+        name: "Payswitch",
+        image: "/src/assets/images/products/payswitch.png", 
+        alt: "Payswitch",
+        title: "Payswitch",
+        excerpt: "Providing a seamless and secure platform for managing online transactions"
       }
     ]
     
     featured.value = [
       {
-        name: "product1",
-        image: "/images/product1.jpg",
-        alt: "Product 1",
-        title: "Sample Product",
-        excerpt: "This is a sample product",
-        category: { name: "category1", title: "Category 1" },
-        variations: [{ price: "99.99", discount: null }]
+        name: "nxt-theme",
+        image: "/src/assets/images/products/nxt-theme.png",
+        alt: "NXT Theme",
+        title: "NXT Theme",
+        excerpt: "A rich UI/UX theme for Frappe applications",
+        category: { name: "themes", title: "Themes" },
+        variations: [{ price: "700", discount: null }]
+      },
+      {
+        name: "pos-awesome",
+        image: "/src/assets/images/products/pos-awesome.png",
+        alt: "POS Awesome",
+        title: "POS Awesome", 
+        excerpt: "Upscale POS system with unified order tracking",
+        category: { name: "pos", title: "POS Systems" },
+        variations: [{ price: "700", discount: null }]
+      },
+      {
+        name: "payswitch",
+        image: "/src/assets/images/products/payswitch.png",
+        alt: "Payswitch",
+        title: "Payswitch",
+        excerpt: "Platform for seamless and secure online transactions",
+        category: { name: "payments", title: "Payment Solutions" },
+        variations: [{ price: "200", discount: null }]
+      },
+      {
+        name: "jitsi-meet",
+        image: "/src/assets/images/products/nxt-theme.png",
+        alt: "Jitsi Meet",
+        title: "Jitsi Meet",
+        excerpt: "Seamless online meetings with secure video and chat",
+        category: { name: "communication", title: "Communication" },
+        variations: [{ price: "200", discount: null }]
       }
     ]
 
     testimonials.value = [
       {
         name: "testimonial1",
-        feedback: "Great service!",
-        feedback_image: "/images/user1.jpg",
-        full_name: "John Doe",
-        designation: "CEO, Company"
+        feedback: "The Frappe apps from NexTash are incredibly useful and user-friendly. They've significantly improved our workflow and productivity.",
+        feedback_image: "/src/assets/images/review.webp",
+        full_name: "Ahmed Hassan",
+        designation: "Project Manager, Tech Solutions"
+      },
+      {
+        name: "testimonial2", 
+        feedback: "Outstanding customer support and high-quality products. The NXT Theme transformed our ERPNext interface completely.",
+        feedback_image: "/src/assets/images/review.webp",
+        full_name: "Sarah Johnson",
+        designation: "IT Director, Global Corp"
+      },
+      {
+        name: "testimonial3",
+        feedback: "POS Awesome has revolutionized our retail operations. The unified order tracking is exactly what we needed.",
+        feedback_image: "/src/assets/images/review.webp",
+        full_name: "Mike Chen",
+        designation: "Retail Manager, QuickMart"
+      },
+      {
+        name: "testimonial4",
+        feedback: "The Frappe apps from this store are fantastic. They are intuitive and have greatly improved our efficiency.",
+        feedback_image: "/src/assets/images/review.webp",
+        full_name: "Mike Chen",
+        designation: "Retail Manager, QuickMart"
       }
     ]
-
+    
     allProducts.value = [
       {
-        name: "product2",
-        image: "/images/product2.jpg",
-        alt: "Product 2",
-        title: "Another Product",
-        category: { name: "category2", title: "Category 2" },
-        variations: [{ price: "149.99", discount: null }]
+        name: "crunchbase",
+        image: "/src/assets/images/products/nxt-theme.png",
+        alt: "Crunchbase Integration",
+        title: "Crunchbase",
+        category: { name: "integrations", title: "Business Intelligence" },
+        variations: [{ price: "150", discount: null }]
+      },
+      {
+        name: "hijri-calendar",
+        image: "/src/assets/images/products/pos-awesome.png",
+        alt: "Hijri Calendar",
+        title: "Hijri Calendar",
+        category: { name: "utilities", title: "Utilities" },
+        variations: [{ price: "50", discount: null }]
+      },
+      {
+        name: "language-switcher", 
+        image: "/src/assets/images/products/payswitch.png",
+        alt: "Language Switcher",
+        title: "Language Switcher",
+        category: { name: "utilities", title: "Utilities" },
+        variations: [{ price: "0", discount: null }]
       }
     ]
 

@@ -4,6 +4,8 @@ import AOS from 'aos'
 
 import App from './App.vue'
 import router from './router'
+import { useCartStore } from '@/stores/cart'
+import { useAuthStore } from '@/stores/auth'
 
 // CSS imports
 import '@/assets/css/style.css'
@@ -18,6 +20,16 @@ app.use(createPinia())
 app.use(router)
 
 app.mount('#app')
+
+// Initialize stores after app is mounted
+const cartStore = useCartStore()
+const authStore = useAuthStore()
+
+// Check authentication and initialize cart
+authStore.checkAuth().then(() => {
+  // Initialize cart after auth check
+  cartStore.initializeCart()
+})
 
 // Initialize AOS after Vue app is mounted
 setTimeout(() => {
