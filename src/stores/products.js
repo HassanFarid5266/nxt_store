@@ -1,6 +1,11 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
+// Import product images
+import nxtThemeImg from '@/assets/images/products/nxt-theme.png'
+import posAwesomeImg from '@/assets/images/products/pos-awesome.png'
+import payswitchImg from '@/assets/images/products/payswitch.png'
+
 export const useProductsStore = defineStore('products', () => {
   const products = ref([])
   const categories = ref([])
@@ -10,15 +15,15 @@ export const useProductsStore = defineStore('products', () => {
   const allProducts = [
     {
       name: "nxt-theme",
-      featured_image: "/src/assets/images/products/nxt-theme.jpg",
-      image: "/src/assets/images/products/nxt-theme.jpg",
+      featured_image: nxtThemeImg,
+      image: nxtThemeImg,
       alt: "NXT Theme - Rich UI/UX theme for Frappe applications",
       title: "NXT Theme",
       excerpt: "A rich UI/UX theme for Frappe applications like ERPNext, offering advanced, user-friendly features",
       description: `<div class="product-description">
         <h3>Transform Your Frappe Experience</h3>
         <p>NXT Theme is a premium user interface and user experience enhancement specifically designed for Frappe applications, including ERPNext. This theme revolutionizes how you interact with your business applications by providing a modern, intuitive, and visually appealing interface.</p>
-        
+
         <h4>Key Features:</h4>
         <ul>
           <li>Modern and intuitive user interface design</li>
@@ -32,14 +37,14 @@ export const useProductsStore = defineStore('products', () => {
           <li>Easy installation and configuration</li>
           <li>Regular updates and support</li>
         </ul>
-        
+
         <h4>Compatible With:</h4>
         <ul>
           <li>ERPNext (All recent versions)</li>
           <li>Frappe Framework applications</li>
           <li>Custom Frappe applications</li>
         </ul>
-        
+
         <p>Perfect for businesses looking to enhance their team's productivity and user satisfaction with their ERP system.</p>
       </div>`,
       category: "Themes & UI",
@@ -64,10 +69,10 @@ export const useProductsStore = defineStore('products', () => {
         }
       ],
       images: [
-        { idx: 0, image: "/src/assets/images/products/nxt-theme-gallery-1.jpg" },
-        { idx: 1, image: "/src/assets/images/products/nxt-theme-gallery-2.jpg" },
-        { idx: 2, image: "/src/assets/images/products/nxt-theme-gallery-3.jpg" },
-        { idx: 3, image: "/src/assets/images/products/nxt-theme-gallery-4.jpg" }
+        { idx: 0, image: nxtThemeImg },
+        { idx: 1, image: posAwesomeImg },
+        { idx: 2, image: nxtThemeImg },
+        { idx: 3, image: posAwesomeImg }
       ],
       email: "support@nextash.com",
       phone: "+92 308 3077 165",
@@ -80,15 +85,15 @@ export const useProductsStore = defineStore('products', () => {
     },
     {
       name: "pos-awesome",
-      featured_image: "/src/assets/images/products/pos-awesome.jpg",
-      image: "/src/assets/images/products/pos-awesome.jpg",
+      featured_image: posAwesomeImg,
+      image: posAwesomeImg,
       alt: "POS Awesome - Upscale POS system with unified order tracking",
       title: "POS Awesome",
       excerpt: "An upscale point-of-sale system with unified order tracking and intuitive UI/UX, designed for ERPNext",
       description: `<div class="product-description">
         <h3>Revolutionary Point of Sale Solution</h3>
         <p>POS Awesome is an advanced point-of-sale system that transforms how you handle retail transactions in ERPNext. With its unified order tracking and intuitive interface, it streamlines your sales process and enhances customer experience.</p>
-        
+
         <h4>Key Features:</h4>
         <ul>
           <li>Intuitive and modern POS interface</li>
@@ -104,7 +109,7 @@ export const useProductsStore = defineStore('products', () => {
           <li>Tax calculation and compliance</li>
           <li>Return and refund management</li>
         </ul>
-        
+
         <h4>Perfect For:</h4>
         <ul>
           <li>Retail stores and outlets</li>
@@ -112,7 +117,7 @@ export const useProductsStore = defineStore('products', () => {
           <li>Service businesses</li>
           <li>Multi-location retailers</li>
         </ul>
-        
+
         <p>Enhance your sales process with this powerful POS solution integrated seamlessly with ERPNext.</p>
       </div>`,
       category: "POS Systems",
@@ -138,10 +143,10 @@ export const useProductsStore = defineStore('products', () => {
         }
       ],
       images: [
-        { idx: 0, image: "/src/assets/images/products/pos-awesome-gallery-1.jpg" },
-        { idx: 1, image: "/src/assets/images/products/pos-awesome-gallery-2.jpg" },
-        { idx: 2, image: "/src/assets/images/products/pos-awesome-gallery-3.jpg" },
-        { idx: 3, image: "/src/assets/images/products/pos-awesome-gallery-4.jpg" }
+        { idx: 0, image: posAwesomeImg },
+        { idx: 1, image: posAwesomeImg },
+        { idx: 2, image: posAwesomeImg },
+        { idx: 3, image: posAwesomeImg }
       ],
       email: "support@nextash.com",
       phone: "+92 308 3077 165",
@@ -154,15 +159,15 @@ export const useProductsStore = defineStore('products', () => {
     },
     {
       name: "payswitch",
-      featured_image: "/src/assets/images/products/payswitch.jpg",
-      image: "/src/assets/images/products/payswitch.jpg",
+      featured_image: payswitchImg,
+      image: payswitchImg,
       alt: "Payswitch - Seamless and secure online payment management",
       title: "Payswitch",
       excerpt: "A comprehensive platform providing seamless and secure management of online transactions for businesses",
       description: `<div class="product-description">
         <h3>Secure Payment Processing Made Simple</h3>
         <p>Payswitch is a robust payment management platform that enables businesses to handle online transactions with ease and security. Designed to integrate seamlessly with your existing systems, it provides a comprehensive solution for payment processing needs.</p>
-        
+
         <h4>Key Features:</h4>
         <ul>
           <li>Multiple payment gateway integrations</li>
@@ -178,7 +183,7 @@ export const useProductsStore = defineStore('products', () => {
           <li>API integration support</li>
           <li>Webhook notifications</li>
         </ul>
-        
+
         <h4>Supported Payment Methods:</h4>
         <ul>
           <li>Credit and Debit Cards</li>
@@ -187,7 +192,7 @@ export const useProductsStore = defineStore('products', () => {
           <li>Mobile Money</li>
           <li>Cryptocurrency (selected)</li>
         </ul>
-        
+
         <p>Streamline your payment processes and enhance customer trust with our secure payment solution.</p>
       </div>`,
       category: "Payment Solutions",
@@ -213,9 +218,10 @@ export const useProductsStore = defineStore('products', () => {
         }
       ],
       images: [
-        { idx: 0, image: "/src/assets/images/products/payswitch-gallery-1.jpg" },
-        { idx: 1, image: "/src/assets/images/products/payswitch-gallery-2.jpg" },
-        { idx: 2, image: "/src/assets/images/products/payswitch-gallery-3.jpg" }
+        { idx: 0, image: payswitchImg },
+        { idx: 1, image: payswitchImg },
+        { idx: 2, image: payswitchImg },
+        { idx: 3, image: payswitchImg }
       ],
       email: "support@nextash.com",
       phone: "+92 308 3077 165",
@@ -227,15 +233,15 @@ export const useProductsStore = defineStore('products', () => {
     },
     {
       name: "crunchbase",
-      featured_image: "/src/assets/images/products/crunchbase.jpg",
-      image: "/src/assets/images/products/crunchbase.jpg",
+      featured_image: nxtThemeImg,
+      image: nxtThemeImg,
       alt: "Crunchbase - Essential business intelligence resource",
       title: "Crunchbase",
       excerpt: "An essential resource for staying informed and connected in the business world with comprehensive company data",
       description: `<div class="product-description">
         <h3>Business Intelligence & Company Data</h3>
         <p>Our Crunchbase integration provides access to comprehensive business intelligence and company data, helping you stay informed about market trends, competitors, and potential business opportunities.</p>
-        
+
         <h4>Key Features:</h4>
         <ul>
           <li>Comprehensive company database access</li>
@@ -251,7 +257,7 @@ export const useProductsStore = defineStore('products', () => {
           <li>Real-time data updates</li>
           <li>Custom alerts and notifications</li>
         </ul>
-        
+
         <h4>Perfect For:</h4>
         <ul>
           <li>Sales and business development teams</li>
@@ -260,7 +266,7 @@ export const useProductsStore = defineStore('products', () => {
           <li>Startups and entrepreneurs</li>
           <li>Business analysts</li>
         </ul>
-        
+
         <p>Stay ahead of the competition with comprehensive business intelligence and market insights.</p>
       </div>`,
       category: "Business Intelligence",
@@ -286,8 +292,9 @@ export const useProductsStore = defineStore('products', () => {
         }
       ],
       images: [
-        { idx: 0, image: "/src/assets/images/products/crunchbase-gallery-1.jpg" },
-        { idx: 1, image: "/src/assets/images/products/crunchbase-gallery-2.jpg" }
+        { idx: 0, image: nxtThemeImg },
+        { idx: 1, image: nxtThemeImg },
+        { idx: 2, image: nxtThemeImg }
       ],
       email: "support@nextash.com",
       phone: "+92 308 3077 165",
@@ -296,15 +303,15 @@ export const useProductsStore = defineStore('products', () => {
     },
     {
       name: "jitsi-meet",
-      featured_image: "/src/assets/images/products/jitsi-meet.jpg",
-      image: "/src/assets/images/products/jitsi-meet.jpg",
+      featured_image: posAwesomeImg,
+      image: posAwesomeImg,
       alt: "Jitsi Meet - Seamless online meetings with secure video",
       title: "Jitsi Meet",
       excerpt: "A comprehensive solution for seamless online meetings with secure video, screen sharing, and chat capabilities",
       description: `<div class="product-description">
         <h3>Secure Video Conferencing Solution</h3>
         <p>Jitsi Meet integration provides a complete video conferencing solution with advanced security features, perfect for businesses that require reliable and secure communication tools.</p>
-        
+
         <h4>Key Features:</h4>
         <ul>
           <li>HD video and audio conferencing</li>
@@ -320,7 +327,7 @@ export const useProductsStore = defineStore('products', () => {
           <li>Custom branding options</li>
           <li>API integration support</li>
         </ul>
-        
+
         <h4>Security Features:</h4>
         <ul>
           <li>End-to-end encryption</li>
@@ -329,7 +336,7 @@ export const useProductsStore = defineStore('products', () => {
           <li>Admin controls and moderation</li>
           <li>GDPR compliance</li>
         </ul>
-        
+
         <p>Host secure and professional meetings with our enterprise-grade video conferencing solution.</p>
       </div>`,
       category: "Communication Tools",
@@ -355,9 +362,9 @@ export const useProductsStore = defineStore('products', () => {
         }
       ],
       images: [
-        { idx: 0, image: "/src/assets/images/products/jitsi-meet-gallery-1.jpg" },
-        { idx: 1, image: "/src/assets/images/products/jitsi-meet-gallery-2.jpg" },
-        { idx: 2, image: "/src/assets/images/products/jitsi-meet-gallery-3.jpg" }
+        { idx: 0, image: posAwesomeImg },
+        { idx: 1, image: posAwesomeImg },
+        { idx: 2, image: posAwesomeImg }
       ],
       email: "support@nextash.com",
       phone: "+92 308 3077 165",
@@ -369,15 +376,15 @@ export const useProductsStore = defineStore('products', () => {
     },
     {
       name: "hijri-calendar",
-      featured_image: "/src/assets/images/products/hijri-calendar.jpg",
-      image: "/src/assets/images/products/hijri-calendar.jpg",
+      featured_image: payswitchImg,
+      image: payswitchImg,
       alt: "Hijri Calendar - Hijri date selector for date fields",
       title: "Hijri Calendar",
       excerpt: "An essential application that adds a Hijri date selector to date fields, facilitating ease of use for lunar calendar users",
       description: `<div class="product-description">
         <h3>Islamic Calendar Integration</h3>
         <p>The Hijri Calendar application seamlessly integrates Islamic lunar calendar functionality into your applications, making it easy for users who work with Hijri dates to manage their data effectively.</p>
-        
+
         <h4>Key Features:</h4>
         <ul>
           <li>Hijri date picker integration</li>
@@ -391,7 +398,7 @@ export const useProductsStore = defineStore('products', () => {
           <li>Mobile-friendly interface</li>
           <li>API for custom implementations</li>
         </ul>
-        
+
         <h4>Perfect For:</h4>
         <ul>
           <li>Islamic financial institutions</li>
@@ -400,7 +407,7 @@ export const useProductsStore = defineStore('products', () => {
           <li>Religious organizations</li>
           <li>Any application serving Muslim users</li>
         </ul>
-        
+
         <p>Enhance user experience for Muslim users with proper Hijri calendar support in your applications.</p>
       </div>`,
       category: "Utilities & Tools",
@@ -426,8 +433,9 @@ export const useProductsStore = defineStore('products', () => {
         }
       ],
       images: [
-        { idx: 0, image: "/src/assets/images/products/hijri-calendar-gallery-1.jpg" },
-        { idx: 1, image: "/src/assets/images/products/hijri-calendar-gallery-2.jpg" }
+        { idx: 0, image: payswitchImg },
+        { idx: 1, image: payswitchImg },
+        { idx: 2, image: payswitchImg }
       ],
       email: "support@nextash.com",
       phone: "+92 308 3077 165",

@@ -11,17 +11,17 @@
           <h1 class="page-title">{{ product.title }}</h1>
           <p class="page-desc">{{ product.excerpt }}</p>
           <div class="product-actions">
-            <div v-if="product.variations && product.variations.length" class="variation-selector">
+            <!-- <div v-if="product.variations && product.variations.length" class="variation-selector">
               <label for="variation">Select Package:</label>
               <select v-model="selectedVariation" id="variation" class="form-field">
                 <option v-for="variation in product.variations" :key="variation.name" :value="variation">
                   {{ variation.title }} - ${{ variation.price }}
                 </option>
               </select>
-            </div>
+            </div> -->
 
             <div class="action-buttons">
-              <button
+              <!-- <button
                 @click="addToCart"
                 :disabled="addingToCart || !selectedVariation"
                 class="btn btn-primary add-to-cart-btn"
@@ -30,9 +30,9 @@
                 <i v-if="addingToCart" class="bx bx-loader-alt bx-spin"></i>
                 <i v-else class="bx bx-cart-add"></i>
                 {{ addingToCart ? 'Adding...' : 'Add to Cart' }}
-              </button>
+              </button> -->
 
-              <a target="_blank" :href="`https://wa.me/+9203083077165?text=Hello NexTash,i am intrested in ${product.name}, can we talk?`" class="btn btn-outline-primary" style="margin-right: 10px; margin-bottom: 20px;">Book a Demo</a>
+              <a target="_blank" :href="`https://wa.me/+9203083077165?text=Hello NexTash,i am intrested in ${product.name}, can we talk?`" class="btn btn-primary" style="margin-right: 10px; margin-bottom: 20px;">Book a Demo</a>
 
               <a v-if="product.video" data-fslightbox="gallery" :href="product.video" class="btn btn-error">Check Demo Video</a>
             </div>
@@ -47,22 +47,12 @@
 
     <section class="product-body boxed">
       <div class="col-left">
-        <h3 class="section-title">Product Gallery</h3>
-        
-        <div class="carousel gallery">
-          <a v-for="(row, index) in product.images" :key="index" data-fslightbox="gallery" :href="row.image">
-            <img 
-              :src="row.image" 
-              :alt="`Image ${row.idx}`" 
-              class="gallery-image" 
-              :style="`transform: rotate(${rotation[row.idx] || 0}deg) translate(${transform[row.idx] || 0}px);`"
-              :class="{ 'z-index': index === currentImageIndex }"
-            />
-          </a>
-
-          <button class="slide-prev btn btn-primary bx bx-left-arrow-alt" @click="movePrevious()"></button>
-          <button class="slide-next btn btn-primary bx bx-right-arrow-alt" @click="moveNext()"></button>
-        </div>
+        <ProductGallery
+          v-if="product.images && product.images.length > 0"
+          :images="product.images"
+          gallery-id="product-gallery"
+          @image-change="currentImageIndex = $event"
+        />
 
         <div class="about">
           <h3 class="section-title">About</h3>
@@ -294,6 +284,7 @@ import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useProductsStore } from '@/stores/products'
 import { useCartStore } from '@/stores/cart'
+import ProductGallery from '@/components/ProductGallery.vue'
 
 const route = useRoute()
 const authStore = useAuthStore()

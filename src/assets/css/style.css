@@ -537,7 +537,7 @@ body {
   margin-bottom: 60px;
 }
 .product-layout .page-head {
-  height: 80vh;
+  height: 100vh;
   width: 100%;
   position: relative;
   z-index: 10;
@@ -559,7 +559,7 @@ body {
 .product-layout .page-head::before {
   z-index: 2;
   content: "";
-  background: linear-gradient(60deg, #480707 0%, rgba(58, 23, 23, 0.8) 40%, rgba(42, 41, 41, 0.7) 50%, rgba(42, 41, 41, 0.1) 100%), linear-gradient(60deg, #4e0707 0%, rgba(219, 166, 166, 0.8) 40%, rgba(255, 151, 151, 0.7) 50%, rgba(42, 41, 41, 0.1) 100%) top right;
+  background: linear-gradient(60deg, rgb(42, 41, 41) 0%, rgba(42, 41, 41, 0.8) 40%, rgba(42, 41, 41, 0.7) 50%, rgba(42, 41, 41, 0.1) 100%), linear-gradient(60deg, rgb(42, 41, 41) 0%, rgba(42, 41, 41, 0.8) 40%, rgba(42, 41, 41, 0.7) 50%, rgba(42, 41, 41, 0.1) 100%) top right;
 }
 .product-layout .page-head .boxed {
   z-index: 3;
@@ -2519,7 +2519,7 @@ body {
 }
 .navbar .nav-items .menu-items .btn,
 .navbar .nav-items .auth-items .btn {
-  margin-left: 5px;
+  margin: 0px;
 }
 .navbar .nav-items .menu-items .nav-link,
 .navbar .nav-items .auth-items .nav-link {

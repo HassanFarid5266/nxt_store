@@ -1,20 +1,28 @@
-<!-- Product Gallery Component -->
 <template>
   <div class="product-gallery-section">
     <h3 class="section-title">Product Gallery</h3>
 
-    <div class="carousel gallery" :class="{ 'has-images': images.length > 0 }">
+    <div class="carousel gallery" :class="{ 'has-images': images.length > 0 }" @mouseenter="stopAutoSlide"
+      @mouseleave="startAutoSlide">
       <template v-if="images.length > 0">
-        <a v-for="(image, index) in images" :key="index" :data-fslightbox="galleryId" :href="image.image || image"
-          class="gallery-item" @click.prevent="openLightbox(index)">
+        <a v-for="(image, index) in images" :key="index" data-fslightbox="gallery" :href="image.image || image"
+          class="gallery-item" :class="{ 'active': index === currentIndex, 'z-index': index === currentIndex }"
+          @click.prevent="openLightbox(index)">
           <img :src="image.image || image" :alt="image.alt || `Gallery image ${index + 1}`" class="gallery-image"
-            :class="{ 'z-index': index === currentIndex }" :style="getImageStyle(index)" loading="lazy" />
+            :style="getImageStyle(index)" loading="lazy" />
         </a>
 
-        <button v-if="images.length > 1" class="slide-prev btn btn-primary bx bx-left-arrow-alt" @click="movePrevious"
+        <!-- Navigation buttons -->
+        <button v-if="images.length > 1" class="slide-prev btn btn-primary bx bx-left-arrow-alt" @click="handlePrevious"
           :disabled="currentIndex === 0"></button>
-        <button v-if="images.length > 1" class="slide-next btn btn-primary bx bx-right-arrow-alt" @click="moveNext"
+        <button v-if="images.length > 1" class="slide-next btn btn-primary bx bx-right-arrow-alt" @click="handleNext"
           :disabled="currentIndex === images.length - 1"></button>
+
+        <!-- Gallery indicators -->
+        <div v-if="images.length > 1" class="gallery-indicators">
+          <button v-for="(image, index) in images" :key="`indicator-${index}`" class="indicator"
+            :class="{ 'active': index === currentIndex }" @click="currentIndex = index"></button>
+        </div>
       </template>
 
       <div v-else class="no-images">
@@ -52,12 +60,20 @@ const currentIndex = ref(0)
 let fsLightbox = null
 
 const getImageStyle = (index) => {
+  // Only apply rotation and translation to non-active images for subtle effect
+  if (index === currentIndex.value) {
+    return {
+      transform: 'rotate(0deg) translate(0px)',
+      zIndex: 2
+    }
+  }
+
   const rotation = props.rotationAngles[index % props.rotationAngles.length] || 0
   const translate = props.translateValues[index % props.translateValues.length] || 0
 
   return {
-    transform: `rotate(${rotation}deg) translate(${translate}px)`,
-    zIndex: index === currentIndex.value ? 1 : 0
+    transform: `rotate(${rotation * 0.5}deg) translate(${translate * 0.5}px)`,
+    zIndex: index === currentIndex.value ? 2 : 1
   }
 }
 
@@ -72,6 +88,47 @@ const moveNext = () => {
   if (currentIndex.value < props.images.length - 1) {
     currentIndex.value++
     emit('image-change', currentIndex.value)
+  }
+}
+
+const handlePrevious = () => {
+  movePrevious()
+  // Reset auto-slide timer
+  stopAutoSlide()
+  setTimeout(() => {
+    startAutoSlide()
+  }, 1000)
+}
+
+const handleNext = () => {
+  moveNext()
+  // Reset auto-slide timer
+  stopAutoSlide()
+  setTimeout(() => {
+    startAutoSlide()
+  }, 1000)
+}
+
+// Auto-slide functionality
+let autoSlideInterval = null
+
+const startAutoSlide = () => {
+  if (props.images.length <= 1) return
+
+  autoSlideInterval = setInterval(() => {
+    if (currentIndex.value < props.images.length - 1) {
+      currentIndex.value++
+    } else {
+      currentIndex.value = 0
+    }
+    emit('image-change', currentIndex.value)
+  }, 4000) // Change image every 4 seconds
+}
+
+const stopAutoSlide = () => {
+  if (autoSlideInterval) {
+    clearInterval(autoSlideInterval)
+    autoSlideInterval = null
   }
 }
 
@@ -104,7 +161,7 @@ const openLightbox = async (index) => {
   }
 }
 
-// Initialize lightbox on mount
+// Initialize lightbox and auto-slide on mount
 onMounted(async () => {
   if (props.images.length > 0) {
     try {
@@ -131,13 +188,46 @@ onMounted(async () => {
     } catch (error) {
       console.warn('Error initializing lightbox:', error)
     }
+
+    // Start auto-slide after a delay
+    setTimeout(() => {
+      startAutoSlide()
+    }, 2000)
   }
 })
 
 onUnmounted(() => {
+  // Clean up auto-slide
+  stopAutoSlide()
+
   // Clean up lightbox instance
   if (window.fsLightboxInstances && window.fsLightboxInstances[props.galleryId]) {
     delete window.fsLightboxInstances[props.galleryId]
   }
 })
 </script>
+
+<style scoped>
+.gallery {
+  position: relative;
+  height: 470px;
+}
+
+.gallery-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 2px 2px 10px #6a0408;
+  z-index: 0;
+}
+
+.z-index {
+  z-index: 1;
+  transform: translate(0) rotate(0);
+}
+</style>

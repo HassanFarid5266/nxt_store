@@ -98,20 +98,14 @@ export const useShopStore = defineStore('shop', () => {
   }
 
   const searchProducts = () => {
-    // Products are filtered reactively through computed property
-    // This function is kept for compatibility but could trigger additional actions
     currentPage.value = 1
   }
 
   const filterProducts = () => {
-    // Products are filtered reactively through computed property
-    // This function is kept for compatibility but could trigger additional actions
     currentPage.value = 1
   }
 
   const loadMore = () => {
-    // For future implementation when pagination is needed
-    // Currently all products are loaded at once
     currentPage.value += 1
   }
 
