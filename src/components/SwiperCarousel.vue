@@ -27,7 +27,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { Swiper } from 'swiper/bundle'
+import { Swiper } from 'swiper'
 
 const props = defineProps({
   items: {
