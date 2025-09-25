@@ -70,7 +70,7 @@ const props = defineProps({
   },
   descriptionClass: {
     type: String,
-    default: 'text-ellipsis-2'
+    default: 'text-ellipsis text-ellipsis-3'
   },
   showDescription: {
     type: Boolean,

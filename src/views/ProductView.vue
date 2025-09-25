@@ -143,16 +143,16 @@
               </div>
               <div class="card-body" v-html="item.description"></div>
               <div class="card-foot">
-                <button
+                <router-link :to="`/product/${product.name}`" 
                   @click="addToCartWithVariation(item)"
-                  :disabled="addingToCart"
+                  :disabled="isAddingVariationToCart(item)"
                   class="btn btn-outline-primary btn-block btn-pill add-to-cart-btn"
                   style="margin-bottom: 10px;"
                 >
-                  <i v-if="addingToCart" class="bx bx-loader-alt bx-spin"></i>
+                  <i v-if="isAddingVariationToCart(item)" class="bx bx-loader-alt bx-spin"></i>
                   <i v-else class="bx bx-cart-add"></i>
-                  {{ addingToCart ? 'Adding...' : 'Add to Cart' }}
-                </button>
+                  {{ isAddingVariationToCart(item) ? 'Adding...' : 'Add to Cart' }}
+                </router-link>
 
                 <a :href="`https://wa.me/+9203083077165?text=Hello NexTash,i want to purchase ${item.title} package of ${product.name}, can we talk?`" target="_blank" class="media-desc" style="text-decoration: none;">
                   <button class="btn btn-primary btn-block btn-pill">
@@ -297,6 +297,7 @@ const newReview = ref('')
 const currentImageIndex = ref(0)
 const selectedVariation = ref(null)
 const addingToCart = ref(false)
+const addingToCartVariation = ref({}) // Track loading state per variation
 const cartMessage = ref('')
 const activeTab = ref(0)
 
@@ -364,7 +365,8 @@ const addToCart = async () => {
 }
 
 const addToCartWithVariation = async (variation) => {
-  addingToCart.value = true
+  const variationKey = variation.name || variation.title || 'default'
+  addingToCartVariation.value[variationKey] = true
   cartMessage.value = ''
 
   try {
@@ -380,9 +382,15 @@ const addToCartWithVariation = async (variation) => {
     cartMessage.value = 'Error adding product to cart'
     console.error('Add to cart error:', error)
   } finally {
-    addingToCart.value = false
+    addingToCartVariation.value[variationKey] = false
     setTimeout(() => cartMessage.value = '', 5000)
   }
+}
+
+// Helper function to check if specific variation is being added to cart
+const isAddingVariationToCart = (variation) => {
+  const variationKey = variation.name || variation.title || 'default'
+  return addingToCartVariation.value[variationKey] || false
 }
 
 const submitReview = () => {

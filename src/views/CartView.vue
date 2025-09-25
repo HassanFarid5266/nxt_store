@@ -36,7 +36,7 @@
               </div>
               
               <div class="cart-item-details">
-                <h4 class="cart-item-title">{{ item.title }}</h4>
+                <h4 class="cart-item-title">{{ item.product_title || item.title }}</h4>
                 <p v-if="item.variation" class="cart-item-variation">{{ item.variation }}</p>
                 <div class="cart-item-price">
                   <span class="price">${{ item.price }}</span>
@@ -80,15 +80,6 @@
             </div>
           </div>
         </div>
-        <div v-if="hasMore" class="card-foot center">
-          <button 
-            class="btn btn-primary btn-sm btn-pill" 
-            @click="loadMore"
-            :disabled="loading"
-          >
-            {{ loading ? 'Loading...' : 'Load more' }}
-          </button>
-        </div>
       </div>
       
       <!-- Cart Summary -->
@@ -131,127 +122,31 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import { ApiUrl, apiRequest } from '@/utils/api'
-import { showMessage } from '@/utils/message'
+import { onMounted, computed } from 'vue'
+import { useCartStore } from '@/stores/cart'
 
-const cartItems = ref([])
-const loading = ref(false)
-const hasMore = ref(false)
-const currentPage = ref(1)
+const cartStore = useCartStore()
 
-const subtotal = computed(() => {
-  return cartItems.value.reduce((total, item) => {
-    return total + ((item.price || 0) * (item.quantity || 1))
-  }, 0)
-})
+// Use cart store data
+const cartItems = computed(() => cartStore.items)
+const loading = computed(() => cartStore.loading)
+const subtotal = computed(() => cartStore.subtotal)
+const tax = computed(() => cartStore.tax)
+const total = computed(() => cartStore.total)
 
-const tax = computed(() => {
-  return subtotal.value * 0.1 // 10% tax
-})
-
-const total = computed(() => {
-  return subtotal.value + tax.value
-})
-
-const fetchCart = async (page = 1, append = false) => {
-  loading.value = true
-  
-  try {
-    const params = new URLSearchParams({
-      limit: 10,
-      page: page
-    })
-    
-    const response = await apiRequest(ApiUrl(`nextash_store.events.cart.listing?${params}`))
-    const data = response.message
-    
-    if (data.count === 0) {
-      cartItems.value = []
-    } else {
-      if (append) {
-        cartItems.value = [...cartItems.value, ...data.results]
-      } else {
-        cartItems.value = data.results
-      }
-    }
-    
-    hasMore.value = !!data.next
-    currentPage.value = page
-  } catch (error) {
-    console.error('Error fetching cart:', error)
-    showMessage('Failed to load cart items', 'error')
-  } finally {
-    loading.value = false
-  }
+const updateQuantity = (itemId, newQuantity) => {
+  cartStore.updateQuantity(itemId, newQuantity)
 }
 
-const loadMore = () => {
-  if (hasMore.value) {
-    fetchCart(currentPage.value + 1, true)
-  }
-}
-
-const updateQuantity = async (itemId, newQuantity) => {
-  if (newQuantity < 1) {
-    await removeItem(itemId)
-    return
-  }
-  
-  try {
-    await apiRequest(ApiUrl('nextash_store.events.cart.update'), {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Frappe-CSRF-Token': document.getElementById('csrf_token')?.value
-      },
-      body: JSON.stringify({
-        item_id: itemId,
-        quantity: newQuantity
-      })
-    })
-    
-    // Update local state
-    const item = cartItems.value.find(item => (item.id || item.name) === itemId)
-    if (item) {
-      item.quantity = newQuantity
-    }
-    
-    showMessage('Cart updated successfully', 'success')
-  } catch (error) {
-    console.error('Error updating quantity:', error)
-    showMessage('Failed to update cart', 'error')
-  }
-}
-
-const removeItem = async (itemId) => {
+const removeItem = (itemId) => {
   if (!confirm('Are you sure you want to remove this item?')) {
     return
   }
-  
-  try {
-    await apiRequest(ApiUrl('nextash_store.events.cart.delete'), {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Frappe-CSRF-Token': document.getElementById('csrf_token')?.value
-      },
-      body: JSON.stringify({
-        item_id: itemId
-      })
-    })
-    
-    // Remove from local state
-    cartItems.value = cartItems.value.filter(item => (item.id || item.name) !== itemId)
-    
-    showMessage('Item removed from cart', 'success')
-  } catch (error) {
-    console.error('Error removing item:', error)
-    showMessage('Failed to remove item', 'error')
-  }
+
+  cartStore.removeItem(itemId)
 }
 
 onMounted(() => {
-  fetchCart()
+  cartStore.initializeCart()
 })
 </script>

@@ -40,6 +40,11 @@ export function hasProperty(obj, property, other) {
 
 // API request helper
 export async function apiRequest(url, options = {}) {
+  // Validate URL
+  if (!url || typeof url !== 'string') {
+    throw new Error('Invalid URL provided to apiRequest');
+  }
+
   const defaultOptions = {
     headers: {
       'Content-Type': 'application/json',
@@ -58,15 +63,38 @@ export async function apiRequest(url, options = {}) {
 
   try {
     const response = await fetch(url, finalOptions);
-    const data = await response.json();
-    
-    if (!response.ok) {
-      throw new Error(data.message || 'API request failed');
+
+    // Handle response based on content type
+    const contentType = response.headers.get('content-type');
+    let data = null;
+
+    if (contentType && contentType.includes('application/json')) {
+      // Try to parse JSON
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        // Fallback to text if JSON parsing fails
+        const text = await response.text();
+        data = { message: text || 'Empty response' };
+      }
+    } else {
+      // Non-JSON response
+      const text = await response.text();
+      data = { message: text || 'Empty response' };
     }
-    
+
+    if (!response.ok) {
+      throw new Error(data?.message || `HTTP ${response.status}: ${response.statusText}`);
+    }
+
     return data;
   } catch (error) {
-    console.error('API request error:', error);
+    // Better error logging
+    console.error('API request failed:', {
+      url,
+      error: error.message,
+      options: finalOptions
+    });
     throw error;
   }
 }

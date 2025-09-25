@@ -317,6 +317,7 @@ body {
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: 3rem;
+  margin-top: 0.5rem;
 }
 .page-meta .page-title,
 .page-meta .section-title,
@@ -339,9 +340,6 @@ body {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
-  margin-left: 10px;
-  background-color: var(--light);
-  border-radius: var(--rounded);
 }
 .page-meta .select label,
 .section-meta .select label {
@@ -350,10 +348,13 @@ body {
 }
 .page-meta .select select,
 .section-meta .select select {
+  background-color: var(--light);
+  border-radius: var(--rounded);
   border: none;
   outline: none;
-  background-color: inherit;
   color: var(--text);
+  margin-left: 10px;
+  padding: 10px;
 }
 
 .page-search {

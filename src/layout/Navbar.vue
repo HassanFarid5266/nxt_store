@@ -7,21 +7,17 @@
       <div class="nav-items">
         <nav class="menu-items">
           <router-link to="/" class="nav-link">Home</router-link>
-          <!-- <router-link to="/shop" class="nav-link">Shop</router-link> -->
+          <router-link to="/shop" class="nav-link">Shop</router-link>
           <a class="nav-link" target="_blank" href="https://nextash.com/about-us/">About</a>
           <a class="nav-link" target="_blank" href="https://nextash.com/faqs/">FAQs</a>
           <a class="nav-link" target="_blank" href="https://nextash.com/contact-us/">Contact</a>
         </nav>
-        <!-- <nav class="cart-section">
-          <button
-            @click="toggleCart"
-            class="cart-button"
-            :class="{ 'cart-open': cartStore.isOpen }"
-          >
+        <nav class="cart-section">
+          <router-link to="/cart" class="cart-button">
             <i class="bx bx-shopping-bag"></i>
             <span v-if="cartStore.itemCount > 0" class="cart-count">{{ cartStore.itemCount }}</span>
-          </button>
-        </nav> -->
+          </router-link>
+        </nav>
         <nav class="auth-items">
           <div v-if="isLoggedIn" class="dropdown">
             <a href="javascript:void(0)" data-nxt-toggle="dropdown" class="nav-link nav-auth-menu">
