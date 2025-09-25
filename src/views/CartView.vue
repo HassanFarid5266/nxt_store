@@ -20,62 +20,73 @@
         <div class="card-body">
           <div v-if="loading" class="loading">Loading cart items...</div>
           
-          <div v-else-if="cartItems.length === 0" class="no-records">
-            <p>Your cart is empty!</p>
-            <router-link to="/shop" class="btn btn-primary btn-sm">Start Shopping</router-link>
+          <div v-else-if="cartItems.length === 0" class="empty-cart">
+            <div class="empty-cart-icon">
+              <i class="bx bx-cart"></i>
+            </div>
+            <h3 class="empty-cart-title">Your cart is empty</h3>
+            <p class="empty-cart-message">Looks like you haven't added any items to your cart yet.</p>
+            <router-link to="/shop" class="btn btn-primary btn-pill">Start Shopping</router-link>
           </div>
           
           <div v-else class="cart-items-list">
-            <div 
-              v-for="item in cartItems" 
-              :key="item.id || item.name" 
+            <div
+              v-for="item in cartItems"
+              :key="item.id || item.name"
               class="cart-item-card"
             >
               <div class="cart-item-image">
-                <img :src="item.image" :alt="item.title" class="image" />
+                <img :src="item.image" :alt="item.title" class="product-image" />
               </div>
-              
-              <div class="cart-item-details">
-                <h4 class="cart-item-title">{{ item.product_title || item.title }}</h4>
-                <p v-if="item.variation" class="cart-item-variation">{{ item.variation }}</p>
-                <div class="cart-item-price">
-                  <span class="price">${{ item.price }}</span>
-                  <span v-if="item.original_price && item.original_price !== item.price" class="original-price">
-                    <del>${{ item.original_price }}</del>
-                  </span>
-                </div>
-              </div>
-              
-              <div class="cart-item-actions">
-                <div class="quantity-controls">
-                  <button 
-                    @click="updateQuantity(item.id || item.name, (item.quantity || 1) - 1)" 
-                    class="btn btn-sm btn-quantity"
+
+              <div class="cart-item-content">
+                <div class="cart-item-header">
+                  <h4 class="cart-item-title">{{ item.product_title || item.title }}</h4>
+                  <button
+                    @click="removeItem(item.id || item.name)"
+                    class="remove-btn"
                     :disabled="loading"
+                    title="Remove item"
                   >
-                    -
-                  </button>
-                  <span class="quantity">{{ item.quantity || 1 }}</span>
-                  <button 
-                    @click="updateQuantity(item.id || item.name, (item.quantity || 1) + 1)" 
-                    class="btn btn-sm btn-quantity"
-                    :disabled="loading"
-                  >
-                    +
+                    <i class="bx bx-x"></i>
                   </button>
                 </div>
-                
-                <div class="item-total-price">
-                  ${{ ((item.price || 0) * (item.quantity || 1)).toFixed(2) }}
+
+                <p v-if="item.variation" class="cart-item-variation">
+                  <span class="variation-label">Variant:</span> {{ item.variation }}
+                </p>
+
+                <div class="cart-item-footer">
+                  <div class="cart-item-price">
+                    <span class="current-price">${{ item.price }}</span>
+                    <span v-if="item.original_price && item.original_price !== item.price" class="original-price">
+                      <del>${{ item.original_price }}</del>
+                    </span>
+                  </div>
+
+                  <div class="quantity-controls">
+                    <button
+                      @click="updateQuantity(item.id || item.name, (item.quantity || 1) - 1)"
+                      class="quantity-btn quantity-decrease"
+                      :disabled="loading || (item.quantity || 1) <= 1"
+                    >
+                      <i class="bx bx-minus"></i>
+                    </button>
+                    <span class="quantity-display">{{ item.quantity || 1 }}</span>
+                    <button
+                      @click="updateQuantity(item.id || item.name, (item.quantity || 1) + 1)"
+                      class="quantity-btn quantity-increase"
+                      :disabled="loading"
+                    >
+                      <i class="bx bx-plus"></i>
+                    </button>
+                  </div>
+
+                  <div class="item-total-price">
+                    <span class="total-label">Total:</span>
+                    <span class="total-amount">${{ ((item.price || 0) * (item.quantity || 1)).toFixed(2) }}</span>
+                  </div>
                 </div>
-                
-                <button 
-                  @click="removeItem(item.id || item.name)" 
-                  class="btn btn-sm btn-remove"
-                  :disabled="loading"
-                >
-                  <i class="bx bx-trash"></i>
-                </button>
               </div>
             </div>
           </div>

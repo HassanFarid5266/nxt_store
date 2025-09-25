@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import { toast } from '@/utils/toast'
 
 export const useCartStore = defineStore('cart', () => {
   const items = ref([
@@ -102,9 +103,11 @@ export const useCartStore = defineStore('cart', () => {
       }
 
       saveToLocalStorage()
+      toast.showSuccess('Added to Cart', `${product.title || product.name} has been added to your cart`)
       return { success: true, message: 'Product added to cart!' }
     } catch (error) {
       console.error('Error adding to cart:', error)
+      toast.showError('Error', 'Failed to add product to cart')
       return { success: false, message: error.message || 'Failed to add product to cart' }
     } finally {
       addingToCart.value[productKey] = false
@@ -121,6 +124,7 @@ export const useCartStore = defineStore('cart', () => {
       if (item) {
         item.quantity = quantity
         saveToLocalStorage()
+        toast.showSuccess('Updated', 'Quantity updated successfully')
         return { success: true }
       } else {
         return { success: false, message: 'Item not found' }
@@ -133,8 +137,12 @@ export const useCartStore = defineStore('cart', () => {
 
   const removeItem = (itemId) => {
     try {
+      const removedItem = items.value.find(item => item.id === itemId)
       items.value = items.value.filter(item => item.id !== itemId)
       saveToLocalStorage()
+      if (removedItem) {
+        toast.showSuccess('Removed', `${removedItem.product_title} has been removed from cart`)
+      }
       return { success: true }
     } catch (error) {
       console.error('Error removing item:', error)
@@ -146,6 +154,7 @@ export const useCartStore = defineStore('cart', () => {
     try {
       items.value = []
       saveToLocalStorage()
+      toast.showSuccess('Cart Cleared', 'All items have been removed from your cart')
       return { success: true }
     } catch (error) {
       console.error('Error clearing cart:', error)

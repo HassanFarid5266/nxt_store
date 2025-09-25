@@ -24,6 +24,18 @@
     
     <!-- Footer -->
     <AppFooter />
+
+    <!-- Toast Notifications -->
+    <ToastNotification
+      v-for="toastItem in toasts"
+      :key="toastItem.id"
+      :show="toastItem.show"
+      :type="toastItem.type"
+      :title="toastItem.title"
+      :message="toastItem.message"
+      :duration="toastItem.duration"
+      @close="hideToast(toastItem.id)"
+    />
   </div>
 </template>
 
@@ -33,10 +45,13 @@ import AppNavbar from '@/layout/Navbar.vue'
 import AppFooter from '@/layout/Footer.vue'
 import AppSidebar from '@/layout/Sidebar.vue'
 import CtaSection from '@/components/CtaSection.vue'
+import ToastNotification from '@/components/ToastNotification.vue'
 import { useAuthStore } from '@/stores/auth'
+import { useToast } from '@/utils/toast'
 
 const authStore = useAuthStore()
 const csrfToken = ref('')
+const { toasts, hideToast } = useToast()
 
 onMounted(async () => {
   // Check if user is authenticated
