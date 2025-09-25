@@ -112,18 +112,19 @@
         </div>
       </div>
 
+      <!-- tabs -->
       <div class="col-right">
         <div v-if="product.variations && product.variations.length" class="tabs">
           <div class="tab-items tab-pills">
-            <button 
-              v-for="(item, index) in product.variations" 
+            <button
+              v-for="(item, index) in product.variations"
               :key="item.name"
               class="tab-item"
               :class="{ active: index === 0 }"
               data-nxt-toggle="tab"
               :data-nxt-target="`#tab${item.name}`"
             >
-              {{ item.title }}
+              {{ index === 0 ? 'Personal Use' : 'Commercial Use' }}
             </button>
           </div>
           

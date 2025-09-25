@@ -18,7 +18,7 @@ export const useProductsStore = defineStore('products', () => {
       featured_image: nxtThemeImg,
       image: nxtThemeImg,
       alt: "NXT Theme - Rich UI/UX theme for Frappe applications",
-      title: "NXT Theme",
+      title: "NXT Theme - Transform Your Frappe Experience",
       excerpt: "A rich UI/UX theme for Frappe applications like ERPNext, offering advanced, user-friendly features",
       description: `<div class="product-description">
         <h3>Transform Your Frappe Experience</h3>
@@ -50,11 +50,11 @@ export const useProductsStore = defineStore('products', () => {
       category: "Themes & UI",
       variations: [
         {
-          name: "standard",
-          title: "NXT Theme Standard",
-          price: "700",
+          name: "personal",
+          title: "Personal License",
+          price: "350",
           discount: null,
-          excerpt: "Complete UI/UX transformation for your Frappe applications",
+          excerpt: "Perfect for individual developers and small projects",
           description: `<div class="variation-details">
             <h4>What's Included:</h4>
             <ul>
@@ -63,9 +63,31 @@ export const useProductsStore = defineStore('products', () => {
               <li>Installation guide and documentation</li>
               <li>30 days email support</li>
               <li>Updates for 1 year</li>
+              <li>Use on 1 domain only</li>
             </ul>
           </div>`,
-          link_title: "Purchase NXT Theme"
+          link_title: "Purchase Personal License"
+        },
+        {
+          name: "commercial",
+          title: "Commercial License",
+          price: "700",
+          discount: null,
+          excerpt: "Full commercial rights for businesses and agencies",
+          description: `<div class="variation-details">
+            <h4>What's Included:</h4>
+            <ul>
+              <li>Complete theme installation</li>
+              <li>Advanced customization support</li>
+              <li>Installation guide and documentation</li>
+              <li>90 days priority support</li>
+              <li>Updates for 2 years</li>
+              <li>Unlimited domains</li>
+              <li>Commercial usage rights</li>
+              <li>White-label rights</li>
+            </ul>
+          </div>`,
+          link_title: "Purchase Commercial License"
         }
       ],
       images: [
