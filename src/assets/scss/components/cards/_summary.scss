@@ -1,8 +1,7 @@
 .card-summary {
   .card-body {
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-
+    --card-body-p: 0 1.5rem ;
+    
     .card-title,
     .card-subtitle {
       display: flex;
