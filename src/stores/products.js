@@ -73,11 +73,15 @@ export const useProductsStore = defineStore('products', () => {
           discount: null,
           excerpt: "Best for software provider",
           description: `<div class="variation-details">
-              <p class="desc">Complete theme installation</p>
-              <p class="desc">Advanced customization support</p>
-              <p>Installation guide and documentation</p>
-              <p>90 days priority support</p>
-              <p>Updates for 2 years</p>
+            <h4 class="title">What's Included:</h4>
+            <p class="desc">Complete theme installation</p>
+            <p class="desc">Advanced customization support</p>
+            <p class="desc">Installation guide and documentation</p>
+            <p class="desc">90 days priority support</p>
+            <p class="desc">Updates for 2 years</p>
+            <p class="desc">Unlimited domains</p>
+            <p class="desc">Commercial usage rights</p>
+            <p class="desc">White-label rights</p>
           </div>`,
           link_title: "Purchase Commercial License"
         }
@@ -143,15 +147,13 @@ export const useProductsStore = defineStore('products', () => {
           discount: null,
           excerpt: "Perfect for individual businesses and small outlets",
           description: `<div class="variation-details">
-            <h4>What's Included:</h4>
-            <ul>
-              <li>Full POS Awesome installation</li>
-              <li>Basic setup support</li>
-              <li>Training materials and documentation</li>
-              <li>30 days technical support</li>
-              <li>Updates for 1 year</li>
-              <li>Use on 1 location only</li>
-            </ul>
+            <h4 class="title">What's Included:</h4>
+            <p class="desc">Full POS Awesome installation</p>
+            <p class="desc">Basic setup support</p>
+            <p class="desc">Training materials and documentation</p>
+            <p class="desc">30 days technical support</p>
+            <p class="desc">Updates for 1 year</p>
+            <p class="desc">Use on 1 location only</p>
           </div>`,
           link_title: "Get Personal License"
         },
@@ -162,17 +164,15 @@ export const useProductsStore = defineStore('products', () => {
           discount: null,
           excerpt: "Full commercial rights for businesses and franchises",
           description: `<div class="variation-details">
-            <h4>What's Included:</h4>
-            <ul>
-              <li>Full POS Awesome installation</li>
-              <li>Advanced configuration and setup support</li>
-              <li>Training materials and documentation</li>
-              <li>90 days priority technical support</li>
-              <li>Free updates for 2 years</li>
-              <li>Unlimited locations</li>
-              <li>Commercial usage rights</li>
-              <li>White-label rights</li>
-            </ul>
+            <h4 class="title">What's Included:</h4>
+            <p class="desc">Full POS Awesome installation</p>
+            <p class="desc">Advanced configuration and setup support</p>
+            <p class="desc">Training materials and documentation</p>
+            <p class="desc">90 days priority technical support</p>
+            <p class="desc">Free updates for 2 years</p>
+            <p class="desc">Unlimited locations</p>
+            <p class="desc">Commercial usage rights</p>
+            <p class="desc">White-label rights</p>
           </div>`,
           link_title: "Get Commercial License"
         }
@@ -239,15 +239,13 @@ export const useProductsStore = defineStore('products', () => {
           discount: null,
           excerpt: "Perfect for individual developers and small projects",
           description: `<div class="variation-details">
-            <h4>What's Included:</h4>
-            <ul>
-              <li>Payswitch platform access</li>
-              <li>Basic setup and configuration</li>
-              <li>Integration support</li>
-              <li>Documentation and guides</li>
-              <li>30 days support</li>
-              <li>Up to 1000 transactions/month</li>
-            </ul>
+            <h4 class="title">What's Included:</h4>
+            <p class="desc">Payswitch platform access</p>
+            <p class="desc">Basic setup and configuration</p>
+            <p class="desc">Integration support</p>
+            <p class="desc">Documentation and guides</p>
+            <p class="desc">30 days support</p>
+            <p class="desc">Up to 1000 transactions/month</p>
           </div>`,
           link_title: "Get Personal License"
         },
@@ -258,17 +256,15 @@ export const useProductsStore = defineStore('products', () => {
           discount: null,
           excerpt: "Full commercial rights for businesses and agencies",
           description: `<div class="variation-details">
-            <h4>What's Included:</h4>
-            <ul>
-              <li>Payswitch platform access</li>
-              <li>Advanced setup and configuration</li>
-              <li>Priority integration support</li>
-              <li>Documentation and guides</li>
-              <li>90 days priority support</li>
-              <li>Unlimited transactions</li>
-              <li>Commercial usage rights</li>
-              <li>White-label options</li>
-            </ul>
+            <h4 class="title">What's Included:</h4>
+            <p class="desc">Payswitch platform access</p>
+            <p class="desc">Advanced setup and configuration</p>
+            <p class="desc">Priority integration support</p>
+            <p class="desc">Documentation and guides</p>
+            <p class="desc">90 days priority support</p>
+            <p class="desc">Unlimited transactions</p>
+            <p class="desc">Commercial usage rights</p>
+            <p class="desc">White-label options</p>
           </div>`,
           link_title: "Get Commercial License"
         }
@@ -334,16 +330,14 @@ export const useProductsStore = defineStore('products', () => {
           discount: null,
           excerpt: "Perfect for individual researchers and entrepreneurs",
           description: `<div class="variation-details">
-            <h4>What's Included:</h4>
-            <ul>
-              <li>Crunchbase platform access</li>
-              <li>Basic data integration setup</li>
-              <li>Training and onboarding</li>
-              <li>Standard report templates</li>
-              <li>30 days support</li>
-              <li>Monthly data updates</li>
-              <li>Personal use only</li>
-            </ul>
+            <h4 class="title">What's Included:</h4>
+            <p class="desc">Crunchbase platform access</p>
+            <p class="desc">Basic data integration setup</p>
+            <p class="desc">Training and onboarding</p>
+            <p class="desc">Standard report templates</p>
+            <p class="desc">30 days support</p>
+            <p class="desc">Monthly data updates</p>
+            <p class="desc">Personal use only</p>
           </div>`,
           link_title: "Get Personal License"
         },
@@ -354,17 +348,15 @@ export const useProductsStore = defineStore('products', () => {
           discount: null,
           excerpt: "Full commercial rights for businesses and teams",
           description: `<div class="variation-details">
-            <h4>What's Included:</h4>
-            <ul>
-              <li>Crunchbase platform access</li>
-              <li>Advanced data integration setup</li>
-              <li>Training and onboarding</li>
-              <li>Custom report templates</li>
-              <li>90 days priority support</li>
-              <li>Real-time data updates</li>
-              <li>Commercial usage rights</li>
-              <li>Team collaboration features</li>
-            </ul>
+            <h4 class="title">What's Included:</h4>
+            <p class="desc">Crunchbase platform access</p>
+            <p class="desc">Advanced data integration setup</p>
+            <p class="desc">Training and onboarding</p>
+            <p class="desc">Custom report templates</p>
+            <p class="desc">90 days priority support</p>
+            <p class="desc">Real-time data updates</p>
+            <p class="desc">Commercial usage rights</p>
+            <p class="desc">Team collaboration features</p>
           </div>`,
           link_title: "Get Commercial License"
         }
@@ -426,15 +418,13 @@ export const useProductsStore = defineStore('products', () => {
           discount: null,
           excerpt: "Perfect for individual users and small teams",
           description: `<div class="variation-details">
-            <h4>What's Included:</h4>
-            <ul>
-              <li>Custom Jitsi Meet instance</li>
-              <li>Basic setup and configuration</li>
-              <li>Standard security features</li>
-              <li>30 days support</li>
-              <li>Documentation</li>
-              <li>Up to 50 participants</li>
-            </ul>
+            <h4 class="title">What's Included:</h4>
+            <p class="desc">Custom Jitsi Meet instance</p>
+            <p class="desc">Basic setup and configuration</p>
+            <p class="desc">Standard security features</p>
+            <p class="desc">30 days support</p>
+            <p class="desc">Documentation</p>
+            <p class="desc">Up to 50 participants</p>
           </div>`,
           link_title: "Get Personal License"
         },
@@ -445,17 +435,15 @@ export const useProductsStore = defineStore('products', () => {
           discount: null,
           excerpt: "Full commercial rights for businesses and organizations",
           description: `<div class="variation-details">
-            <h4>What's Included:</h4>
-            <ul>
-              <li>Custom Jitsi Meet instance</li>
-              <li>Advanced setup and configuration</li>
-              <li>Custom branding</li>
-              <li>Enhanced security hardening</li>
-              <li>90 days priority support</li>
-              <li>Training and documentation</li>
-              <li>Unlimited participants</li>
-              <li>Commercial usage rights</li>
-            </ul>
+            <h4 class="title">What's Included:</h4>
+            <p class="desc">Custom Jitsi Meet instance</p>
+            <p class="desc">Advanced setup and configuration</p>
+            <p class="desc">Custom branding</p>
+            <p class="desc">Enhanced security hardening</p>
+            <p class="desc">90 days priority support</p>
+            <p class="desc">Training and documentation</p>
+            <p class="desc">Unlimited participants</p>
+            <p class="desc">Commercial usage rights</p>
           </div>`,
           link_title: "Get Commercial License"
         }
@@ -518,16 +506,14 @@ export const useProductsStore = defineStore('products', () => {
           discount: null,
           excerpt: "Perfect for individual developers and personal projects",
           description: `<div class="variation-details">
-            <h4>What's Included:</h4>
-            <ul>
-              <li>Hijri Calendar app</li>
-              <li>Installation guide</li>
-              <li>Basic customization</li>
-              <li>Documentation</li>
-              <li>30 days email support</li>
-              <li>Minor updates</li>
-              <li>Use on 1 domain only</li>
-            </ul>
+            <h4 class="title">What's Included:</h4>
+            <p class="desc">Hijri Calendar app</p>
+            <p class="desc">Installation guide</p>
+            <p class="desc">Basic customization</p>
+            <p class="desc">Documentation</p>
+            <p class="desc">30 days email support</p>
+            <p class="desc">Minor updates</p>
+            <p class="desc">Use on 1 domain only</p>
           </div>`,
           link_title: "Get Personal License"
         },
@@ -538,17 +524,15 @@ export const useProductsStore = defineStore('products', () => {
           discount: null,
           excerpt: "Full commercial rights for businesses and organizations",
           description: `<div class="variation-details">
-            <h4>What's Included:</h4>
-            <ul>
-              <li>Hijri Calendar app</li>
-              <li>Installation guide</li>
-              <li>Advanced customization</li>
-              <li>Documentation</li>
-              <li>90 days priority support</li>
-              <li>All updates included</li>
-              <li>Unlimited domains</li>
-              <li>Commercial usage rights</li>
-            </ul>
+            <h4 class="title">What's Included:</h4>
+            <p class="desc">Hijri Calendar app</p>
+            <p class="desc">Installation guide</p>
+            <p class="desc">Advanced customization</p>
+            <p class="desc">Documentation</p>
+            <p class="desc">90 days priority support</p>
+            <p class="desc">All updates included</p>
+            <p class="desc">Unlimited domains</p>
+            <p class="desc">Commercial usage rights</p>
           </div>`,
           link_title: "Get Commercial License"
         }
