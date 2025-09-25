@@ -54,17 +54,15 @@ export const useProductsStore = defineStore('products', () => {
           title: "Personal License",
           price: "350",
           discount: null,
-          excerpt: "Perfect for individual developers and small projects",
+          excerpt: "Best for Personal Use",
           description: `<div class="variation-details">
-            <h4>What's Included:</h4>
-            <ul>
-              <li>Complete theme installation</li>
-              <li>Basic customization support</li>
-              <li>Installation guide and documentation</li>
-              <li>30 days email support</li>
-              <li>Updates for 1 year</li>
-              <li>Use on 1 domain only</li>
-            </ul>
+            <h4 class="title">What's Included:</h4>
+            <p class="desc">Complete theme installation</p>
+            <p class="desc">Basic customization support</p>
+            <p class="desc">Installation guide and documentation</p>
+            <p class="desc">30 days email support</p>
+            <p class="desc">Updates for 1 year</p>
+            <p class="desc">Use on 1 domain only</p>
           </div>`,
           link_title: "Purchase Personal License"
         },
@@ -73,19 +71,13 @@ export const useProductsStore = defineStore('products', () => {
           title: "Commercial License",
           price: "700",
           discount: null,
-          excerpt: "Full commercial rights for businesses and agencies",
+          excerpt: "Best for software provider",
           description: `<div class="variation-details">
-            <h4>What's Included:</h4>
-            <ul>
-              <li>Complete theme installation</li>
-              <li>Advanced customization support</li>
-              <li>Installation guide and documentation</li>
-              <li>90 days priority support</li>
-              <li>Updates for 2 years</li>
-              <li>Unlimited domains</li>
-              <li>Commercial usage rights</li>
-              <li>White-label rights</li>
-            </ul>
+              <p class="desc">Complete theme installation</p>
+              <p class="desc">Advanced customization support</p>
+              <p>Installation guide and documentation</p>
+              <p>90 days priority support</p>
+              <p>Updates for 2 years</p>
           </div>`,
           link_title: "Purchase Commercial License"
         }
@@ -145,23 +137,44 @@ export const useProductsStore = defineStore('products', () => {
       category: "POS Systems",
       variations: [
         {
-          name: "version-15",
-          title: "POS Awesome (Version 15)",
-          price: "700",
+          name: "personal",
+          title: "Personal License",
+          price: "350",
           discount: null,
-          excerpt: "Complete POS solution for ERPNext Version 15",
+          excerpt: "Perfect for individual businesses and small outlets",
           description: `<div class="variation-details">
             <h4>What's Included:</h4>
             <ul>
               <li>Full POS Awesome installation</li>
-              <li>Configuration and setup support</li>
+              <li>Basic setup support</li>
               <li>Training materials and documentation</li>
-              <li>90 days technical support</li>
-              <li>Free updates for 1 year</li>
-              <li>Custom receipt template</li>
+              <li>30 days technical support</li>
+              <li>Updates for 1 year</li>
+              <li>Use on 1 location only</li>
             </ul>
           </div>`,
-          link_title: "Get POS Awesome"
+          link_title: "Get Personal License"
+        },
+        {
+          name: "commercial",
+          title: "Commercial License",
+          price: "700",
+          discount: null,
+          excerpt: "Full commercial rights for businesses and franchises",
+          description: `<div class="variation-details">
+            <h4>What's Included:</h4>
+            <ul>
+              <li>Full POS Awesome installation</li>
+              <li>Advanced configuration and setup support</li>
+              <li>Training materials and documentation</li>
+              <li>90 days priority technical support</li>
+              <li>Free updates for 2 years</li>
+              <li>Unlimited locations</li>
+              <li>Commercial usage rights</li>
+              <li>White-label rights</li>
+            </ul>
+          </div>`,
+          link_title: "Get Commercial License"
         }
       ],
       images: [
@@ -220,23 +233,44 @@ export const useProductsStore = defineStore('products', () => {
       category: "Payment Solutions",
       variations: [
         {
-          name: "standard",
-          title: "Payswitch Standard",
-          price: "200",
+          name: "personal",
+          title: "Personal License",
+          price: "100",
           discount: null,
-          excerpt: "Complete payment management solution",
+          excerpt: "Perfect for individual developers and small projects",
           description: `<div class="variation-details">
             <h4>What's Included:</h4>
             <ul>
               <li>Payswitch platform access</li>
-              <li>Setup and configuration</li>
+              <li>Basic setup and configuration</li>
               <li>Integration support</li>
               <li>Documentation and guides</li>
-              <li>60 days support</li>
-              <li>Transaction monitoring</li>
+              <li>30 days support</li>
+              <li>Up to 1000 transactions/month</li>
             </ul>
           </div>`,
-          link_title: "Get Payswitch"
+          link_title: "Get Personal License"
+        },
+        {
+          name: "commercial",
+          title: "Commercial License",
+          price: "200",
+          discount: null,
+          excerpt: "Full commercial rights for businesses and agencies",
+          description: `<div class="variation-details">
+            <h4>What's Included:</h4>
+            <ul>
+              <li>Payswitch platform access</li>
+              <li>Advanced setup and configuration</li>
+              <li>Priority integration support</li>
+              <li>Documentation and guides</li>
+              <li>90 days priority support</li>
+              <li>Unlimited transactions</li>
+              <li>Commercial usage rights</li>
+              <li>White-label options</li>
+            </ul>
+          </div>`,
+          link_title: "Get Commercial License"
         }
       ],
       images: [
@@ -294,23 +328,45 @@ export const useProductsStore = defineStore('products', () => {
       category: "Business Intelligence",
       variations: [
         {
-          name: "standard",
-          title: "Crunchbase Access",
-          price: "150",
+          name: "personal",
+          title: "Personal License",
+          price: "75",
           discount: null,
-          excerpt: "Complete business intelligence solution",
+          excerpt: "Perfect for individual researchers and entrepreneurs",
           description: `<div class="variation-details">
             <h4>What's Included:</h4>
             <ul>
               <li>Crunchbase platform access</li>
-              <li>Data integration setup</li>
+              <li>Basic data integration setup</li>
               <li>Training and onboarding</li>
-              <li>Custom report templates</li>
+              <li>Standard report templates</li>
               <li>30 days support</li>
               <li>Monthly data updates</li>
+              <li>Personal use only</li>
             </ul>
           </div>`,
-          link_title: "Get Crunchbase Access"
+          link_title: "Get Personal License"
+        },
+        {
+          name: "commercial",
+          title: "Commercial License",
+          price: "150",
+          discount: null,
+          excerpt: "Full commercial rights for businesses and teams",
+          description: `<div class="variation-details">
+            <h4>What's Included:</h4>
+            <ul>
+              <li>Crunchbase platform access</li>
+              <li>Advanced data integration setup</li>
+              <li>Training and onboarding</li>
+              <li>Custom report templates</li>
+              <li>90 days priority support</li>
+              <li>Real-time data updates</li>
+              <li>Commercial usage rights</li>
+              <li>Team collaboration features</li>
+            </ul>
+          </div>`,
+          link_title: "Get Commercial License"
         }
       ],
       images: [
@@ -364,23 +420,44 @@ export const useProductsStore = defineStore('products', () => {
       category: "Communication Tools",
       variations: [
         {
-          name: "enterprise",
-          title: "Jitsi Meet Enterprise",
-          price: "200",
+          name: "personal",
+          title: "Personal License",
+          price: "100",
           discount: null,
-          excerpt: "Enterprise video conferencing solution",
+          excerpt: "Perfect for individual users and small teams",
           description: `<div class="variation-details">
             <h4>What's Included:</h4>
             <ul>
               <li>Custom Jitsi Meet instance</li>
-              <li>Setup and configuration</li>
-              <li>Custom branding</li>
-              <li>Security hardening</li>
-              <li>90 days support</li>
-              <li>Training and documentation</li>
+              <li>Basic setup and configuration</li>
+              <li>Standard security features</li>
+              <li>30 days support</li>
+              <li>Documentation</li>
+              <li>Up to 50 participants</li>
             </ul>
           </div>`,
-          link_title: "Get Jitsi Meet"
+          link_title: "Get Personal License"
+        },
+        {
+          name: "commercial",
+          title: "Commercial License",
+          price: "200",
+          discount: null,
+          excerpt: "Full commercial rights for businesses and organizations",
+          description: `<div class="variation-details">
+            <h4>What's Included:</h4>
+            <ul>
+              <li>Custom Jitsi Meet instance</li>
+              <li>Advanced setup and configuration</li>
+              <li>Custom branding</li>
+              <li>Enhanced security hardening</li>
+              <li>90 days priority support</li>
+              <li>Training and documentation</li>
+              <li>Unlimited participants</li>
+              <li>Commercial usage rights</li>
+            </ul>
+          </div>`,
+          link_title: "Get Commercial License"
         }
       ],
       images: [
@@ -435,11 +512,11 @@ export const useProductsStore = defineStore('products', () => {
       category: "Utilities & Tools",
       variations: [
         {
-          name: "standard",
-          title: "Hijri Calendar Standard",
-          price: "50",
+          name: "personal",
+          title: "Personal License",
+          price: "25",
           discount: null,
-          excerpt: "Complete Hijri calendar integration",
+          excerpt: "Perfect for individual developers and personal projects",
           description: `<div class="variation-details">
             <h4>What's Included:</h4>
             <ul>
@@ -449,9 +526,31 @@ export const useProductsStore = defineStore('products', () => {
               <li>Documentation</li>
               <li>30 days email support</li>
               <li>Minor updates</li>
+              <li>Use on 1 domain only</li>
             </ul>
           </div>`,
-          link_title: "Get Hijri Calendar"
+          link_title: "Get Personal License"
+        },
+        {
+          name: "commercial",
+          title: "Commercial License",
+          price: "50",
+          discount: null,
+          excerpt: "Full commercial rights for businesses and organizations",
+          description: `<div class="variation-details">
+            <h4>What's Included:</h4>
+            <ul>
+              <li>Hijri Calendar app</li>
+              <li>Installation guide</li>
+              <li>Advanced customization</li>
+              <li>Documentation</li>
+              <li>90 days priority support</li>
+              <li>All updates included</li>
+              <li>Unlimited domains</li>
+              <li>Commercial usage rights</li>
+            </ul>
+          </div>`,
+          link_title: "Get Commercial License"
         }
       ],
       images: [

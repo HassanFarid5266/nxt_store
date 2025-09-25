@@ -120,19 +120,18 @@
               v-for="(item, index) in product.variations"
               :key="item.name"
               class="tab-item"
-              :class="{ active: index === 0 }"
-              data-nxt-toggle="tab"
-              :data-nxt-target="`#tab${item.name}`"
+              :class="{ active: activeTab === index }"
+              @click="switchTab(index)"
             >
               {{ index === 0 ? 'Personal Use' : 'Commercial Use' }}
             </button>
           </div>
           
-          <div 
-            v-for="(item, index) in product.variations" 
+          <div
+            v-for="(item, index) in product.variations"
             :key="item.name"
             class="tab-pane"
-            :class="{ active: index === 0 }"
+            :class="{ active: activeTab === index }"
             :id="`tab${item.name}`"
           >
             <div class="card card-pricing" data-aos-duration="1000" data-aos="fade-up" data-aos-once="true" data-aos-easing="ease-in-out">
@@ -167,8 +166,6 @@
         <div v-else>
           <p>No variations available for this product.</p>
         </div>
-
-        <br><br>
 
         <div v-if="product.email || product.phone || product.demo">
           <h3 class="section-title">Support</h3>
@@ -301,6 +298,7 @@ const currentImageIndex = ref(0)
 const selectedVariation = ref(null)
 const addingToCart = ref(false)
 const cartMessage = ref('')
+const activeTab = ref(0)
 
 const rotation = [0, 2, -5, 5, -2, 4, 3, -4, 0, 3]
 const transform = [20, 0, -20, 13, 0, -16, 15, 18, 10, -7, 4, 8]
@@ -393,6 +391,10 @@ const submitReview = () => {
   // TODO: Implement review submission
   console.log('Submitting review:', newReview.value)
   newReview.value = ''
+}
+
+const switchTab = (index) => {
+  activeTab.value = index
 }
 
 onMounted(async () => {

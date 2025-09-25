@@ -1,6 +1,6 @@
 .card-pricing {
   --card-m: 0 0 3rem 0;
-  --card-head-p: 2rem;
+  --card-head-p: 2rem 2rem 1rem 2rem;
   --card-body-p: 1rem 2rem;
   --card-foot-p: 2rem;
   --card-title-fs: 3.5rem;
@@ -8,10 +8,26 @@
   backdrop-filter: blur(20px);
 
   .card-head {
-
     small {
       font-size: 1rem;
       color: var(--muted);
+    }
+  }
+  .card-body {
+    .variation-details {
+      .title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+      .desc {
+        font-size: 1rem;
+        font-weight: 400;
+        margin-bottom: 0.9rem;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
     }
   }
 }
