@@ -87,6 +87,19 @@
   --btn-b: 1px solid rgba(var(--primary-rgb, 0.5));
 }
 
+.btn-outline-primary {
+  --btn-bg: transparent;
+  --btn-bg-h: var(--primary);
+  --btn-bg-f: var(--primary-focus);
+  --btn-bg-d: var(--light);
+  --btn-c: var(--primary);
+  --btn-c-h: #fff;
+  --btn-c-f: #fff;
+  --btn-c-d: var(--muted);
+  --btn-bs: var(--primary-rgb);
+  --btn-b: 1px solid rgba(var(--primary-rgb, 0.5));
+}
+
 .btn-secondary {
   --btn-bg: var(--secondary);
   --btn-bg-h: var(--secondary-hover);

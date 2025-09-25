@@ -14,6 +14,7 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'aos/dist/aos.css'
 import 'boxicons/css/boxicons.min.css'
+import "@/assets/libs/lightbox/fslightbox"
 const app = createApp(App)
 
 app.use(createPinia())

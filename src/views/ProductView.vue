@@ -146,7 +146,7 @@
                 <button
                   @click="addToCartWithVariation(item)"
                   :disabled="addingToCart"
-                  class="btn btn-primary btn-block btn-pill add-to-cart-btn"
+                  class="btn btn-outline-primary btn-block btn-pill add-to-cart-btn"
                   style="margin-bottom: 10px;"
                 >
                   <i v-if="addingToCart" class="bx bx-loader-alt bx-spin"></i>
@@ -155,7 +155,7 @@
                 </button>
 
                 <a :href="`https://wa.me/+9203083077165?text=Hello NexTash,i want to purchase ${item.title} package of ${product.name}, can we talk?`" target="_blank" class="media-desc" style="text-decoration: none;">
-                  <button class="btn btn-outline-primary btn-block btn-pill">
+                  <button class="btn btn-primary btn-block btn-pill">
                     {{ item.link_title || "Contact for Demo" }}
                   </button>
                 </a>

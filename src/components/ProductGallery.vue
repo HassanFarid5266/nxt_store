@@ -5,9 +5,9 @@
     <div class="carousel gallery" :class="{ 'has-images': images.length > 0 }" @mouseenter="stopAutoSlide"
       @mouseleave="startAutoSlide">
       <template v-if="images.length > 0">
-        <a v-for="(image, index) in images" :key="index" class="gallery-item"
-          :class="{ 'z-index': index === currentIndex }">
-          <img :src="image.image || image" :alt="image.alt || `Gallery image ${index + 1}`" class="gallery-image"
+        <a data-fslightbox="product-gallery" :href="getImageUrl(image)" v-for="(image, index) in images" :key="index" class="gallery-item"
+          :class="{ 'z-index': index === currentIndex }" @click="openLightbox">
+          <img :src="getImageUrl(image)" :alt="image.alt || `Gallery image ${index + 1}`" class="gallery-image"
             :style="getImageStyle(index)" loading="lazy" />
         </a>
 
@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
 
 const props = defineProps({
   images: {
@@ -38,6 +38,16 @@ const props = defineProps({
 const emit = defineEmits(['image-change'])
 
 const currentIndex = ref(0)
+
+// Helper function to get image URL
+const getImageUrl = (image) => {
+  return image.image || image
+}
+
+// Handle lightbox opening
+const openLightbox = (event) => {
+  // Let the default behavior happen (fslightbox will handle it)
+}
 let autoSlideInterval = null
 const isAutoSlideStopped = ref(false)
 
@@ -107,9 +117,51 @@ const stopAutoSlide = () => {
   }
 }
 
+// Initialize lightbox
+const initializeLightbox = async () => {
+  await nextTick()
+
+  if (typeof window.refreshFsLightbox === 'undefined') {
+    loadLocalFSLightbox()
+    return
+  }
+
+  window.refreshFsLightbox()
+}
+
+// Load local FSLightbox if CDN fails
+const loadLocalFSLightbox = () => {
+  if (document.querySelector('script[src*="/src/assets/libs/lightbox/fslightbox.js"]')) {
+    return
+  }
+
+  const script = document.createElement('script')
+  script.src = '/src/assets/libs/lightbox/fslightbox.js'
+  script.onload = () => {
+    setTimeout(() => {
+      if (typeof window.refreshFsLightbox === 'function') {
+        window.refreshFsLightbox()
+      }
+    }, 100)
+  }
+  document.head.appendChild(script)
+}
+
+// Watch for images changes and reinitialize lightbox
+watch(
+  () => props.images,
+  () => {
+    if (props.images.length > 0) {
+      initializeLightbox()
+    }
+  },
+  { deep: true }
+)
+
 // Lifecycle
 onMounted(() => {
   startAutoSlide()
+  initializeLightbox()
 })
 onUnmounted(() => {
   stopAutoSlide()
@@ -133,6 +185,7 @@ onUnmounted(() => {
   box-shadow: 2px 2px 10px #6a0408;
   z-index: 0;
   transition: all 0.5s ease;
+  cursor: pointer;
 }
 
 .z-index {
