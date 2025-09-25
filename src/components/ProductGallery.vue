@@ -3,7 +3,7 @@
     <h3 class="section-title">Product Gallery</h3>
 
     <div class="carousel gallery" :class="{ 'has-images': images.length > 0 }" @mouseenter="stopAutoSlide"
-      @mouseleave="() => { stopAuto.value = 0; startAutoSlide() }">
+      @mouseleave="startAutoSlide">
       <template v-if="images.length > 0">
         <a v-for="(image, index) in images" :key="index" class="gallery-item"
           :class="{ 'z-index': index === currentIndex }">
@@ -39,10 +39,10 @@ const emit = defineEmits(['image-change'])
 
 const currentIndex = ref(0)
 let autoSlideInterval = null
-let stopAuto = ref(0)
+const isAutoSlideStopped = ref(false)
 
 // Image style with rotation array for variety
-const rotations = [0, 3, -4, 6, -3, 5, -2, 4, -5, 2]
+const rotations = [-2, 3, -4, 6, -3, 5, -2, 4, -5, 2]
 const getImageStyle = (index) => {
   const rotation = rotations[index % rotations.length] || 0
   return {
@@ -60,8 +60,6 @@ const moveToNext = () => {
     currentIndex.value++
     if (currentIndex.value >= props.images.length) currentIndex.value = 0
     emit('image-change', currentIndex.value)
-
-    // class toggle manually (like your JS code)
     toggleZIndex(oldIndex, currentIndex.value)
   }
 }
@@ -86,17 +84,23 @@ const toggleZIndex = (oldIndex, newIndex) => {
 // Auto slide
 const startAutoSlide = () => {
   if (props.images.length <= 1) return
+
+  if (autoSlideInterval) {
+    clearInterval(autoSlideInterval)
+  }
+
+  isAutoSlideStopped.value = false
   autoSlideInterval = setInterval(() => {
-    if (stopAuto.value) {
+    if (isAutoSlideStopped.value) {
       clearInterval(autoSlideInterval)
       return
     }
     moveToNext()
-  }, 2000)
+  }, 1500)
 }
 
 const stopAutoSlide = () => {
-  stopAuto.value = 1
+  isAutoSlideStopped.value = true
   if (autoSlideInterval) {
     clearInterval(autoSlideInterval)
     autoSlideInterval = null
