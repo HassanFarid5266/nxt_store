@@ -40,7 +40,6 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useCartStore } from '@/stores/cart'
 
@@ -54,7 +53,4 @@ const logout = async () => {
   await authStore.logout()
 }
 
-const toggleCart = () => {
-  cartStore.toggleCart()
-}
 </script>
