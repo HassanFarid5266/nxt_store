@@ -1,4 +1,3 @@
-// Payment Methods Styling
 .payment-methods {
   margin: 2rem 0;
 
@@ -32,7 +31,7 @@
       .payment-method-selector .radio-indicator {
         background: var(--primary);
         border-color: var(--primary);
-        
+
         &::after {
           opacity: 1;
           transform: scale(1);
@@ -86,7 +85,7 @@
         transition: all 0.3s ease;
 
         &::after {
-          content: '';
+          content: "";
           position: absolute;
           top: 50%;
           left: 50%;
@@ -113,7 +112,6 @@
   }
 }
 
-// Payment Forms
 .payment-details {
   margin-top: 2rem;
 
@@ -188,34 +186,9 @@
         color: var(--muted);
       }
     }
-
-    .validation-icon {
-      position: absolute;
-      right: 1rem;
-      top: 2.5rem;
-      font-size: 1.1rem;
-      pointer-events: none;
-
-      &.bx-check-circle {
-        color: var(--success);
-      }
-
-      &.bx-error-circle {
-        color: var(--danger);
-      }
-    }
-
-    .error-message {
-      display: block;
-      color: var(--danger);
-      font-size: 0.85rem;
-      margin-top: 0.5rem;
-      font-weight: 500;
-    }
   }
 }
 
-// Card Payment Specific
 .card-payment-form {
   .card-types {
     display: flex;
@@ -240,7 +213,6 @@
   }
 }
 
-// Bank Account Form
 .bank-account-form {
   .bank-transfer-note {
     display: flex;
@@ -254,7 +226,7 @@
 
     .bank-icon {
       flex-shrink: 0;
-      
+
       i {
         font-size: 1.25rem;
         color: var(--info);
@@ -263,7 +235,7 @@
 
     .bank-text {
       flex: 1;
-      
+
       p {
         margin: 0;
         font-size: 0.9rem;
@@ -278,45 +250,6 @@
   }
 }
 
-// Wire Transfer Form
-.wire-transfer-form {
-  .wire-transfer-note {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1.25rem;
-    background: rgba(var(--warning-rgb), 0.05);
-    border: 1px solid rgba(var(--warning-rgb), 0.2);
-    border-radius: var(--rounded);
-    margin-top: 2rem;
-
-    .wire-icon {
-      flex-shrink: 0;
-      
-      i {
-        font-size: 1.25rem;
-        color: var(--warning);
-      }
-    }
-
-    .wire-text {
-      flex: 1;
-      
-      p {
-        margin: 0;
-        font-size: 0.9rem;
-        color: var(--dark);
-        line-height: 1.4;
-
-        strong {
-          color: var(--warning);
-        }
-      }
-    }
-  }
-}
-
-// Cart Items in Summary
 .cart-item {
   .media {
     display: flex;
@@ -371,7 +304,6 @@
   }
 }
 
-// Responsive adjustments
 @media (max-width: screen-size(md)) {
   .payment-methods {
     .payment-method-option {
@@ -423,4 +355,30 @@
       }
     }
   }
+}
+.validation-icon {
+  position: absolute;
+  right: 0;
+  top: 34%;
+  font-size: 1.1rem;
+  pointer-events: none;
+  padding: 13px;
+
+  &.bx-check-circle {
+    color: var(--success);
+  }
+
+  &.bx-error-circle {
+    // box-shadow: rgb(255, 0, 0) 0px 0px 0px 1.00847px inset;
+    color: var(--danger);
+    // background: var(--light);
+  }
+}
+
+.error-message {
+  display: block;
+  color: var(--danger);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
 }

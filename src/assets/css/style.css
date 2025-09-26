@@ -961,26 +961,6 @@ body {
 .payment-form .form-group .form-field::placeholder {
   color: var(--muted);
 }
-.payment-form .form-group .validation-icon {
-  position: absolute;
-  right: 1rem;
-  top: 2.5rem;
-  font-size: 1.1rem;
-  pointer-events: none;
-}
-.payment-form .form-group .validation-icon.bx-check-circle {
-  color: var(--success);
-}
-.payment-form .form-group .validation-icon.bx-error-circle {
-  color: var(--danger);
-}
-.payment-form .form-group .error-message {
-  display: block;
-  color: var(--danger);
-  font-size: 0.85rem;
-  margin-top: 0.5rem;
-  font-weight: 500;
-}
 
 .card-payment-form .card-types {
   display: flex;
@@ -1029,36 +1009,6 @@ body {
 }
 .bank-account-form .bank-transfer-note .bank-text p strong {
   color: var(--info);
-}
-
-.wire-transfer-form .wire-transfer-note {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  padding: 1.25rem;
-  background: rgba(var(--warning-rgb), 0.05);
-  border: 1px solid rgba(var(--warning-rgb), 0.2);
-  border-radius: var(--rounded);
-  margin-top: 2rem;
-}
-.wire-transfer-form .wire-transfer-note .wire-icon {
-  flex-shrink: 0;
-}
-.wire-transfer-form .wire-transfer-note .wire-icon i {
-  font-size: 1.25rem;
-  color: var(--warning);
-}
-.wire-transfer-form .wire-transfer-note .wire-text {
-  flex: 1;
-}
-.wire-transfer-form .wire-transfer-note .wire-text p {
-  margin: 0;
-  font-size: 0.9rem;
-  color: var(--dark);
-  line-height: 1.4;
-}
-.wire-transfer-form .wire-transfer-note .wire-text p strong {
-  color: var(--warning);
 }
 
 .cart-item .media {
@@ -1142,6 +1092,29 @@ body {
     height: 1.25rem;
   }
 }
+.validation-icon {
+  position: absolute;
+  right: 0;
+  top: 34%;
+  font-size: 1.1rem;
+  pointer-events: none;
+  padding: 13px;
+}
+.validation-icon.bx-check-circle {
+  color: var(--success);
+}
+.validation-icon.bx-error-circle {
+  color: var(--danger);
+}
+
+.error-message {
+  display: block;
+  color: var(--danger);
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
 .layout-profile {
   display: grid;
   grid-template-columns: 25% 65%;

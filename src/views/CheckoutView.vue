@@ -22,7 +22,7 @@
           <div class="form-cols-2">
             <div class="form-group">
               <label for="firstname" class="form-label">First Name</label>
-              <input type="text" class="form-field" :class="fieldClasses.firstname" id="firstname" name="firstname"
+              <input type="text" class="form-field" :class="fieldClasses.firstname" placeholder="Enter your first Name" id="firstname" name="firstname"
                 v-model="checkoutForm.firstname" @blur="validateField('firstname')" required />
               <span v-if="formErrors.firstname" class="error-message">{{
                 ValidationHelpers.formatErrorMessage(formErrors.firstname) }}</span>
@@ -31,7 +31,7 @@
             </div>
             <div class="form-group">
               <label for="lastname" class="form-label">Last Name</label>
-              <input type="text" class="form-field" :class="fieldClasses.lastname" id="lastname" name="lastname"
+              <input type="text" class="form-field" :class="fieldClasses.lastname" placeholder="Enter your last name" id="lastname" name="lastname"
                 v-model="checkoutForm.lastname" @blur="validateField('lastname')" required />
               <span v-if="formErrors.lastname" class="error-message">{{
                 ValidationHelpers.formatErrorMessage(formErrors.lastname) }}</span>
@@ -42,7 +42,7 @@
           <div class="form-cols-2">
             <div class="form-group">
               <label for="email" class="form-label">Email Address</label>
-              <input type="email" class="form-field" :class="fieldClasses.email" id="email" name="email"
+              <input type="email" class="form-field" :class="fieldClasses.email" placeholder="Enter your email address" id="email" name="email"
                 v-model="checkoutForm.email" @blur="validateField('email')" required />
               <span v-if="formErrors.email" class="error-message">{{
                 ValidationHelpers.formatErrorMessage(formErrors.email) }}</span>
@@ -52,7 +52,7 @@
             <div class="form-group">
               <label for="phone" class="form-label">Phone Number</label>
               <input type="text" class="form-field" :class="fieldClasses.phone" id="phone" name="phone"
-                v-model="checkoutForm.phone" @blur="validateField('phone')" placeholder="+1 (555) 123-4567" required />
+                v-model="checkoutForm.phone" @blur="validateField('phone')" placeholder="Enter your number" required />
               <span v-if="formErrors.phone" class="error-message">{{
                 ValidationHelpers.formatErrorMessage(formErrors.phone) }}</span>
               <i v-if="validationIcons.phone"
@@ -62,7 +62,7 @@
           <div class="form-cols-2">
             <div class="form-group">
               <label for="city" class="form-label">City</label>
-              <input type="text" class="form-field" :class="fieldClasses.city" id="city" name="city"
+              <input type="text" class="form-field" :class="fieldClasses.city" placeholder="Enter your city" id="city" name="city"
                 v-model="checkoutForm.city" @blur="validateField('city')" required />
               <span v-if="formErrors.city" class="error-message">{{
                 ValidationHelpers.formatErrorMessage(formErrors.city) }}</span>
@@ -70,13 +70,9 @@
             </div>
             <div class="form-group">
               <label for="country" class="form-label">Country</label>
-              <select class="form-field" :class="fieldClasses.country" id="country" name="country"
-                v-model="checkoutForm.country" @blur="validateField('country')" @change="onCountryChange" required>
-                <option value="">Select Country</option>
-                <option v-for="country in countries" :key="country.code" :value="country.code">
-                  {{ country.name }}
-                </option>
-              </select>
+
+              <input type="text" class="form-field" :class="fieldClasses.country" placeholder="Enter your country" id="city" name="city"
+                v-model="checkoutForm.country" @blur="validateField('country')" required />
               <span v-if="formErrors.country" class="error-message">{{
                 ValidationHelpers.formatErrorMessage(formErrors.country) }}</span>
               <i v-if="validationIcons.country"
@@ -115,7 +111,7 @@
               <div class="form-cols-2">
                 <div class="form-group">
                   <label for="chn" class="form-label">Card holder name</label>
-                  <input type="text" class="form-field" :class="fieldClasses.chn" id="chn" name="chn"
+                  <input type="text" class="form-field" :class="fieldClasses.chn" placeholder="Enter card holder name" id="chn" name="chn"
                     v-model="checkoutForm.chn" @blur="validateField('chn')" required />
                   <span v-if="formErrors.chn" class="error-message">{{
                     ValidationHelpers.formatErrorMessage(formErrors.chn) }}</span>
@@ -171,7 +167,7 @@
               <div class="form-cols-2">
                 <div class="form-group">
                   <label for="bankName" class="form-label">Bank Name</label>
-                  <input type="text" class="form-field" :class="fieldClasses.bankName" id="bankName" name="bankName"
+                  <input type="text" class="form-field" :class="fieldClasses.bankName" placeholder="Enter your Bank name" id="bankName" name="bankName"
                     v-model="checkoutForm.bankName" @blur="validateField('bankName')" required />
                   <span v-if="formErrors.bankName" class="error-message">{{
                     ValidationHelpers.formatErrorMessage(formErrors.bankName) }}</span>
@@ -180,7 +176,7 @@
                 </div>
                 <div class="form-group">
                   <label for="accountHolderName" class="form-label">Account Holder Name</label>
-                  <input type="text" class="form-field" :class="fieldClasses.accountHolderName" id="accountHolderName"
+                  <input type="text" class="form-field" :class="fieldClasses.accountHolderName" placeholder="Enter account holder name" id="accountHolderName"
                     name="accountHolderName" v-model="checkoutForm.accountHolderName"
                     @blur="validateField('accountHolderName')" required />
                   <span v-if="formErrors.accountHolderName" class="error-message">{{
@@ -329,19 +325,6 @@ const paymentMethods = ref([
   }
 ])
 
-const countries = ref([
-  { code: 'US', name: 'United States', zipFormat: '12345' },
-  { code: 'CA', name: 'Canada', zipFormat: 'A1A 1A1' },
-  { code: 'GB', name: 'United Kingdom', zipFormat: 'SW1A 1AA' },
-  { code: 'DE', name: 'Germany', zipFormat: '12345' },
-  { code: 'FR', name: 'France', zipFormat: '12345' },
-  { code: 'AU', name: 'Australia', zipFormat: '1234' },
-  { code: 'JP', name: 'Japan', zipFormat: '123-4567' },
-  { code: 'IN', name: 'India', zipFormat: '123456' },
-  { code: 'BR', name: 'Brazil', zipFormat: '12345-678' },
-  { code: 'CN', name: 'China', zipFormat: '123456' }
-])
-
 const detectedCardType = ref('')
 
 const subtotal = computed(() => {
@@ -387,15 +370,21 @@ const validateField = async (fieldName) => {
     country: CheckoutValidationConfig.country
   }
 
+  // Apply base rules first if this is a base field
+  if (baseConfig[fieldName]) {
+    rules = baseConfig[fieldName].slice() // clone the array
+  }
+
+  // Add payment-specific rules if applicable
   if (selectedPaymentMethod.value === 'card') {
     const cardValidation = CheckoutValidationConfig.createCardValidation()
     if (cardValidation[fieldName]) {
-      rules = cardValidation[fieldName]
+      rules = [...(rules || []), ...cardValidation[fieldName]]
     }
   } else if (selectedPaymentMethod.value === 'bank-account') {
     const bankValidation = CheckoutValidationConfig.createBankValidation(checkoutForm.country)
     if (bankValidation[fieldName]) {
-      rules = bankValidation[fieldName]
+      rules = [...(rules || []), ...bankValidation[fieldName]]
     }
   }
 
