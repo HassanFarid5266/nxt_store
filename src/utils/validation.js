@@ -1,8 +1,3 @@
-/**
- * Comprehensive Validation Utility
- * Provides robust validation rules and error handling for forms
- */
-
 export class ValidationError extends Error {
   constructor(field, message, code = null) {
     super(message)
@@ -562,9 +557,9 @@ export const ValidationHelpers = {
     if (!validator.isTouched(fieldName)) return null
     
     if (!validator.isFieldValid(fieldName)) {
-      return 'bx-error-circle'
+      return 'bx bx-error-circle'
     } else if (validator.isFieldValid(fieldName)) {
-      return 'bx-check-circle'
+      return 'bx bx-check-circle'
     }
     
     return null
