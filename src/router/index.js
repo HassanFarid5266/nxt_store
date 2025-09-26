@@ -134,10 +134,10 @@ router.beforeEach(async (to, from, next) => {
     const { useAuthStore } = await import("@/stores/auth");
     const authStore = useAuthStore();
 
-    if (!authStore.isLoggedIn) {
-      next("/login");
-      return;
-    }
+    // if (!authStore.isLoggedIn) {
+    //   next("/login");
+    //   return;
+    // }
   }
   next();
 });

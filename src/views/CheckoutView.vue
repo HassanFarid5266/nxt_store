@@ -22,124 +22,208 @@
           <div class="form-cols-2">
             <div class="form-group">
               <label for="firstname" class="form-label">First Name</label>
-              <input 
-                type="text" 
-                class="form-field" 
-                id="firstname" 
-                name="firstname"
-                v-model="checkoutForm.firstname"
-                required
-              />
+              <input type="text" class="form-field" :class="fieldClasses.firstname" id="firstname" name="firstname"
+                v-model="checkoutForm.firstname" @blur="validateField('firstname')" required />
+              <span v-if="formErrors.firstname" class="error-message">{{
+                ValidationHelpers.formatErrorMessage(formErrors.firstname) }}</span>
+              <i v-if="validationIcons.firstname"
+                :class="['validation-icon', validationIcons.firstname, fieldClasses.firstname]"></i>
             </div>
             <div class="form-group">
               <label for="lastname" class="form-label">Last Name</label>
-              <input 
-                type="text" 
-                class="form-field" 
-                id="lastname" 
-                name="lastname"
-                v-model="checkoutForm.lastname"
-                required
-              />
+              <input type="text" class="form-field" :class="fieldClasses.lastname" id="lastname" name="lastname"
+                v-model="checkoutForm.lastname" @blur="validateField('lastname')" required />
+              <span v-if="formErrors.lastname" class="error-message">{{
+                ValidationHelpers.formatErrorMessage(formErrors.lastname) }}</span>
+              <i v-if="validationIcons.lastname"
+                :class="['validation-icon', validationIcons.lastname, fieldClasses.lastname]"></i>
             </div>
           </div>
           <div class="form-cols-2">
             <div class="form-group">
               <label for="email" class="form-label">Email Address</label>
-              <input 
-                type="email" 
-                class="form-field" 
-                id="email" 
-                name="email"
-                v-model="checkoutForm.email"
-                required
-              />
+              <input type="email" class="form-field" :class="fieldClasses.email" id="email" name="email"
+                v-model="checkoutForm.email" @blur="validateField('email')" required />
+              <span v-if="formErrors.email" class="error-message">{{
+                ValidationHelpers.formatErrorMessage(formErrors.email) }}</span>
+              <i v-if="validationIcons.email"
+                :class="['validation-icon', validationIcons.email, fieldClasses.email]"></i>
             </div>
             <div class="form-group">
               <label for="phone" class="form-label">Phone Number</label>
-              <input 
-                type="text" 
-                class="form-field" 
-                id="phone" 
-                name="phone"
-                v-model="checkoutForm.phone"
-                required
-              />
+              <input type="text" class="form-field" :class="fieldClasses.phone" id="phone" name="phone"
+                v-model="checkoutForm.phone" @blur="validateField('phone')" placeholder="+1 (555) 123-4567" required />
+              <span v-if="formErrors.phone" class="error-message">{{
+                ValidationHelpers.formatErrorMessage(formErrors.phone) }}</span>
+              <i v-if="validationIcons.phone"
+                :class="['validation-icon', validationIcons.phone, fieldClasses.phone]"></i>
             </div>
           </div>
           <div class="form-cols-2">
             <div class="form-group">
-              <label for="country" class="form-label">Country</label>
-              <input 
-                type="text" 
-                class="form-field" 
-                id="country" 
-                name="country"
-                v-model="checkoutForm.country"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="state" class="form-label">State</label>
-              <input 
-                type="text" 
-                class="form-field" 
-                id="state" 
-                name="state"
-                v-model="checkoutForm.state"
-                required
-              />
-            </div>
-            <div class="form-group">
               <label for="city" class="form-label">City</label>
-              <input 
-                type="text" 
-                class="form-field" 
-                id="city" 
-                name="city"
-                v-model="checkoutForm.city"
-                required
-              />
+              <input type="text" class="form-field" :class="fieldClasses.city" id="city" name="city"
+                v-model="checkoutForm.city" @blur="validateField('city')" required />
+              <span v-if="formErrors.city" class="error-message">{{
+                ValidationHelpers.formatErrorMessage(formErrors.city) }}</span>
+              <i v-if="validationIcons.city" :class="['validation-icon', validationIcons.city, fieldClasses.city]"></i>
             </div>
             <div class="form-group">
-              <label for="postal_code" class="form-label">Postal Code</label>
-              <input 
-                type="text" 
-                class="form-field" 
-                id="zip" 
-                name="zip"
-                v-model="checkoutForm.zip"
-                required
-              />
+              <label for="country" class="form-label">Country</label>
+              <select class="form-field" :class="fieldClasses.country" id="country" name="country"
+                v-model="checkoutForm.country" @blur="validateField('country')" @change="onCountryChange" required>
+                <option value="">Select Country</option>
+                <option v-for="country in countries" :key="country.code" :value="country.code">
+                  {{ country.name }}
+                </option>
+              </select>
+              <span v-if="formErrors.country" class="error-message">{{
+                ValidationHelpers.formatErrorMessage(formErrors.country) }}</span>
+              <i v-if="validationIcons.country"
+                :class="['validation-icon', validationIcons.country, fieldClasses.country]"></i>
             </div>
-          </div>
-          <div class="form-group">
-            <label for="address_1" class="form-label">Address 1</label>
-            <input 
-              type="text" 
-              class="form-field" 
-              id="address_1" 
-              name="address_1"
-              v-model="checkoutForm.address_1"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="address_2" class="form-label">Address 2</label>
-            <input 
-              type="text" 
-              class="form-field" 
-              id="address_2" 
-              name="address_2"
-              v-model="checkoutForm.address_2"
-            />
           </div>
         </div>
         <div class="card-foot">
-          <h3 class="card-title">Card information</h3>
-          <div class="form-group">
-            <div id="card-element" class="form-field"></div><br>
-            <div id="card-errors" role="alert" style="color:red;"></div>
+          <h3 class="card-title">Payment Method</h3>
+
+          <!-- Payment Method Selection -->
+          <div class="payment-methods">
+            <div class="payment-method-grid">
+              <div v-for="method in paymentMethods" :key="method.id" class="payment-method-option"
+                :class="{ 'active': selectedPaymentMethod === method.id }" @click="selectPaymentMethod(method.id)">
+                <div class="payment-method-icon">
+                  <i :class="method.icon"></i>
+                </div>
+                <div class="payment-method-info">
+                  <h4 class="payment-method-name">{{ method.name }}</h4>
+                  <p class="payment-method-desc">{{ method.description }}</p>
+                </div>
+                <div class="payment-method-selector">
+                  <div class="radio-indicator" :class="{ 'selected': selectedPaymentMethod === method.id }"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Details Section -->
+          <div class="payment-details" v-if="selectedPaymentMethod">
+
+            <!-- Credit Card Details -->
+            <div v-if="selectedPaymentMethod === 'card'" class="payment-form card-payment-form">
+              <h4 class="payment-section-title">Card Information</h4>
+              <div class="form-cols-2">
+                <div class="form-group">
+                  <label for="chn" class="form-label">Card holder name</label>
+                  <input type="text" class="form-field" :class="fieldClasses.chn" id="chn" name="chn"
+                    v-model="checkoutForm.chn" @blur="validateField('chn')" required />
+                  <span v-if="formErrors.chn" class="error-message">{{
+                    ValidationHelpers.formatErrorMessage(formErrors.chn) }}</span>
+                  <i v-if="validationIcons.chn" :class="['validation-icon', validationIcons.chn, fieldClasses.chn]"></i>
+                </div>
+                <div class="form-group">
+                  <label for="edate" class="form-label">Expiry date</label>
+                  <input type="text" class="form-field" :class="fieldClasses.edate" id="edate" name="edate"
+                    v-model="checkoutForm.edate" @blur="validateField('edate')" @input="formatExpiryDate"
+                    placeholder="MM/YY" maxlength="5" required />
+                  <span v-if="formErrors.edate" class="error-message">{{
+                    ValidationHelpers.formatErrorMessage(formErrors.edate) }}</span>
+                  <i v-if="validationIcons.edate"
+                    :class="['validation-icon', validationIcons.edate, fieldClasses.edate]"></i>
+                </div>
+                <div class="form-group">
+                  <label for="cardnumber" class="form-label">Card number</label>
+                  <input type="text" class="form-field" :class="fieldClasses.cardnumber" id="cardnumber"
+                    name="cardnumber" v-model="checkoutForm.cardnumber" @blur="validateField('cardnumber')"
+                    @input="formatCardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required />
+                  <span v-if="formErrors.cardnumber" class="error-message">{{
+                    ValidationHelpers.formatErrorMessage(formErrors.cardnumber) }}</span>
+                  <i v-if="validationIcons.cardnumber"
+                    :class="['validation-icon', validationIcons.cardnumber, fieldClasses.cardnumber]"></i>
+                </div>
+                <div class="form-group">
+                  <label for="code" class="form-label">CVC / CVV</label>
+                  <input type="text" class="form-field" :class="fieldClasses.code" id="code" name="code"
+                    v-model="checkoutForm.code" @blur="validateField('code')" @input="formatCVC" placeholder="123"
+                    maxlength="4" required />
+                  <span v-if="formErrors.code" class="error-message">{{
+                    ValidationHelpers.formatErrorMessage(formErrors.code) }}</span>
+                  <i v-if="validationIcons.code"
+                    :class="['validation-icon', validationIcons.code, fieldClasses.code]"></i>
+                </div>
+              </div>
+              <div class="card-types">
+                <img
+                  src="@/assets/images/payment/visa.jpg"
+                  alt="Visa" class="card-type-icon">
+                <img
+                  src="@/assets/images/payment/mastercard.png"
+                  alt="Mastercard" class="card-type-icon">
+                <img
+                  src="@/assets/images/payment/amex.jpg"
+                  alt="American Express" class="card-type-icon">
+              </div>
+            </div>
+
+            <!-- Bank Account Details -->
+            <div v-if="selectedPaymentMethod === 'bank-account'" class="payment-form bank-account-form">
+              <h4 class="payment-section-title">Bank Account Information</h4>
+              <div class="form-cols-2">
+                <div class="form-group">
+                  <label for="bankName" class="form-label">Bank Name</label>
+                  <input type="text" class="form-field" :class="fieldClasses.bankName" id="bankName" name="bankName"
+                    v-model="checkoutForm.bankName" @blur="validateField('bankName')" required />
+                  <span v-if="formErrors.bankName" class="error-message">{{
+                    ValidationHelpers.formatErrorMessage(formErrors.bankName) }}</span>
+                  <i v-if="validationIcons.bankName"
+                    :class="['validation-icon', validationIcons.bankName, fieldClasses.bankName]"></i>
+                </div>
+                <div class="form-group">
+                  <label for="accountHolderName" class="form-label">Account Holder Name</label>
+                  <input type="text" class="form-field" :class="fieldClasses.accountHolderName" id="accountHolderName"
+                    name="accountHolderName" v-model="checkoutForm.accountHolderName"
+                    @blur="validateField('accountHolderName')" required />
+                  <span v-if="formErrors.accountHolderName" class="error-message">{{
+                    ValidationHelpers.formatErrorMessage(formErrors.accountHolderName) }}</span>
+                  <i v-if="validationIcons.accountHolderName"
+                    :class="['validation-icon', validationIcons.accountHolderName, fieldClasses.accountHolderName]"></i>
+                </div>
+                <div class="form-group">
+                  <label for="accountNumber" class="form-label">Account Number</label>
+                  <input type="text" class="form-field" :class="fieldClasses.accountNumber" id="accountNumber"
+                    name="accountNumber" v-model="checkoutForm.accountNumber" @blur="validateField('accountNumber')"
+                    placeholder="1234567890123456" required />
+                  <span v-if="formErrors.accountNumber" class="error-message">{{
+                    ValidationHelpers.formatErrorMessage(formErrors.accountNumber) }}</span>
+                  <i v-if="validationIcons.accountNumber"
+                    :class="['validation-icon', validationIcons.accountNumber, fieldClasses.accountNumber]"></i>
+                </div>
+                <div class="form-group">
+                  <label for="routingNumber" class="form-label">Routing Number</label>
+                  <input type="text" class="form-field" :class="fieldClasses.routingNumber" id="routingNumber"
+                    name="routingNumber" v-model="checkoutForm.routingNumber" @blur="validateField('routingNumber')"
+                    placeholder="123456789" required />
+                  <span v-if="formErrors.routingNumber" class="error-message">{{
+                    ValidationHelpers.formatErrorMessage(formErrors.routingNumber) }}</span>
+                  <i v-if="validationIcons.routingNumber"
+                    :class="['validation-icon', validationIcons.routingNumber, fieldClasses.routingNumber]"></i>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="swiftCode" class="form-label">SWIFT Code (Optional)</label>
+                <input type="text" class="form-field" id="swiftCode" name="swiftCode" v-model="checkoutForm.swiftCode"
+                  placeholder="ABCDUS33XXX" />
+              </div>
+              <div class="bank-transfer-note">
+                <div class="bank-icon">
+                  <i class="bx bx-info-circle"></i>
+                </div>
+                <div class="bank-text">
+                  <p><strong>Note:</strong> Bank transfers may take 1-3 business days to process. You will receive
+                    confirmation once payment is received.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </form>
@@ -171,13 +255,8 @@
           </h3>
         </div>
         <div class="card-foot center">
-          <button 
-            class="btn btn-primary btn-lg btn-pill" 
-            type="submit" 
-            form="checkout-form"
-            :disabled="loading || !stripeToken"
-            @click="processCheckout"
-          >
+          <button class="btn btn-primary btn-lg btn-pill" type="submit" form="checkout-form"
+            :disabled="loading || !stripeToken" @click="processCheckout">
             {{ loading ? 'Processing...' : 'Checkout' }}
           </button>
         </div>
@@ -187,10 +266,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive, computed } from 'vue'
+import { ref, onMounted, reactive, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ApiUrl, apiRequest } from '@/utils/api'
 import { showMessage } from '@/utils/message'
+import { FormValidator, CheckoutValidationConfig, ValidationHelpers } from '@/utils/validation'
 
 const router = useRouter()
 const loading = ref(false)
@@ -198,28 +278,232 @@ const stripe = ref(null)
 const cardElement = ref(null)
 const stripeToken = ref('')
 const cartItems = ref([])
+const selectedPaymentMethod = ref('card')
 
 const checkoutForm = reactive({
   firstname: '',
   lastname: '',
   email: '',
   phone: '',
-  country: '',
-  state: '',
   city: '',
-  zip: '',
-  address_1: '',
-  address_2: ''
+  country: '',
+  chn: '',
+  edate: '',
+  cardnumber: '',
+  code: '',
+  bankName: '',
+  accountHolderName: '',
+  accountNumber: '',
+  routingNumber: '',
+  swiftCode: ''
 })
+
+const validator = new FormValidator()
+const formErrors = reactive({})
+const fieldClasses = reactive({})
+const validationIcons = reactive({})
+
+// Watch for validation changes and update reactive objects
+watch(() => validator.errors, (newErrors) => {
+  Object.keys(formErrors).forEach(key => delete formErrors[key])
+  Object.assign(formErrors, Object.fromEntries(newErrors))
+}, { deep: true })
+
+watch(() => validator.touched, () => {
+  updateFieldClasses()
+  updateValidationIcons()
+}, { deep: true })
+
+const paymentMethods = ref([
+  {
+    id: 'card',
+    name: 'Credit/Debit Card',
+    description: 'Visa, Mastercard, American Express',
+    icon: 'bx bx-credit-card'
+  },
+  {
+    id: 'bank-account',
+    name: 'Bank Account',
+    description: 'Direct bank account transfer',
+    icon: 'bx bx-building'
+  }
+])
+
+const countries = ref([
+  { code: 'US', name: 'United States', zipFormat: '12345' },
+  { code: 'CA', name: 'Canada', zipFormat: 'A1A 1A1' },
+  { code: 'GB', name: 'United Kingdom', zipFormat: 'SW1A 1AA' },
+  { code: 'DE', name: 'Germany', zipFormat: '12345' },
+  { code: 'FR', name: 'France', zipFormat: '12345' },
+  { code: 'AU', name: 'Australia', zipFormat: '1234' },
+  { code: 'JP', name: 'Japan', zipFormat: '123-4567' },
+  { code: 'IN', name: 'India', zipFormat: '123456' },
+  { code: 'BR', name: 'Brazil', zipFormat: '12345-678' },
+  { code: 'CN', name: 'China', zipFormat: '123456' }
+])
+
+const detectedCardType = ref('')
 
 const subtotal = computed(() => {
   return cartItems.value.reduce((sum, item) => sum + (item.price * item.quantity), 0)
 })
 
 const total = computed(() => {
-  // Add any tax or shipping calculations here
   return subtotal.value
 })
+
+const selectPaymentMethod = (methodId) => {
+  selectedPaymentMethod.value = methodId
+  if (methodId === 'bank-account') {
+    stripeToken.value = 'bank-account-payment'
+  } else {
+    stripeToken.value = ''
+  }
+  clearValidationErrors()
+}
+
+const updateFieldClasses = () => {
+  Object.keys(checkoutForm).forEach(fieldName => {
+    fieldClasses[fieldName] = ValidationHelpers.getFieldClass(fieldName, validator)
+  })
+}
+
+const updateValidationIcons = () => {
+  Object.keys(checkoutForm).forEach(fieldName => {
+    validationIcons[fieldName] = ValidationHelpers.getValidationIcon(fieldName, validator)
+  })
+}
+
+const validateField = async (fieldName) => {
+  const value = checkoutForm[fieldName]?.trim()
+  let rules = []
+
+  const baseConfig = {
+    firstname: CheckoutValidationConfig.firstname,
+    lastname: CheckoutValidationConfig.lastname,
+    email: CheckoutValidationConfig.email,
+    phone: CheckoutValidationConfig.phone,
+    city: CheckoutValidationConfig.city,
+    country: CheckoutValidationConfig.country
+  }
+
+  if (selectedPaymentMethod.value === 'card') {
+    const cardValidation = CheckoutValidationConfig.createCardValidation()
+    if (cardValidation[fieldName]) {
+      rules = cardValidation[fieldName]
+    }
+  } else if (selectedPaymentMethod.value === 'bank-account') {
+    const bankValidation = CheckoutValidationConfig.createBankValidation(checkoutForm.country)
+    if (bankValidation[fieldName]) {
+      rules = bankValidation[fieldName]
+    }
+  }
+
+  try {
+    const result = await ValidationHelpers.debounceValidation(validator, fieldName, value, rules, 300)
+    updateFieldClasses()
+    updateValidationIcons()
+    return result
+  } catch (error) {
+    console.error('Validation error:', error)
+    return { isValid: false, error: error.message }
+  }
+}
+
+const formatCardNumber = (event) => {
+  const formatted = ValidationHelpers.formatCardNumber(event.target.value)
+  checkoutForm.cardnumber = formatted
+
+  // Update card type detection in real-time
+  const cleaned = formatted.replace(/\s/g, '')
+  if (cleaned.length >= 4) {
+    detectedCardType.value = ValidationHelpers.detectCardType(cleaned)
+  }
+}
+
+const formatExpiryDate = (event) => {
+  const formatted = ValidationHelpers.formatExpiryDate(event.target.value)
+  checkoutForm.edate = formatted
+}
+
+const formatCVC = (event) => {
+  const formatted = ValidationHelpers.formatCVC(event.target.value)
+  checkoutForm.code = formatted
+}
+
+const clearValidationErrors = () => {
+  validator.clearErrors()
+  updateFieldClasses()
+  updateValidationIcons()
+}
+
+const onCountryChange = () => {
+  // Update placeholder for ZIP code based on country
+  const zipInput = document.getElementById('zipCode')
+  if (zipInput) {
+    const country = countries.value.find(c => c.code === checkoutForm.country)
+    zipInput.placeholder = country ? country.zipFormat : 'Enter ZIP/Postal code'
+  }
+}
+
+const validateAllFields = async () => {
+  try {
+    // Build base validation configuration
+    let validationConfig = {
+      firstname: CheckoutValidationConfig.firstname,
+      lastname: CheckoutValidationConfig.lastname,
+      email: CheckoutValidationConfig.email,
+      phone: CheckoutValidationConfig.phone,
+      city: CheckoutValidationConfig.city,
+      country: CheckoutValidationConfig.country,
+    }
+
+    // Add payment method specific validations
+    if (selectedPaymentMethod.value === 'card') {
+      const cardValidation = CheckoutValidationConfig.createCardValidation()
+      validationConfig = { ...validationConfig, ...cardValidation }
+    } else if (selectedPaymentMethod.value === 'bank-account') {
+      const bankValidation = CheckoutValidationConfig.createBankValidation(checkoutForm.country)
+      validationConfig = { ...validationConfig, ...bankValidation }
+    } else if (selectedPaymentMethod.value === 'wire-transfer') {
+      const wireValidation = CheckoutValidationConfig.createWireTransferValidation()
+      validationConfig = { ...validationConfig, ...wireValidation }
+    }
+
+    // Validate all fields
+    const isValid = validator.validateAll(checkoutForm, validationConfig)
+
+    // Update UI state
+    updateFieldClasses()
+    updateValidationIcons()
+
+    if (!isValid) {
+      const errors = validator.getAllErrors()
+      const errorCount = Object.keys(errors).length
+      const firstError = Object.keys(errors)[0]
+
+      // Show validation summary message
+      showMessage(`Please fix ${errorCount} validation error${errorCount > 1 ? 's' : ''} before proceeding`, 'error')
+
+      if (firstError) {
+        // Scroll to first error field
+        setTimeout(() => {
+          const errorElement = document.getElementById(firstError)
+          if (errorElement) {
+            errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+            errorElement.focus()
+          }
+        }, 100)
+      }
+    }
+
+    return isValid
+  } catch (error) {
+    console.error('Validation error:', error)
+    showMessage('Validation error occurred. Please check your inputs.', 'error')
+    return false
+  }
+}
 
 const loadCartItems = async () => {
   try {
@@ -235,12 +519,12 @@ const initializeStripe = async () => {
     // Get Stripe settings
     const settingsResponse = await apiRequest(ApiUrl('nextash_store.events.settings.get_stripe_key'))
     const stripePublicKey = settingsResponse.message?.stripe_public_key
-    
+
     if (!stripePublicKey) {
       showMessage('Payment system not configured', 'error')
       return
     }
-    
+
     // Load Stripe
     if (window.Stripe) {
       stripe.value = window.Stripe(stripePublicKey)
@@ -261,9 +545,9 @@ const initializeStripe = async () => {
           },
         },
       })
-      
+
       cardElement.value.mount('#card-element')
-      
+
       cardElement.value.addEventListener('change', function (event) {
         const errors = document.getElementById('card-errors')
         if (event.error) {
@@ -271,7 +555,7 @@ const initializeStripe = async () => {
           stripeToken.value = ''
         } else {
           errors.textContent = ''
-          
+
           // Create token when card is complete
           if (event.complete) {
             stripe.value.createToken(cardElement.value).then(function (result) {
@@ -293,32 +577,92 @@ const initializeStripe = async () => {
 }
 
 const processCheckout = async () => {
-  if (!stripeToken.value) {
-    showMessage('Please complete your card information', 'error')
+  // Validate all form fields first
+  const isFormValid = await validateAllFields()
+  if (!isFormValid) {
     return
   }
-  
+
+  // Validate payment method selection
+  if (!selectedPaymentMethod.value) {
+    showMessage('Please select a payment method', 'error')
+    return
+  }
+
+  // Validate payment method specific requirements
+  if (selectedPaymentMethod.value === 'card') {
+    if (!stripeToken.value || stripeToken.value === 'bank-account-payment') {
+      showMessage('Please complete your card information', 'error')
+      return
+    }
+
+    // Additional card validation
+    if (!ValidationHelpers.validateCreditCard(checkoutForm.cardnumber)) {
+      showMessage('Please enter a valid credit card number', 'error')
+      return
+    }
+  }
+
   try {
     loading.value = true
-    
+
     const checkoutData = {
       ...checkoutForm,
-      token: stripeToken.value,
+      payment_method: selectedPaymentMethod.value,
+      token: selectedPaymentMethod.value === 'card' ? stripeToken.value : null,
       items: cartItems.value,
-      total: total.value
+      total: total.value,
+      currency: 'USD' // Add currency for international support
     }
-    
-    const response = await apiRequest(ApiUrl('nextash_store.events.cart.checkout'), {
-      method: 'POST',
-      body: JSON.stringify(checkoutData)
-    })
-    
-    if (response.message) {
-      showMessage('Order placed successfully!', 'success')
-      router.push('/orders')
+
+    // Handle different payment methods
+    let response
+    switch (selectedPaymentMethod.value) {
+      case 'card':
+        showMessage('Processing card payment...', 'info')
+        response = await apiRequest(ApiUrl('nextash_store.events.cart.checkout'), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(checkoutData)
+        })
+
+        if (response?.message?.success) {
+          showMessage('Payment processed successfully!', 'success')
+          setTimeout(() => {
+            router.push('/orders')
+          }, 1500)
+        } else {
+          throw new Error(response?.message?.response || 'Payment processing failed')
+        }
+        break
+
+      case 'bank-account':
+        showMessage('Processing bank transfer request...', 'info')
+        // Create order with bank transfer payment method
+        response = await apiRequest(ApiUrl('nextash_store.events.cart.checkout'), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(checkoutData)
+        })
+
+        showMessage('Order created! Bank transfer instructions sent to your email.', 'success')
+        setTimeout(() => {
+          router.push('/orders')
+        }, 2000)
+        break
+
+      default:
+        throw new Error('Invalid payment method selected')
     }
+
   } catch (error) {
-    showMessage('Error processing checkout: ' + error.message, 'error')
+    console.error('Checkout error:', error)
+    const errorMessage = error.message || 'An error occurred while processing your order'
+    showMessage('Error: ' + errorMessage, 'error')
   } finally {
     loading.value = false
   }

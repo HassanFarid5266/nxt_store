@@ -1,0 +1,426 @@
+// Payment Methods Styling
+.payment-methods {
+  margin: 2rem 0;
+
+  .payment-method-grid {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .payment-method-option {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    border: 2px solid var(--border);
+    border-radius: var(--rounded);
+    background: var(--white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+
+    &:hover {
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.1);
+    }
+
+    &.active {
+      border-color: var(--primary);
+      background: rgba(var(--primary-rgb), 0.02);
+      box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.15);
+
+      .payment-method-selector .radio-indicator {
+        background: var(--primary);
+        border-color: var(--primary);
+        
+        &::after {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+
+    .payment-method-icon {
+      flex-shrink: 0;
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(var(--primary-rgb), 0.1);
+      border-radius: 50%;
+      margin-right: 1rem;
+
+      i {
+        font-size: 1.5rem;
+        color: var(--primary);
+      }
+    }
+
+    .payment-method-info {
+      flex: 1;
+
+      .payment-method-name {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+
+      .payment-method-desc {
+        font-size: 0.9rem;
+        color: var(--muted);
+        margin: 0;
+      }
+    }
+
+    .payment-method-selector {
+      flex-shrink: 0;
+
+      .radio-indicator {
+        width: 1.25rem;
+        height: 1.25rem;
+        border: 2px solid var(--border);
+        border-radius: 50%;
+        background: var(--white);
+        position: relative;
+        transition: all 0.3s ease;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 0.5rem;
+          height: 0.5rem;
+          border-radius: 50%;
+          background: var(--white);
+          transform: translate(-50%, -50%) scale(0);
+          opacity: 0;
+          transition: all 0.3s ease;
+        }
+
+        &.selected {
+          background: var(--primary);
+          border-color: var(--primary);
+
+          &::after {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Payment Forms
+.payment-details {
+  margin-top: 2rem;
+
+  .payment-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+.payment-form {
+  .form-cols-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+
+    @media (max-width: screen-size(sm)) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+
+    .form-label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .form-field {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: var(--rounded);
+      background: var(--white);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      position: relative;
+
+      &:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+      }
+
+      &.success {
+        border-color: var(--success);
+        background: rgba(var(--success-rgb), 0.02);
+
+        &:focus {
+          border-color: var(--success);
+          box-shadow: 0 0 0 3px rgba(var(--success-rgb), 0.1);
+        }
+      }
+
+      &.error {
+        border-color: var(--danger);
+        background: rgba(var(--danger-rgb), 0.02);
+
+        &:focus {
+          border-color: var(--danger);
+          box-shadow: 0 0 0 3px rgba(var(--danger-rgb), 0.1);
+        }
+      }
+
+      &::placeholder {
+        color: var(--muted);
+      }
+    }
+
+    .validation-icon {
+      position: absolute;
+      right: 1rem;
+      top: 2.5rem;
+      font-size: 1.1rem;
+      pointer-events: none;
+
+      &.bx-check-circle {
+        color: var(--success);
+      }
+
+      &.bx-error-circle {
+        color: var(--danger);
+      }
+    }
+
+    .error-message {
+      display: block;
+      color: var(--danger);
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      font-weight: 500;
+    }
+  }
+}
+
+// Card Payment Specific
+.card-payment-form {
+  .card-types {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+
+    .card-type-icon {
+      height: 3.5rem;
+      width: auto;
+      border-radius: 0.25rem;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// Bank Account Form
+.bank-account-form {
+  .bank-transfer-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: rgba(var(--info-rgb), 0.05);
+    border: 1px solid rgba(var(--info-rgb), 0.2);
+    border-radius: var(--rounded);
+    margin-top: 2rem;
+
+    .bank-icon {
+      flex-shrink: 0;
+      
+      i {
+        font-size: 1.25rem;
+        color: var(--info);
+      }
+    }
+
+    .bank-text {
+      flex: 1;
+      
+      p {
+        margin: 0;
+        font-size: 0.9rem;
+        // color: var(--dark);
+        line-height: 1.4;
+
+        strong {
+          color: var(--info);
+        }
+      }
+    }
+  }
+}
+
+// Wire Transfer Form
+.wire-transfer-form {
+  .wire-transfer-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: rgba(var(--warning-rgb), 0.05);
+    border: 1px solid rgba(var(--warning-rgb), 0.2);
+    border-radius: var(--rounded);
+    margin-top: 2rem;
+
+    .wire-icon {
+      flex-shrink: 0;
+      
+      i {
+        font-size: 1.25rem;
+        color: var(--warning);
+      }
+    }
+
+    .wire-text {
+      flex: 1;
+      
+      p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: var(--dark);
+        line-height: 1.4;
+
+        strong {
+          color: var(--warning);
+        }
+      }
+    }
+  }
+}
+
+// Cart Items in Summary
+.cart-item {
+  .media {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .media-image {
+      flex-shrink: 0;
+      width: 4rem;
+      height: 4rem;
+      border-radius: var(--rounded);
+      overflow: hidden;
+      background: var(--light);
+
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .media-body {
+      flex: 1;
+
+      .media-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--dark);
+        margin-bottom: 0.25rem;
+        line-height: 1.3;
+      }
+
+      .media-desc {
+        font-size: 0.85rem;
+        color: var(--muted);
+        margin: 0.25rem 0;
+      }
+
+      .media-price {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--primary);
+        margin: 0;
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: screen-size(md)) {
+  .payment-methods {
+    .payment-method-option {
+      padding: 1.25rem;
+
+      .payment-method-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        margin-right: 0.75rem;
+
+        i {
+          font-size: 1.25rem;
+        }
+      }
+
+      .payment-method-info {
+        .payment-method-name {
+          font-size: 1rem;
+        }
+
+        .payment-method-desc {
+          font-size: 0.85rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: screen-size(sm)) {
+  .payment-form {
+    .form-group {
+      margin-bottom: 1.25rem;
+
+      .form-field {
+        padding: 0.65rem 0.85rem;
+        font-size: 0.95rem;
+      }
+    }
+  }
+
+  .card-payment-form {
+    .card-types {
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      gap: 0.5rem;
+
+      .card-type-icon {
+        height: 1.25rem;
+      }
+    }
+  }
+}
