@@ -334,10 +334,26 @@ export const ValidationRules = {
 
   // Enhanced country validation
   country: (value, fieldName = 'Country') => {
-    const validCountries = ['US', 'CA', 'GB', 'DE', 'FR', 'AU', 'JP', 'IN', 'BR', 'CN']
-    if (!validCountries.includes(value)) {
-      throw new ValidationError(fieldName, 'Please select a valid country')
+    const trimmedValue = value.trim()
+
+    if (trimmedValue.length < 2) {
+      throw new ValidationError(fieldName, 'Country name must be at least 2 characters long')
     }
+
+    if (trimmedValue.length > 56) { // Longest country name is 56 characters
+      throw new ValidationError(fieldName, 'Country name cannot exceed 56 characters')
+    }
+
+    // Allow letters, spaces, apostrophes, hyphens, periods, and parentheses for country names
+    if (!/^[a-zA-Z\s'\-\.\(\)]+$/.test(trimmedValue)) {
+      throw new ValidationError(fieldName, 'Country name can only contain letters, spaces, and common punctuation')
+    }
+
+    // Check for at least one letter (not just spaces and punctuation)
+    if (!/[a-zA-Z]/.test(trimmedValue)) {
+      throw new ValidationError(fieldName, 'Please enter a valid country name')
+    }
+
     return true
   }
 }

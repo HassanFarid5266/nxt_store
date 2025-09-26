@@ -151,7 +151,6 @@
       padding: 0.75rem 1rem;
       border: 2px solid var(--border);
       border-radius: var(--rounded);
-      background: var(--white);
       font-size: 1rem;
       transition: all 0.3s ease;
       position: relative;
@@ -164,7 +163,6 @@
 
       &.success {
         border-color: var(--success);
-        background: rgba(var(--success-rgb), 0.02);
 
         &:focus {
           border-color: var(--success);

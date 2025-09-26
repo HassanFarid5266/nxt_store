@@ -71,7 +71,7 @@
             <div class="form-group">
               <label for="country" class="form-label">Country</label>
 
-              <input type="text" class="form-field" :class="fieldClasses.country" placeholder="Enter your country" id="city" name="city"
+              <input type="text" class="form-field" :class="fieldClasses.country" placeholder="Enter your country" id="country" name="country"
                 v-model="checkoutForm.country" @blur="validateField('country')" required />
               <span v-if="formErrors.country" class="error-message">{{
                 ValidationHelpers.formatErrorMessage(formErrors.country) }}</span>
@@ -243,12 +243,15 @@
           </div>
         </div>
         <div class="card-body">
-          <h2 class="card-subtitle">
+          <h3 class="card-subtitle">
             <b>Sub Total</b> <b class="text-primary">${{ subtotal.toFixed(2) }}</b>
-          </h2>
-          <h3 class="card-title">
-            <b>Total</b> <b class="text-primary">${{ total.toFixed(2) }}</b>
           </h3>
+          <h3 class="card-subtitle">
+            <b>Tax (10%)</b> <b class="text-primary">${{ tax.toFixed(2) }}</b>
+          </h3>
+          <h2 class="card-title">
+            <b>Total</b> <b class="text-primary">${{ total.toFixed(2) }}</b>
+          </h2>
         </div>
         <div class="card-foot center">
           <button class="btn btn-primary btn-lg btn-pill" type="submit" form="checkout-form"
@@ -267,13 +270,14 @@ import { useRouter } from 'vue-router'
 import { ApiUrl, apiRequest } from '@/utils/api'
 import { showMessage } from '@/utils/message'
 import { FormValidator, CheckoutValidationConfig, ValidationHelpers } from '@/utils/validation'
+import { useCartStore } from '@/stores/cart'
 
 const router = useRouter()
+const cartStore = useCartStore()
 const loading = ref(false)
 const stripe = ref(null)
 const cardElement = ref(null)
 const stripeToken = ref('')
-const cartItems = ref([])
 const selectedPaymentMethod = ref('card')
 
 const checkoutForm = reactive({
@@ -327,13 +331,11 @@ const paymentMethods = ref([
 
 const detectedCardType = ref('')
 
-const subtotal = computed(() => {
-  return cartItems.value.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-})
-
-const total = computed(() => {
-  return subtotal.value
-})
+// Use cart store computed properties
+const cartItems = computed(() => cartStore.items)
+const subtotal = computed(() => cartStore.subtotal)
+const tax = computed(() => cartStore.tax)
+const total = computed(() => cartStore.total)
 
 const selectPaymentMethod = (methodId) => {
   selectedPaymentMethod.value = methodId
@@ -494,14 +496,6 @@ const validateAllFields = async () => {
   }
 }
 
-const loadCartItems = async () => {
-  try {
-    const response = await apiRequest(ApiUrl('nextash_store.events.cart.get_items'))
-    cartItems.value = response.message || []
-  } catch (error) {
-    console.error('Error loading cart items:', error)
-  }
-}
 
 const initializeStripe = async () => {
   try {
@@ -600,6 +594,8 @@ const processCheckout = async () => {
       payment_method: selectedPaymentMethod.value,
       token: selectedPaymentMethod.value === 'card' ? stripeToken.value : null,
       items: cartItems.value,
+      subtotal: subtotal.value,
+      tax: tax.value,
       total: total.value,
       currency: 'USD' // Add currency for international support
     }
@@ -658,7 +654,7 @@ const processCheckout = async () => {
 }
 
 onMounted(async () => {
-  await loadCartItems()
+  cartStore.initializeCart()
   await initializeStripe()
 })
 </script>
