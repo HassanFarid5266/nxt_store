@@ -1,62 +1,124 @@
 <template>
   <div>
     <main class="boxed">
-      <section class="card card-error">
-        <div class="card-image">
-          <svg xmlns="http://www.w3.org/2000/svg" class="image" data-name="Layer 1" viewBox="0 0 816.21532 621"
-            xmlns:xlink="http://www.w3.org/1999/xlink">
-            <path
-              d="M518.50083,268.28111h-2.97759V186.71075A47.2107,47.2107,0,0,0,468.31258,139.5H295.49464a47.2107,47.2107,0,0,0-47.21079,47.2106V634.21209a47.2107,47.2107,0,0,0,47.21065,47.21075H468.31235a47.21071,47.21071,0,0,0,47.21084-47.21057v-307.868h2.97764Z"
-              transform="translate(-191.89234 -139.5)" fill="#3f3d56" />
-            <path
-              d="M470.21737,151.7826H447.65892A16.75027,16.75027,0,0,1,432.15047,174.859H333.14532a16.75024,16.75024,0,0,1-15.50845-23.0764H296.56722A35.25642,35.25642,0,0,0,261.31077,187.039V633.88382a35.25643,35.25643,0,0,0,35.25641,35.25646H470.21737a35.25643,35.25643,0,0,0,35.25645-35.25642h0V187.039A35.2564,35.2564,0,0,0,470.21737,151.7826Z"
-              transform="translate(-191.89234 -139.5)" fill="#fff" />
-            <path d="M573.89234,681.5h-381a1,1,0,0,1,0-2h381a1,1,0,0,1,0,2Z" transform="translate(-191.89234 -139.5)"
-              fill="#cbcbcb" />
-            <circle id="baf12095-0797-4180-a98d-6422936d747a" data-name="Ellipse 44" cx="191.5" cy="261.2336"
-              r="84.4462" fill="#ff0000" />
-            <path id="b582f34e-fd02-4670-b1d8-d23f069ed737-138" data-name="Path 395"
-              d="M375.02417,432.94733a8.75832,8.75832,0,0,1-5.26905-1.75113l-.09426-.07069-19.846-15.18155a8.81941,8.81941,0,1,1,10.73182-13.99843l12.85463,9.85753L403.77751,372.174a8.81571,8.81571,0,0,1,12.36-1.63259l.00256.00192-.18852.26177.19363-.26177a8.82633,8.82633,0,0,1,1.63067,12.36249l-35.729,46.5917a8.821,8.821,0,0,1-7.01492,3.4394Z"
-              transform="translate(-191.89234 -139.5)" fill="#fff" />
-            <!-- Additional SVG paths from original -->
-          </svg>
-        </div>
+      <!-- Enhanced Success Animation -->
+      <OrderSuccessAnimation
+        :title="successTitle"
+        :subtitle="successSubtitle"
+        :order-details="orderSummary"
+      />
+
+      <section class="card card-success">
         <div class="card-body">
-          <h1 class="card-title">Order Confirmation!</h1>
+          <h1 class="card-title">
+            <i class="bx bx-check-circle" style="color: #28a745; margin-right: 8px;"></i>
+            Order {{ orderDetails?.status === 'pending' ? 'Received' : 'Confirmed' }}!
+          </h1>
           <p class="card-subtitle">
-            Thank you for your purchase! Your order has been successfully placed.
-            <template v-if="orderDetails">
-              Order #{{ orderDetails.orderId }} has been confirmed.
+            <template v-if="orderDetails?.status === 'pending'">
+              Thank you! Your order has been received and is being processed.
+              You will receive bank transfer instructions via email shortly.
             </template>
-            If you have any questions or need further assistance, please contact our customer support.
+            <template v-else>
+              Thank you for your purchase! Your order has been successfully confirmed and paid.
+            </template>
+            <template v-if="orderDetails">
+              <br><strong>Order #{{ orderDetails.orderId }}</strong> - Keep this for your records.
+            </template>
           </p>
 
           <div v-if="orderDetails" class="order-summary">
-            <div class="summary-item">
-              <strong>Order ID:</strong> {{ orderDetails.orderId }}
+            <h3 class="summary-title">Order Summary</h3>
+            <div class="summary-grid">
+              <div class="summary-item">
+                <span class="summary-label">Order ID:</span>
+                <span class="summary-value">#{{ orderDetails.orderId }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Total Amount:</span>
+                <span class="summary-value">${{ orderDetails.total }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Payment Method:</span>
+                <span class="summary-value">{{ orderDetails.paymentMethod }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Email:</span>
+                <span class="summary-value">{{ orderDetails.email }}</span>
+              </div>
+              <div class="summary-item">
+                <span class="summary-label">Status:</span>
+                <span class="summary-value">
+                  <span class="status-badge" :class="statusClass">
+                    {{ statusText }}
+                  </span>
+                </span>
+              </div>
             </div>
-            <div class="summary-item">
-              <strong>Total Amount:</strong> ${{ orderDetails.total }}
+
+            <div v-if="orderDetails.status === 'pending'" class="status-info">
+              <div class="info-icon">
+                <i class="bx bx-info-circle"></i>
+              </div>
+              <div class="info-text">
+                <strong>Next Steps:</strong>
+                <ul>
+                  <li>Check your email for bank transfer instructions</li>
+                  <li>Complete the transfer within 24 hours</li>
+                  <li>Your order will be processed once payment is received</li>
+                </ul>
+              </div>
             </div>
-            <div class="summary-item">
-              <strong>Payment Method:</strong> {{ orderDetails.paymentMethod }}
-            </div>
-            <div class="summary-item">
-              <strong>Email:</strong> {{ orderDetails.email }}
+
+            <div v-else class="status-info success">
+              <div class="info-icon">
+                <i class="bx bx-check-circle"></i>
+              </div>
+              <div class="info-text">
+                <strong>Order Processing:</strong>
+                <p>Your order is being prepared for shipment. You'll receive tracking information within 1-2 business days.</p>
+              </div>
             </div>
           </div>
         </div>
         <div class="card-foot">
+          <!-- Download Options -->
+          <div v-if="orderDetails" class="download-section">
+            <h4 class="download-title">Download Options</h4>
+            <div class="download-buttons">
+              <button
+                @click="downloadInvoice"
+                :disabled="downloadingInvoice || !orderDetails.order"
+                class="btn btn-outline-primary btn-pill"
+              >
+                <i class="bx bx-download"></i>
+                {{ downloadingInvoice ? 'Generating...' : 'Download Invoice' }}
+              </button>
+              <button
+                @click="downloadReceipt"
+                :disabled="downloadingReceipt || !orderDetails.order"
+                class="btn btn-outline-secondary btn-pill"
+              >
+                <i class="bx bx-receipt"></i>
+                {{ downloadingReceipt ? 'Generating...' : 'Download Receipt' }}
+              </button>
+            </div>
+          </div>
+
           <div class="action-buttons">
-            <router-link to="/contact-us" class="btn btn-primary btn-lg btn-pill">
-              Contact Us
+            <router-link to="/orders" class="btn btn-primary btn-lg btn-pill">
+              <i class="bx bx-list-ul"></i> View All Orders
             </router-link>
-            <router-link to="/orders" class="btn btn-outline-primary btn-lg btn-pill">
-              View Orders
+            <router-link v-if="orderDetails?.orderId" :to="`/order/${orderDetails.orderId}`" class="btn btn-outline-primary btn-lg btn-pill">
+              <i class="bx bx-show"></i> Order Details
             </router-link>
             <router-link to="/" class="btn btn-secondary btn-lg btn-pill">
-              Continue Shopping
+              <i class="bx bx-shopping-bag"></i> Continue Shopping
             </router-link>
+          </div>
+
+          <div class="help-text">
+            Need help? <router-link to="/contact" class="contact-link">Contact our support team</router-link>
           </div>
         </div>
       </section>
@@ -64,42 +126,312 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'PaymentView',
-  data() {
-    return {
-      orderDetails: null,
-      loading: true
-    }
-  },
-  async mounted() {
-    await this.loadOrderDetails()
-  },
-  methods: {
-    async loadOrderDetails() {
-      try {
-        // Get order details from query params or route
-        const orderId = this.$route.query.order_id || this.$route.query.orderId
-        const sessionId = this.$route.query.session_id
-        const paymentId = this.$route.query.payment_id
+<script setup>
+import { ref, computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useOrderStore } from '@/stores/orders'
+import { InvoiceGenerator } from '@/utils/invoice'
+import { showMessage } from '@/utils/message'
+import OrderSuccessAnimation from '@/components/OrderSuccessAnimation.vue'
 
-        if (orderId || sessionId || paymentId) {
-          // In a real app, you'd fetch order details from API
-          this.orderDetails = {
-            orderId: orderId || 'ORD-' + Date.now(),
-            total: this.$route.query.total || '99.99',
-            paymentMethod: this.$route.query.payment_method || 'Credit Card',
-            email: this.$route.query.email || 'customer@example.com'
-          }
+const route = useRoute()
+const orderStore = useOrderStore()
+
+const orderDetails = ref(null)
+const loading = ref(true)
+const downloadingInvoice = ref(false)
+const downloadingReceipt = ref(false)
+const statusClass = computed(() => {
+  if (!orderDetails.value?.status) return 'status-pending'
+  return orderDetails.value.status === 'confirmed' ? 'status-confirmed' : 'status-pending'
+})
+
+const statusText = computed(() => {
+  if (!orderDetails.value?.status) return 'Processing'
+  return orderDetails.value.status === 'confirmed' ? 'Confirmed & Paid' : 'Awaiting Payment'
+})
+
+const successTitle = computed(() => {
+  if (!orderDetails.value?.status) return 'Order Received!'
+  return orderDetails.value.status === 'confirmed' ? 'Order Confirmed!' : 'Order Received!'
+})
+
+const successSubtitle = computed(() => {
+  if (!orderDetails.value?.status) return 'Thank you for your purchase!'
+  return orderDetails.value.status === 'confirmed'
+    ? 'Your payment has been processed and your order is confirmed!'
+    : 'We\'ve received your order and will process it once payment is confirmed.'
+})
+
+const orderSummary = computed(() => {
+  if (!orderDetails.value) return null
+  return {
+    id: orderDetails.value.orderId,
+    total: orderDetails.value.total,
+    paymentMethod: orderDetails.value.paymentMethod
+  }
+})
+const loadOrderDetails = async () => {
+  try {
+    // Get order details from query params or route
+    const orderId = route.query.order_id || route.query.orderId
+    const sessionId = route.query.session_id
+    const paymentId = route.query.payment_id
+    const status = route.query.status || 'confirmed'
+
+    if (orderId || sessionId || paymentId) {
+      // Try to get order from store first
+      const existingOrder = orderStore.orders.find(o => o.id === orderId)
+
+      if (existingOrder) {
+        orderDetails.value = {
+          orderId: existingOrder.id,
+          total: existingOrder.total.toFixed(2),
+          paymentMethod: existingOrder.payment_method,
+          email: existingOrder.email,
+          status: status,
+          order: existingOrder
         }
-
-        this.loading = false
-      } catch (error) {
-        console.error('Failed to load order details:', error)
-        this.loading = false
+      } else {
+        // Create from query params
+        orderDetails.value = {
+          orderId: orderId || 'ORD-' + Date.now(),
+          total: route.query.total || '99.99',
+          paymentMethod: route.query.payment_method || 'Credit Card',
+          email: route.query.email || 'customer@example.com',
+          status: status
+        }
       }
     }
+
+    loading.value = false
+  } catch (error) {
+    console.error('Failed to load order details:', error)
+    loading.value = false
   }
 }
+
+const downloadInvoice = async () => {
+  if (!orderDetails.value?.order) {
+    showMessage('Order details not available for invoice generation', 'error')
+    return
+  }
+
+  downloadingInvoice.value = true
+  try {
+    const result = await InvoiceGenerator.downloadInvoice(
+      orderDetails.value.order,
+      orderDetails.value.order.items || []
+    )
+
+    if (result.success) {
+      showMessage(result.message, 'success')
+    } else {
+      showMessage(result.message, 'error')
+    }
+  } catch (error) {
+    showMessage('Error downloading invoice', 'error')
+  } finally {
+    downloadingInvoice.value = false
+  }
+}
+
+const downloadReceipt = async () => {
+  if (!orderDetails.value?.order) {
+    showMessage('Order details not available for receipt generation', 'error')
+    return
+  }
+
+  downloadingReceipt.value = true
+  try {
+    const result = await InvoiceGenerator.downloadReceipt(
+      orderDetails.value.order,
+      orderDetails.value.order.items || []
+    )
+
+    if (result.success) {
+      showMessage(result.message, 'success')
+    } else {
+      showMessage(result.message, 'error')
+    }
+  } catch (error) {
+    showMessage('Error downloading receipt', 'error')
+  } finally {
+    downloadingReceipt.value = false
+  }
+}
+
+onMounted(async () => {
+  orderStore.initializeStore()
+  await loadOrderDetails()
+})
 </script>
+
+<style scoped>
+.order-summary {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.summary-title {
+  margin-bottom: 1rem;
+  color: #343a40;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.summary-grid {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+}
+
+.summary-label {
+  font-weight: 500;
+  color: #6c757d;
+}
+
+.summary-value {
+  font-weight: 600;
+  color: #343a40;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-confirmed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background: #e7f3ff;
+  border: 1px solid #b8daff;
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+
+.status-info.success {
+  background: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.info-icon {
+  font-size: 1.25rem;
+  color: #0066cc;
+  margin-top: 0.125rem;
+}
+
+.status-info.success .info-icon {
+  color: #28a745;
+}
+
+.info-text {
+  flex: 1;
+}
+
+.info-text strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #343a40;
+}
+
+.info-text ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.info-text li {
+  margin-bottom: 0.25rem;
+  color: #495057;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.download-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.download-title {
+  margin: 0 0 1rem 0;
+  color: #343a40;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.download-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.download-buttons .btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.help-text {
+  text-align: center;
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.contact-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.contact-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .action-buttons .btn {
+    width: 100%;
+  }
+}
+</style>

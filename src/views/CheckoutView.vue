@@ -254,7 +254,7 @@
           </h2>
         </div>
         <div class="card-foot center">
-          <router-link to="/shop" class="btn btn-primary btn-lg btn-pill" type="submit" form="checkout-form"
+          <router-link to="/payment" class="btn btn-primary btn-lg btn-pill" type="submit" form="checkout-form"
             :disabled="loading || !stripeToken" @click="processCheckout">
             {{ loading ? 'Processing...' : 'Checkout' }}
           </router-link>
@@ -271,9 +271,11 @@ import { ApiUrl, apiRequest } from '@/utils/api'
 import { showMessage } from '@/utils/message'
 import { FormValidator, CheckoutValidationConfig, ValidationHelpers } from '@/utils/validation'
 import { useCartStore } from '@/stores/cart'
+import { useOrderStore } from '@/stores/orders'
 
 const router = useRouter()
 const cartStore = useCartStore()
+const orderStore = useOrderStore()
 const loading = ref(false)
 const stripe = ref(null)
 const cardElement = ref(null)
@@ -604,11 +606,40 @@ const processCheckout = async () => {
         // For demo purposes, simulate successful payment
         setTimeout(() => {
           showMessage('Payment processed successfully!', 'success')
+
+          // Create order in store
+          const order = orderStore.createOrder({
+            ...checkoutForm,
+            payment_method: 'card',
+            payment_id: stripeToken.value,
+            items: cartItems.value,
+            subtotal: subtotal.value,
+            tax: tax.value,
+            total: total.value
+          })
+
           // Clear cart after successful payment
           cartStore.clearCart()
-          // Navigate to orders page
+
+          // Start order progress simulation
+          orderStore.simulateOrderProgress(order.id)
+
+          // Navigate to enhanced confirmation page with order details
           setTimeout(() => {
-            router.push('/orders')
+            router.push({
+              path: '/order-completion',
+              query: {
+                order_id: order.id,
+                total: total.value.toFixed(2),
+                payment_method: 'Credit Card',
+                email: checkoutForm.email,
+                customer_name: `${checkoutForm.firstname} ${checkoutForm.lastname}`,
+                phone: checkoutForm.phone,
+                city: checkoutForm.city,
+                country: checkoutForm.country,
+                status: 'confirmed'
+              }
+            })
           }, 1000)
         }, 2000)
         break
@@ -618,11 +649,32 @@ const processCheckout = async () => {
         // For demo purposes, simulate successful bank transfer setup
         setTimeout(() => {
           showMessage('Order created! Bank transfer instructions sent to your email.', 'success')
+
+          // Create pending order in store
+          const order = orderStore.createOrder({
+            ...checkoutForm,
+            payment_method: 'bank-account',
+            items: cartItems.value,
+            subtotal: subtotal.value,
+            tax: tax.value,
+            total: total.value
+          })
+
           // Clear cart after successful order creation
           cartStore.clearCart()
-          // Navigate to orders page
+
+          // Navigate to confirmation page with order details
           setTimeout(() => {
-            router.push('/orders')
+            router.push({
+              path: '/payment',
+              query: {
+                order_id: order.id,
+                total: total.value.toFixed(2),
+                payment_method: 'Bank Transfer',
+                email: checkoutForm.email,
+                status: 'pending'
+              }
+            })
           }, 1000)
         }, 2000)
         break
@@ -642,6 +694,7 @@ const processCheckout = async () => {
 
 onMounted(async () => {
   cartStore.initializeCart()
+  orderStore.initializeStore()
   await initializeStripe()
 })
 </script>

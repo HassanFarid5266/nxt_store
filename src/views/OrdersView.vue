@@ -16,12 +16,26 @@
     <main class="boxed">
       <section class="section-meta">
         <h4 class="section-title">Orders <span class="count">({{ orders.length }})</span></h4>
-        <div class="select">
-          <label for="sort">Sort</label>
-          <select name="sort" id="sort" v-model="sortOrder" @change="sortOrders">
-            <option value="desc">Recents</option>
-            <option value="asc">Oldest</option>
-          </select>
+        <div class="filter-controls">
+          <div class="select">
+            <label for="status-filter">Filter by Status</label>
+            <select name="status-filter" id="status-filter" v-model="filterStatus">
+              <option value="all">All Orders</option>
+              <option :value="orderStore.ORDER_STATUSES.PENDING">Pending Payment</option>
+              <option :value="orderStore.ORDER_STATUSES.CONFIRMED">Confirmed</option>
+              <option :value="orderStore.ORDER_STATUSES.PROCESSING">Processing</option>
+              <option :value="orderStore.ORDER_STATUSES.SHIPPED">Shipped</option>
+              <option :value="orderStore.ORDER_STATUSES.DELIVERED">Delivered</option>
+              <option :value="orderStore.ORDER_STATUSES.CANCELLED">Cancelled</option>
+            </select>
+          </div>
+          <div class="select">
+            <label for="sort">Sort</label>
+            <select name="sort" id="sort" v-model="sortOrder" @change="sortOrders">
+              <option value="desc">Recents</option>
+              <option value="asc">Oldest</option>
+            </select>
+          </div>
         </div>
       </section>
 
@@ -65,33 +79,27 @@
               <td>${{ order.subtotal }}</td>
               <td>${{ order.total }}</td>
               <td>
-                <span 
-                  class="badge" 
-                  :class="{
-                    'badge-success': order.status === 'Completed',
-                    'badge-warning': order.status === 'Pending',
-                    'badge-danger': order.status === 'Cancelled'
-                  }"
-                >
-                  {{ order.status }}
+                <span class="badge" :class="`badge-${orderStore.getStatusColor(order.status)}`">
+                  {{ orderStore.getStatusLabel(order.status) }}
                 </span>
               </td>
-              <td>{{ formatDate(order.creation) }}</td>
+              <td>{{ formatDate(order.created_at) }}</td>
               <td>
-                <router-link 
-                  :to="`/order/${order.name}`" 
-                  class="btn btn-sm btn-primary"
-                >
-                  View
-                </router-link>
-                <button 
-                  v-if="order.status === 'Pending'"
-                  @click="cancelOrder(order.name)"
-                  class="btn btn-sm btn-danger"
-                  style="margin-left: 5px;"
-                >
-                  Cancel
-                </button>
+                <div class="order-actions">
+                  <router-link :to="`/order/${order.id}`" class="btn btn-sm btn-primary">
+                    <i class="bx bx-show"></i> View
+                  </router-link>
+                  <button
+                    v-if="order.status === orderStore.ORDER_STATUSES.PENDING || order.status === orderStore.ORDER_STATUSES.CONFIRMED"
+                    @click="cancelOrder(order.id)" class="btn btn-sm btn-danger"
+                    :disabled="order.status === orderStore.ORDER_STATUSES.SHIPPED">
+                    <i class="bx bx-x"></i> Cancel
+                  </button>
+                  <button v-if="order.tracking_number" @click="trackOrder(order.tracking_number)"
+                    class="btn btn-sm btn-outline-primary">
+                    <i class="bx bx-package"></i> Track
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -99,31 +107,19 @@
       </section>
 
       <section v-if="totalPages > 1" class="pagination-controls">
-        <button 
-          @click="previousPage" 
-          :disabled="currentPage === 1"
-          class="btn btn-primary btn-sm btn-pill"
-        >
+        <button @click="previousPage" :disabled="currentPage === 1" class="btn btn-primary btn-sm btn-pill">
           Previous
         </button>
         <span class="page-info">
           Page {{ currentPage }} of {{ totalPages }}
         </span>
-        <button 
-          @click="nextPage" 
-          :disabled="currentPage === totalPages"
-          class="btn btn-primary btn-sm btn-pill"
-        >
+        <button @click="nextPage" :disabled="currentPage === totalPages" class="btn btn-primary btn-sm btn-pill">
           Next
         </button>
       </section>
 
       <section v-if="hasMore && !loading" class="pagination">
-        <button 
-          @click="loadMoreOrders" 
-          :disabled="loadingMore"
-          class="btn btn-primary btn-sm btn-pill"
-        >
+        <button @click="loadMoreOrders" :disabled="loadingMore" class="btn btn-primary btn-sm btn-pill">
           {{ loadingMore ? 'Loading...' : 'Load more' }}
         </button>
       </section>
@@ -136,15 +132,28 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ApiUrl, apiRequest } from '@/utils/api'
 import { showMessage } from '@/utils/message'
+import { useOrderStore } from '@/stores/orders'
 
 const router = useRouter()
-const orders = ref([])
+const orderStore = useOrderStore()
 const loading = ref(false)
 const loadingMore = ref(false)
 const sortOrder = ref('desc')
 const currentPage = ref(1)
 const itemsPerPage = ref(10)
 const hasMore = ref(false)
+const filterStatus = ref('all')
+
+// Use order store
+const orders = computed(() => {
+  let filteredOrders = orderStore.orders
+
+  if (filterStatus.value !== 'all') {
+    filteredOrders = filteredOrders.filter(order => order.status === filterStatus.value)
+  }
+
+  return filteredOrders
+})
 
 const sortedOrders = computed(() => {
   return [...orders.value].sort((a, b) => {
@@ -207,24 +216,26 @@ const sortOrders = () => {
   // Orders will be re-sorted by the computed property
 }
 
-const cancelOrder = async (orderName) => {
+const cancelOrder = async (orderId) => {
   if (!confirm('Are you sure you want to cancel this order?')) {
     return
   }
 
   try {
-    const response = await apiRequest(ApiUrl('nextash_store.events.orders.cancel'), {
-      method: 'POST',
-      body: JSON.stringify({ order_name: orderName })
-    })
-
-    if (response.message) {
+    const success = orderStore.cancelOrder(orderId)
+    if (success) {
       showMessage('Order cancelled successfully', 'success')
-      await loadOrders() // Reload orders
     }
   } catch (error) {
     showMessage('Error cancelling order: ' + error.message, 'error')
   }
+}
+
+const trackOrder = (trackingNumber) => {
+  // Open tracking in new window/tab
+  const trackingUrl = `https://www.example-shipping.com/track/${trackingNumber}`
+  window.open(trackingUrl, '_blank')
+  showMessage(`Tracking order with number: ${trackingNumber}`, 'info')
 }
 
 const formatDate = (dateString) => {
@@ -250,6 +261,7 @@ const nextPage = () => {
 }
 
 onMounted(() => {
+  orderStore.initializeStore()
   loadOrders()
 })
 </script>
