@@ -124,7 +124,7 @@
             class="btn btn-primary btn-pill"
             :class="{ disabled: cartItems.length === 0 }"
           >
-            Checkout
+            Procced to Checkout
           </router-link>
         </div>
       </div>
