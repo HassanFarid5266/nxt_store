@@ -106,6 +106,10 @@ export const useOrderStore = defineStore('orders', () => {
         country: orderData.country,
         phone: orderData.phone
       },
+      // Bank transfer details (if applicable)
+      bank_name: orderData.bankName,
+      account_holder: orderData.accountHolderName,
+      account_number: orderData.accountNumber,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     }

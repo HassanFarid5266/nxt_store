@@ -60,6 +60,21 @@
                   <span class="detail-label">Payment Method</span>
                   <span class="detail-value">{{ formatPaymentMethod(order?.payment_method) }}</span>
                 </div>
+                <!-- Bank Transfer Details -->
+                <template v-if="order?.payment_method === 'bank-account'">
+                  <div class="detail-row">
+                    <span class="detail-label">Bank Name</span>
+                    <span class="detail-value">{{ order?.bank_name || 'N/A' }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Account Holder</span>
+                    <span class="detail-value">{{ order?.account_holder || 'N/A' }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Account Number</span>
+                    <span class="detail-value">{{ order?.account_number || 'N/A' }}</span>
+                  </div>
+                </template>
               </div>
             </div>
 
@@ -404,6 +419,9 @@ const loadOrderDetails = async () => {
           created_at: new Date().toISOString(),
           city: route.query.city || 'City',
           country: route.query.country || 'Country',
+          bank_name: route.query.bank_name,
+          account_holder: route.query.account_holder,
+          account_number: route.query.account_number,
           items: []
         }
       }

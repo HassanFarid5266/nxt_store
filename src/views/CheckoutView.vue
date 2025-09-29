@@ -638,15 +638,22 @@ const processCheckout = async () => {
           // Clear cart after successful order creation
           cartStore.clearCart()
 
-          // Navigate to confirmation page with order details
+          // Navigate to order completion page with order details
           setTimeout(() => {
             router.push({
-              path: '/payment',
+              path: '/order-completion',
               query: {
                 order_id: order.id,
                 total: total.value.toFixed(2),
                 payment_method: 'Bank Transfer',
                 email: checkoutForm.email,
+                customer_name: `${checkoutForm.firstname} ${checkoutForm.lastname}`,
+                phone: checkoutForm.phone,
+                city: checkoutForm.city,
+                country: checkoutForm.country,
+                bank_name: checkoutForm.bankName,
+                account_holder: checkoutForm.accountHolderName,
+                account_number: checkoutForm.accountNumber,
                 status: 'pending'
               }
             })
