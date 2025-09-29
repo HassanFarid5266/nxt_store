@@ -253,10 +253,10 @@
             <b>Total</b> <b class="text-primary">${{ total.toFixed(2) }}</b>
           </h2>
         </div>
-        <div class="card-foot center">
-          <router-link to="/payment" class="btn btn-primary btn-lg btn-pill" type="submit" form="checkout-form"
+        <div class="card-foot">
+          <router-link to="/order-completion" class="btn btn-primary btn-block btn-lg btn-pill" type="submit" form="checkout-form"
             :disabled="loading || !stripeToken" @click="processCheckout">
-            {{ loading ? 'Processing...' : 'Checkout' }}
+            {{ loading ? 'Processing...' : 'Paynow' }}
           </router-link>
         </div>
       </div>

@@ -211,43 +211,6 @@
   }
 }
 
-.bank-account-form {
-  .bank-transfer-note {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1.25rem;
-    background: rgba(var(--info-rgb), 0.05);
-    border: 1px solid rgba(var(--info-rgb), 0.2);
-    border-radius: var(--rounded);
-    margin-top: 2rem;
-
-    .bank-icon {
-      flex-shrink: 0;
-
-      i {
-        font-size: 1.25rem;
-        color: var(--info);
-      }
-    }
-
-    .bank-text {
-      flex: 1;
-
-      p {
-        margin: 0;
-        font-size: 0.9rem;
-        // color: var(--dark);
-        line-height: 1.4;
-
-        strong {
-          color: var(--info);
-        }
-      }
-    }
-  }
-}
-
 .cart-item {
   .media {
     display: flex;

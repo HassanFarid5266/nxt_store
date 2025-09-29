@@ -980,35 +980,6 @@ body {
   opacity: 1;
 }
 
-.bank-account-form .bank-transfer-note {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  padding: 1.25rem;
-  background: rgba(var(--info-rgb), 0.05);
-  border: 1px solid rgba(var(--info-rgb), 0.2);
-  border-radius: var(--rounded);
-  margin-top: 2rem;
-}
-.bank-account-form .bank-transfer-note .bank-icon {
-  flex-shrink: 0;
-}
-.bank-account-form .bank-transfer-note .bank-icon i {
-  font-size: 1.25rem;
-  color: var(--info);
-}
-.bank-account-form .bank-transfer-note .bank-text {
-  flex: 1;
-}
-.bank-account-form .bank-transfer-note .bank-text p {
-  margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-.bank-account-form .bank-transfer-note .bank-text p strong {
-  color: var(--info);
-}
-
 .cart-item .media {
   display: flex;
   align-items: center;

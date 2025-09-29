@@ -10,14 +10,9 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: "/about",
-      name: "about",
-      component: () => import("@/views/AboutView.vue"),
-    },
-    {
-      path: "/contact",
-      name: "contact",
-      component: () => import("@/views/ContactView.vue"),
+      path: "/profile",
+      name: "profile",
+      component: () => import("@/views/ProfileView.vue"),
     },
     {
       path: "/shop/:category?",
@@ -51,38 +46,27 @@ const router = createRouter({
       component: () => import("@/views/auth/SignupView.vue"),
     },
     {
-      path: "/account",
-      name: "account",
-      component: () => import("@/views/AccountView.vue"),
-      meta: { requiresAuth: true },
-    },
-    {
       path: "/orders",
       name: "orders",
       component: () => import("@/views/OrdersView.vue"),
       meta: { requiresAuth: true },
     },
-    {
-      path: "/order/:id",
-      name: "order-detail",
-      component: () => import("@/views/OrderView.vue"),
-      meta: { requiresAuth: true },
-    },
+    // {
+    //   path: "/order/:id",
+    //   name: "order-detail",
+    //   component: () => import("@/views/OrderView.vue"),
+    //   meta: { requiresAuth: true },
+    // },
     {
       path: "/order-completion",
       name: "order-completion",
       component: () => import("@/views/OrderCompletionView.vue"),
     },
-    {
-      path: "/payment",
-      name: "payment-success",
-      component: () => import("@/views/PaymentView.vue"),
-    },
-    {
-      path: "/faqs",
-      name: "faqs",
-      component: () => import("@/views/FaqsView.vue"),
-    },
+    // {
+    //   path: "/payment-success",
+    //   name: "payment-success",
+    //   component: () => import("@/views/PaymentSuccessful.vue"),
+    // },
     {
       path: "/forgot-password",
       name: "forgot-password",
@@ -93,13 +77,12 @@ const router = createRouter({
       name: "update-password",
       component: () => import("@/views/auth/UpdatePasswordView.vue"),
     },
-    {
-      path: "/downloads",
-      name: "downloads",
-      component: () => import("@/views/DownloadsView.vue"),
-      meta: { requiresAuth: true },
-    },
-    // Policy pages
+    // {
+    //   path: "/downloads",
+    //   name: "downloads",
+    //   component: () => import("@/views/DownloadsView.vue"),
+    //   meta: { requiresAuth: true },
+    // },
     {
       path: "/terms-of-use",
       name: "terms",
