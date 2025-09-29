@@ -1480,6 +1480,9 @@ body {
   --card-subtitle-m: 0 0 1.5rem 0;
   margin-bottom: 80px;
 }
+.card-cta.boxed {
+  z-index: auto !important;
+}
 
 .card-product {
   --card-bg: var(--light);

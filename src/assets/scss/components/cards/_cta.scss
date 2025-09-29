@@ -8,4 +8,7 @@
   --card-subtitle-c: var(--muted);
   --card-subtitle-m: 0 0 1.5rem 0;
   margin-bottom: 80px;
+  &.boxed {
+    z-index: auto !important;
+  }
 }

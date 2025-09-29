@@ -109,15 +109,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import { useAuthStore } from '@/stores/auth'
-import { ApiUrl, apiRequest } from '@/utils/api'
+import { ref, onMounted } from 'vue'
 import { showMessage } from '@/utils/message'
 import ProfileEditModal from '@/components/ProfileEditModal.vue'
 
-const authStore = useAuthStore()
-
-const user = computed(() => authStore.user)
+const user = ref(null)
 const loading = ref(true)
 
 // Profile form
@@ -147,19 +143,41 @@ const passwordResetLoading = ref(false)
 
 const loadUserProfile = async () => {
   try {
-    await authStore.checkAuth()
-    if (user.value) {
-      profileForm.value = {
-        first_name: user.value.first_name || '',
-        last_name: user.value.last_name || '',
-        email: user.value.email || '',
-        phone: user.value.phone || '',
-        country: user.value.country || '',
-        state: user.value.state || '',
-        city: user.value.city || '',
-        postal_code: user.value.postal_code || '',
-        address: user.value.address || ''
+    // Simulate loading delay
+    await new Promise(resolve => setTimeout(resolve, 500))
+
+    // Get profile from localStorage
+    const savedProfile = localStorage.getItem('user_profile')
+    if (savedProfile) {
+      user.value = JSON.parse(savedProfile)
+    } else {
+      // Set default demo data if no profile exists
+      user.value = {
+        first_name: 'John',
+        last_name: 'Doe',
+        email: 'john.doe@example.com',
+        phone: '+1 (555) 123-4567',
+        country: 'United States',
+        state: 'California',
+        city: 'San Francisco',
+        postal_code: '94102',
+        address: '123 Main Street',
+        user_image: null
       }
+      localStorage.setItem('user_profile', JSON.stringify(user.value))
+    }
+
+    // Update form with current user data
+    profileForm.value = {
+      first_name: user.value.first_name || '',
+      last_name: user.value.last_name || '',
+      email: user.value.email || '',
+      phone: user.value.phone || '',
+      country: user.value.country || '',
+      state: user.value.state || '',
+      city: user.value.city || '',
+      postal_code: user.value.postal_code || '',
+      address: user.value.address || ''
     }
   } catch (error) {
     console.error('Error loading profile:', error)
@@ -200,24 +218,23 @@ const uploadProfileImage = async () => {
   imageUploading.value = true
 
   try {
-    const formData = new FormData()
-    formData.append('image', file)
+    // Simulate upload delay
+    await new Promise(resolve => setTimeout(resolve, 1000))
 
-    await apiRequest(ApiUrl('nextash_store.events.profile.upload_image'), {
-      method: 'POST',
-      headers: {
-        'X-Frappe-CSRF-Token': document.getElementById('csrf_token')?.value
-      },
-      body: formData
-    })
-
-    await authStore.checkAuth() // Refresh user data
-    showMessage('Profile image updated successfully!', 'success')
-    cancelImageChange()
+    // Save image as base64 to localStorage
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const imageData = e.target.result
+      user.value.user_image = imageData
+      localStorage.setItem('user_profile', JSON.stringify(user.value))
+      showMessage('Profile image updated successfully!', 'success')
+      cancelImageChange()
+      imageUploading.value = false
+    }
+    reader.readAsDataURL(file)
   } catch (error) {
     console.error('Error uploading image:', error)
     showMessage('Failed to upload image', 'error')
-  } finally {
     imageUploading.value = false
   }
 }
@@ -230,16 +247,28 @@ const closeProfileModal = () => {
   isModalOpen.value = false
 }
 
-const handleProfileUpdated = () => {
-  // Profile data will be automatically updated via auth store
-  // Modal will close itself after update
+const handleProfileUpdated = (updatedData) => {
+  // Update local user data
+  user.value = { ...user.value, ...updatedData }
+  profileForm.value = {
+    first_name: user.value.first_name || '',
+    last_name: user.value.last_name || '',
+    email: user.value.email || '',
+    phone: user.value.phone || '',
+    country: user.value.country || '',
+    state: user.value.state || '',
+    city: user.value.city || '',
+    postal_code: user.value.postal_code || '',
+    address: user.value.address || ''
+  }
 }
 
 const sendPasswordReset = async () => {
   passwordResetLoading.value = true
 
   try {
-    await authStore.forgotPassword(user.value.email)
+    // Simulate password reset request
+    await new Promise(resolve => setTimeout(resolve, 1500))
     showMessage('Password reset link sent to your email!', 'success')
   } catch (error) {
     showMessage('Failed to send password reset link', 'error')

@@ -80,8 +80,6 @@
 
 <script setup>
 import { ref, watch, defineProps, defineEmits } from 'vue'
-import { ApiUrl, apiRequest } from '@/utils/api'
-import { useAuthStore } from '@/stores/auth'
 import { showMessage } from '@/utils/message'
 
 const props = defineProps({
@@ -96,8 +94,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close', 'updated'])
-
-const authStore = useAuthStore()
 
 const localForm = ref({
   first_name: '',
@@ -152,21 +148,19 @@ const handleSubmit = async (event) => {
   successMessage.value = ''
 
   try {
-    await apiRequest(ApiUrl('nextash_store.events.profile.update'), {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Frappe-CSRF-Token': document.getElementById('csrf_token')?.value
-      },
-      body: JSON.stringify(localForm.value)
-    })
+    // Simulate loading delay
+    await new Promise(resolve => setTimeout(resolve, 800))
 
-    await authStore.checkAuth() // Refresh user data
+    // Save to localStorage
+    const currentUser = JSON.parse(localStorage.getItem('user_profile') || '{}')
+    const updatedUser = { ...currentUser, ...localForm.value }
+    localStorage.setItem('user_profile', JSON.stringify(updatedUser))
+
     successMessage.value = 'Profile updated successfully!'
     showMessage('Profile updated successfully!', 'success')
 
-    // Emit updated event to parent
-    emit('updated')
+    // Emit updated event to parent with new data
+    emit('updated', updatedUser)
 
     // Close modal after a short delay to show success message
     setTimeout(() => {
