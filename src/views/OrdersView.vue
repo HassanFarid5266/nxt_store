@@ -86,9 +86,9 @@
               <td>{{ formatDate(order.created_at) }}</td>
               <td>
                 <div class="order-actions">
-                  <router-link :to="`/order/${order.id}`" class="btn btn-sm btn-primary">
+                  <!-- <router-link :to="`/order/${order.id}`" class="btn btn-sm btn-primary">
                     <i class="bx bx-show"></i> View
-                  </router-link>
+                  </router-link> -->
                   <button
                     v-if="order.status === orderStore.ORDER_STATUSES.PENDING || order.status === orderStore.ORDER_STATUSES.CONFIRMED"
                     @click="cancelOrder(order.id)" class="btn btn-sm btn-danger"
@@ -123,6 +123,11 @@
           {{ loadingMore ? 'Loading...' : 'Load more' }}
         </button>
       </section>
+
+      <br>
+      <br>
+      <br>
+      <br>
     </main>
   </div>
 </template>
@@ -265,3 +270,11 @@ onMounted(() => {
   loadOrders()
 })
 </script>
+
+<style>
+.order-actions, .filter-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+</style>

@@ -1406,6 +1406,10 @@ body {
 .card-form .card-desc a {
   color: var(--primary);
 }
+.card-form .alert-error {
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
 
 .card-error {
   --card-bc: transparent;
