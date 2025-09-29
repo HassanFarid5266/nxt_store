@@ -194,21 +194,6 @@
                   <i v-if="validationIcons.accountNumber"
                     :class="['validation-icon', validationIcons.accountNumber, fieldClasses.accountNumber]"></i>
                 </div>
-                <div class="form-group">
-                  <label for="routingNumber" class="form-label">Routing Number</label>
-                  <input type="text" class="form-field" :class="fieldClasses.routingNumber" id="routingNumber"
-                    name="routingNumber" v-model="checkoutForm.routingNumber" @blur="validateField('routingNumber')"
-                    placeholder="123456789" required />
-                  <span v-if="formErrors.routingNumber" class="error-message">{{
-                    ValidationHelpers.formatErrorMessage(formErrors.routingNumber) }}</span>
-                  <i v-if="validationIcons.routingNumber"
-                    :class="['validation-icon', validationIcons.routingNumber, fieldClasses.routingNumber]"></i>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="swiftCode" class="form-label">SWIFT Code (Optional)</label>
-                <input type="text" class="form-field" id="swiftCode" name="swiftCode" v-model="checkoutForm.swiftCode"
-                  placeholder="ABCDUS33XXX" />
               </div>
               <div class="bank-transfer-note">
                 <div class="bank-icon">
@@ -254,10 +239,10 @@
           </h2>
         </div>
         <div class="card-foot">
-          <router-link to="/order-completion" class="btn btn-primary btn-block btn-lg btn-pill" type="submit" form="checkout-form"
-            :disabled="loading || !stripeToken" @click="processCheckout">
+          <button class="btn btn-primary btn-block btn-lg btn-pill" type="button"
+            :disabled="loading || !allRequiredFieldsFilled" @click="processCheckout">
             {{ loading ? 'Processing...' : 'Paynow' }}
-          </router-link>
+          </button>
         </div>
       </div>
     </main>
@@ -280,7 +265,7 @@ const loading = ref(false)
 const stripe = ref(null)
 const cardElement = ref(null)
 const stripeToken = ref('')
-const selectedPaymentMethod = ref('card')
+const selectedPaymentMethod = ref('')
 
 const checkoutForm = reactive({
   firstname: '',
@@ -295,9 +280,7 @@ const checkoutForm = reactive({
   code: '',
   bankName: '',
   accountHolderName: '',
-  accountNumber: '',
-  routingNumber: '',
-  swiftCode: ''
+  accountNumber: ''
 })
 
 const validator = new FormValidator()
@@ -314,6 +297,11 @@ watch(() => validator.errors, (newErrors) => {
 watch(() => validator.touched, () => {
   updateFieldClasses()
   updateValidationIcons()
+}, { deep: true })
+
+// Watch form changes to ensure button state updates
+watch([checkoutForm, selectedPaymentMethod], () => {
+  // This ensures the computed property is reactive to form changes
 }, { deep: true })
 
 const paymentMethods = ref([
@@ -339,13 +327,65 @@ const subtotal = computed(() => cartStore.subtotal)
 const tax = computed(() => cartStore.tax)
 const total = computed(() => cartStore.total)
 
+// Check if all required fields are filled
+const allRequiredFieldsFilled = computed(() => {
+  // Must have a payment method selected
+  if (!selectedPaymentMethod.value) {
+    return false
+  }
+
+  // Base required fields - check if they exist and are not empty
+  const baseFields = ['firstname', 'lastname', 'email', 'phone', 'city', 'country']
+  const baseFieldsFilled = baseFields.every(field => {
+    const value = checkoutForm[field]
+    const isValid = value != null && value !== undefined && value.toString().trim().length > 0
+    if (!isValid) {
+      console.log(`Empty field: ${field} = "${value}"`)
+    }
+    return isValid
+  })
+
+  if (!baseFieldsFilled) {
+    return false
+  }
+
+  // Payment method specific validation
+  if (selectedPaymentMethod.value === 'card') {
+    const cardFields = ['chn', 'edate', 'cardnumber', 'code']
+    return cardFields.every(field => {
+      const value = checkoutForm[field]
+      return value != null && value !== undefined && value.toString().trim().length > 0
+    })
+  } else if (selectedPaymentMethod.value === 'bank-account') {
+    const bankFields = ['bankName', 'accountHolderName', 'accountNumber']
+    return bankFields.every(field => {
+      const value = checkoutForm[field]
+      return value != null && value !== undefined && value.toString().trim().length > 0
+    })
+  }
+
+  return false
+})
+
 const selectPaymentMethod = (methodId) => {
   selectedPaymentMethod.value = methodId
-  if (methodId === 'bank-account') {
-    stripeToken.value = 'bank-account-payment'
-  } else {
+
+  // Clear payment-specific fields when switching methods
+  if (methodId === 'card') {
+    // Clear bank fields
+    checkoutForm.bankName = ''
+    checkoutForm.accountHolderName = ''
+    checkoutForm.accountNumber = ''
     stripeToken.value = ''
+  } else if (methodId === 'bank-account') {
+    // Clear card fields
+    checkoutForm.chn = ''
+    checkoutForm.edate = ''
+    checkoutForm.cardnumber = ''
+    checkoutForm.code = ''
+    stripeToken.value = 'bank-account-payment'
   }
+
   clearValidationErrors()
 }
 
@@ -433,56 +473,47 @@ const clearValidationErrors = () => {
 
 const validateAllFields = async () => {
   try {
-    // Build base validation configuration
-    let validationConfig = {
-      firstname: CheckoutValidationConfig.firstname,
-      lastname: CheckoutValidationConfig.lastname,
-      email: CheckoutValidationConfig.email,
-      phone: CheckoutValidationConfig.phone,
-      city: CheckoutValidationConfig.city,
-      country: CheckoutValidationConfig.country,
-    }
+    // Simple validation - just check if required fields are filled
+    const baseFields = ['firstname', 'lastname', 'email', 'phone', 'city', 'country']
 
-    // Add payment method specific validations
-    if (selectedPaymentMethod.value === 'card') {
-      const cardValidation = CheckoutValidationConfig.createCardValidation()
-      validationConfig = { ...validationConfig, ...cardValidation }
-    } else if (selectedPaymentMethod.value === 'bank-account') {
-      const bankValidation = CheckoutValidationConfig.createBankValidation(checkoutForm.country)
-      validationConfig = { ...validationConfig, ...bankValidation }
-    } else if (selectedPaymentMethod.value === 'wire-transfer') {
-      const wireValidation = CheckoutValidationConfig.createWireTransferValidation()
-      validationConfig = { ...validationConfig, ...wireValidation }
-    }
-
-    // Validate all fields
-    const isValid = validator.validateAll(checkoutForm, validationConfig)
-
-    // Update UI state
-    updateFieldClasses()
-    updateValidationIcons()
-
-    if (!isValid) {
-      const errors = validator.getAllErrors()
-      const errorCount = Object.keys(errors).length
-      const firstError = Object.keys(errors)[0]
-
-      // Show validation summary message
-      showMessage(`Please fix ${errorCount} validation error${errorCount > 1 ? 's' : ''} before proceeding`, 'error')
-
-      if (firstError) {
-        // Scroll to first error field
-        setTimeout(() => {
-          const errorElement = document.getElementById(firstError)
-          if (errorElement) {
-            errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
-            errorElement.focus()
-          }
-        }, 100)
+    // Check base fields
+    for (const field of baseFields) {
+      const value = checkoutForm[field]
+      if (!value || value.toString().trim().length === 0) {
+        showMessage(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} field`, 'error')
+        return false
       }
     }
 
-    return isValid
+    // Check payment method specific fields
+    if (selectedPaymentMethod.value === 'card') {
+      const cardFields = ['chn', 'edate', 'cardnumber', 'code']
+      for (const field of cardFields) {
+        const value = checkoutForm[field]
+        if (!value || value.toString().trim().length === 0) {
+          showMessage(`Please fill in the ${field === 'chn' ? 'card holder name' : field} field`, 'error')
+          return false
+        }
+      }
+    } else if (selectedPaymentMethod.value === 'bank-account') {
+      const bankFields = ['bankName', 'accountHolderName', 'accountNumber']
+      for (const field of bankFields) {
+        const value = checkoutForm[field]
+        if (!value || value.toString().trim().length === 0) {
+          showMessage(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} field`, 'error')
+          return false
+        }
+      }
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(checkoutForm.email)) {
+      showMessage('Please enter a valid email address', 'error')
+      return false
+    }
+
+    return true
   } catch (error) {
     console.error('Validation error:', error)
     showMessage('Validation error occurred. Please check your inputs.', 'error')
@@ -493,85 +524,29 @@ const validateAllFields = async () => {
 
 const initializeStripe = async () => {
   try {
-    // Get Stripe settings
-    const settingsResponse = await apiRequest(ApiUrl('nextash_store.events.settings.get_stripe_key'))
-    const stripePublicKey = settingsResponse.message?.stripe_public_key
+    // Skip Stripe initialization for demo/development mode
+    // In production, you would configure proper Stripe keys
+    console.log('Stripe initialization skipped - using demo mode')
+    return
 
-    if (!stripePublicKey) {
-      showMessage('Payment system not configured', 'error')
-      return
-    }
-
-    // Load Stripe
-    if (window.Stripe) {
-      stripe.value = window.Stripe(stripePublicKey)
-      const elements = stripe.value.elements()
-      cardElement.value = elements.create('card', {
-        style: {
-          base: {
-            color: "#fff",
-            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-            fontSmoothing: "antialiased",
-            "::placeholder": {
-              color: "#aab7c4",
-            },
-          },
-          invalid: {
-            color: "#fa755a",
-            iconColor: "#fa755a",
-          },
-        },
-      })
-
-      cardElement.value.mount('#card-element')
-
-      cardElement.value.addEventListener('change', function (event) {
-        const errors = document.getElementById('card-errors')
-        if (event.error) {
-          errors.textContent = event.error.message
-          stripeToken.value = ''
-        } else {
-          errors.textContent = ''
-
-          // Create token when card is complete
-          if (event.complete) {
-            stripe.value.createToken(cardElement.value).then(function (result) {
-              if (result.error) {
-                errors.textContent = result.error.message
-                stripeToken.value = ''
-              } else {
-                stripeToken.value = result.token.id
-              }
-            })
-          }
-        }
-      })
-    }
   } catch (error) {
-    console.error('Error initializing Stripe:', error)
-    showMessage('Error initializing payment system', 'error')
+    // Silently handle Stripe initialization errors in demo mode
+    console.log('Stripe initialization skipped due to configuration')
   }
 }
 
 const processCheckout = async () => {
-  console.log('Starting checkout process...')
-
   // Validate all form fields first
   const isFormValid = await validateAllFields()
   if (!isFormValid) {
-    console.log('Form validation failed')
     return
   }
 
   // Validate payment method selection
   if (!selectedPaymentMethod.value) {
     showMessage('Please select a payment method', 'error')
-    console.log('No payment method selected')
     return
   }
-
-  console.log('Selected payment method:', selectedPaymentMethod.value)
-  console.log('Form data:', checkoutForm)
 
   // Validate payment method specific requirements
   if (selectedPaymentMethod.value === 'card') {

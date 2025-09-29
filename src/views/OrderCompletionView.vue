@@ -173,7 +173,7 @@
             </div>
           </button>
 
-          <button @click="contactSupport" class="action-btn support">
+          <a href="https://nextash.com/contact-us" target="_blank" class="action-btn support">
             <div class="action-icon">
               <i class="bx bx-support"></i>
             </div>
@@ -181,7 +181,7 @@
               <h4 class="action-title">Contact Support</h4>
               <p class="action-desc">Get help with your order</p>
             </div>
-          </button>
+          </a>
 
           <button @click="shareOrder" class="action-btn share">
             <div class="action-icon">
@@ -231,20 +231,15 @@
           <i class="bx bx-list-ul"></i>
           <span>View All Orders</span>
         </router-link>
-        <router-link v-if="order?.id" :to="`/order/${order.id}`" class="nav-btn secondary">
+        <router-link v-if="order?.id" :to="`/product/${product.id}`" class="nav-btn secondary">
           <i class="bx bx-show"></i>
-          <span>Order Details</span>
+          <span>Product Details</span>
         </router-link>
         <router-link to="/shop" class="nav-btn outline">
           <i class="bx bx-shopping-bag"></i>
           <span>Continue Shopping</span>
         </router-link>
       </div>
-    </section>
-
-    <!-- Product Recommendations -->
-    <section class="recommendations-section boxed">
-      <PostPurchaseRecommendations :purchased-items="order?.items || []" :customer-data="customerData" />
     </section>
   </div>
 </template>
@@ -492,13 +487,6 @@ const trackOrder = () => {
   if (order.value?.id) {
     router.push(`/order/${order.value.id}`)
   }
-}
-
-const contactSupport = () => {
-  showMessage('Redirecting to support chat...', 'info')
-  setTimeout(() => {
-    router.push('/contact')
-  }, 1000)
 }
 
 const shareOrder = async () => {
@@ -862,6 +850,7 @@ onMounted(async () => {
   transition: all 0.3s ease;
   text-align: left;
   color: var(--text);
+  text-decoration: none;
 }
 
 .action-btn:hover {
