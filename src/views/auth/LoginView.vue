@@ -78,9 +78,13 @@ const handleLogin = async () => {
   errorMessage.value = ''
 
   try {
-    await authStore.login(form.value.email, form.value.password)
-    showMessage('Login successful!', 'success')
-    router.push('/')
+    const result = await authStore.login(form.value)
+    if (result.success) {
+      showMessage('Login successful!', 'success')
+      router.push('/')
+    } else {
+      errorMessage.value = result.error || 'Login failed. Please try again.'
+    }
   } catch (error) {
     errorMessage.value = error.message || 'Login failed. Please try again.'
   } finally {

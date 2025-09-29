@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { toast } from '@/utils/toast'
 import { showMessage } from '@/utils/message'
+import { mockApi } from '@/utils/mockApi'
 
 export const useOrderStore = defineStore('orders', () => {
   const orders = ref([])
@@ -276,6 +277,70 @@ export const useOrderStore = defineStore('orders', () => {
     }
   }
 
+  // API methods using mock API
+  const fetchOrders = async () => {
+    loading.value = true
+    try {
+      const response = await mockApi.orders.getAll()
+      if (response.success) {
+        orders.value = response.data
+        saveOrdersToStorage()
+      }
+      return response
+    } catch (error) {
+      console.error('Error fetching orders:', error)
+      // Fallback to local storage if API fails
+      loadOrdersFromStorage()
+      return { success: false, error: error.message }
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const submitOrder = async (orderData) => {
+    loading.value = true
+    try {
+      const response = await mockApi.orders.create(orderData)
+      if (response.success) {
+        const newOrder = response.data
+        orders.value.unshift(newOrder)
+        saveOrdersToStorage()
+
+        // Add notification
+        addNotification({
+          type: 'order_created',
+          title: 'Order Created',
+          message: `Order #${newOrder.id} has been created successfully`,
+          orderId: newOrder.id,
+          timestamp: new Date().toISOString()
+        })
+
+        toast.showSuccess('Order Created', `Order #${newOrder.id} has been placed successfully`)
+        return { success: true, order: newOrder }
+      }
+      return response
+    } catch (error) {
+      console.error('Error creating order:', error)
+      toast.showError('Order Failed', error.message)
+      return { success: false, error: error.message }
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const trackOrder = async (trackingNumber) => {
+    loading.value = true
+    try {
+      const response = await mockApi.orders.track(trackingNumber)
+      return response
+    } catch (error) {
+      console.error('Error tracking order:', error)
+      return { success: false, error: error.message }
+    } finally {
+      loading.value = false
+    }
+  }
+
   // Initialize store
   const initializeStore = () => {
     loadOrdersFromStorage()
@@ -310,34 +375,39 @@ export const useOrderStore = defineStore('orders', () => {
     currentOrder,
     loading,
     notifications,
-    
+
     // Constants
     ORDER_STATUSES,
     STATUS_LABELS,
     STATUS_COLORS,
-    
+
     // Computed
     pendingOrders,
     activeOrders,
     completedOrders,
     recentOrders,
     unreadNotificationsCount,
-    
+
     // Order management
     createOrder,
     updateOrderStatus,
     cancelOrder,
     trackOrderStatus,
-    
+
+    // API methods
+    fetchOrders,
+    submitOrder,
+    trackOrder,
+
     // Helpers
     getStatusLabel,
     getStatusColor,
-    
+
     // Notifications
     addNotification,
     markNotificationAsRead,
     markAllNotificationsAsRead,
-    
+
     // Demo functions
     simulateOrderProgress,
     initializeStore

@@ -12,4 +12,9 @@
     --card-body-p: 0rem 1.5rem;
     --card-foot-p: 1.5rem;
   }
+  .card-desc {
+    a {
+      color: var(--primary);
+    }
+  }
 }

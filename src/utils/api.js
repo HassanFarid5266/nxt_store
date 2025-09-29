@@ -38,11 +38,15 @@ export function hasProperty(obj, property, other) {
   return obj.hasOwnProperty(property) ? obj[property] : other;
 }
 
-// API request helper
+// Enhanced API request helper with mock API fallback
 export async function apiRequest(url, options = {}) {
+  // Import here to avoid circular dependencies
+  const { mockApiRequest } = await import('./mockApi.js')
+  const { handleApiError } = await import('./errorHandler.js')
+
   // Validate URL
   if (!url || typeof url !== 'string') {
-    throw new Error('Invalid URL provided to apiRequest');
+    throw new Error('Invalid URL provided to apiRequest')
   }
 
   const defaultOptions = {
@@ -50,7 +54,7 @@ export async function apiRequest(url, options = {}) {
       'Content-Type': 'application/json',
       'X-Frappe-CSRF-Token': csrf_token(),
     },
-  };
+  }
 
   const finalOptions = {
     ...defaultOptions,
@@ -59,42 +63,44 @@ export async function apiRequest(url, options = {}) {
       ...defaultOptions.headers,
       ...options.headers,
     },
-  };
+  }
 
   try {
-    const response = await fetch(url, finalOptions);
+    // Try real API first
+    const response = await fetch(url, finalOptions)
 
     // Handle response based on content type
-    const contentType = response.headers.get('content-type');
-    let data = null;
+    const contentType = response.headers.get('content-type')
+    let data = null
 
     if (contentType && contentType.includes('application/json')) {
-      // Try to parse JSON
       try {
-        data = await response.json();
+        data = await response.json()
       } catch (jsonError) {
-        // Fallback to text if JSON parsing fails
-        const text = await response.text();
-        data = { message: text || 'Empty response' };
+        const text = await response.text()
+        data = { message: text || 'Empty response' }
       }
     } else {
-      // Non-JSON response
-      const text = await response.text();
-      data = { message: text || 'Empty response' };
+      const text = await response.text()
+      data = { message: text || 'Empty response' }
     }
 
     if (!response.ok) {
-      throw new Error(data?.message || `HTTP ${response.status}: ${response.statusText}`);
+      throw new Error(data?.message || `HTTP ${response.status}: ${response.statusText}`)
     }
 
-    return data;
+    return data
   } catch (error) {
-    // Better error logging
-    console.error('API request failed:', {
-      url,
-      error: error.message,
-      options: finalOptions
-    });
-    throw error;
+    // Log the original error
+    console.warn('Real API failed, attempting mock API fallback:', error.message)
+
+    try {
+      // Try mock API as fallback
+      return await mockApiRequest(url, finalOptions)
+    } catch (mockError) {
+      // Handle error gracefully
+      const handledError = handleApiError(mockError, `API request to ${url}`)
+      throw new Error(handledError.message)
+    }
   }
 }
