@@ -14,26 +14,16 @@
     <!-- Main Content -->
     <main class="layout-profile boxed">
       <div v-if="loading" class="loading">Loading profile...</div>
-      
+
       <template v-else>
         <!-- Profile Avatar Section -->
         <section>
           <form @submit.prevent="uploadProfileImage" class="profile-image-form" enctype="multipart/form-data">
             <div class="profile-avatar">
-              <img 
-                :src="profileImagePreview || user?.user_image || '@/assets/images/man.png'" 
-                class="image" 
-                :alt="`${user?.first_name || ''} ${user?.last_name || ''}`"
-              />
+              <img :src="profileImagePreview || user?.user_image || '@/assets/images/man.png'" class="image"
+                :alt="`${user?.first_name || ''} ${user?.last_name || ''}`" />
               <label for="image" class="btn btn-light btn-circle btn-circle-lg bx bx-camera">
-                <input 
-                  type="file" 
-                  id="image" 
-                  ref="imageInput"
-                  @change="handleImageChange" 
-                  accept="image/*"
-                  hidden 
-                />
+                <input type="file" id="image" ref="imageInput" @change="handleImageChange" accept="image/*" hidden />
               </label>
             </div>
             <div v-if="showImageButtons" class="center profile-change-btns">
@@ -47,128 +37,67 @@
           </form>
         </section>
 
-        <!-- General Information Section -->
+        <!-- Profile Information Display Section -->
         <section>
-          <form @submit.prevent="updateProfile" class="card">
+          <div class="card">
             <div class="card-head">
-              <h3 class="card-title">General information</h3>
+              <h3 class="card-title">Profile Information</h3>
             </div>
             <div class="card-body">
-              <div v-if="profileErrorMessage" class="alert alert-error">
-                {{ profileErrorMessage }}
-              </div>
-              <div v-if="profileSuccessMessage" class="alert alert-success">
-                {{ profileSuccessMessage }}
-              </div>
-              
-              <div class="form-cols-2">
-                <div class="form-group">
-                  <label for="first_name" class="form-label">First Name</label>
-                  <input 
-                    type="text" 
-                    class="form-field" 
-                    id="first_name" 
-                    v-model="profileForm.first_name"
-                    required
-                  />
+              <div class="profile-info-grid">
+                <div class="profile-info-item">
+                  <label class="form-label">Name</label>
+                  <span class="form-field">{{ user?.first_name }} {{ user?.last_name }}</span>
                 </div>
-                <div class="form-group">
-                  <label for="last_name" class="form-label">Last Name</label>
-                  <input 
-                    type="text" 
-                    class="form-field" 
-                    id="last_name" 
-                    v-model="profileForm.last_name"
-                    required
-                  />
+                <div class="profile-info-item">
+                  <label class="form-label">Email</label>
+                  <span class="form-field">{{ user?.email || 'Not provided' }}</span>
                 </div>
-              </div>
-              <div class="form-cols-2">
-                <div class="form-group">
-                  <label for="email" class="form-label">Email Address</label>
-                  <input 
-                    type="email" 
-                    class="form-field" 
-                    id="email" 
-                    v-model="profileForm.email"
-                    required
-                  />
+                <div class="profile-info-item">
+                  <label class="form-label">Phone</label>
+                  <span class="form-field">{{ user?.phone || 'Not provided' }}</span>
                 </div>
-                <div class="form-group">
-                  <label for="phone" class="form-label">Phone Number</label>
-                  <input 
-                    type="tel" 
-                    class="form-field" 
-                    id="phone" 
-                    v-model="profileForm.phone"
-                  />
+                <div class="profile-info-item">
+                  <label class="form-label">Country</label>
+                  <span class="form-field">{{ user?.country || 'Not provided' }}</span>
                 </div>
-              </div>
-              <div class="form-cols-2">
-                <div class="form-group">
-                  <label for="country" class="form-label">Country</label>
-                  <input 
-                    type="text" 
-                    class="form-field" 
-                    id="country" 
-                    v-model="profileForm.country"
-                  />
+                <div class="profile-info-item">
+                  <label class="form-label">State</label>
+                  <span class="form-field">{{ user?.state || 'Not provided' }}</span>
                 </div>
-                <div class="form-group">
-                  <label for="state" class="form-label">State</label>
-                  <input 
-                    type="text" 
-                    class="form-field" 
-                    id="state" 
-                    v-model="profileForm.state"
-                  />
+                <div class="profile-info-item">
+                  <label class="form-label">City</label>
+                  <span class="form-field">{{ user?.city || 'Not provided' }}</span>
                 </div>
-                <div class="form-group">
-                  <label for="city" class="form-label">City</label>
-                  <input 
-                    type="text" 
-                    class="form-field" 
-                    id="city" 
-                    v-model="profileForm.city"
-                  />
+                <div class="profile-info-item">
+                  <label class="form-label">Postal Code</label>
+                  <span class="form-field">{{ user?.postal_code || 'Not provided' }}</span>
                 </div>
-                <div class="form-group">
-                  <label for="postal_code" class="form-label">Postal Code</label>
-                  <input 
-                    type="text" 
-                    class="form-field" 
-                    id="postal_code" 
-                    v-model="profileForm.postal_code"
-                  />
+                <div class="profile-info-item profile-info-item-full">
+                  <label class="form-label">Address</label>
+                  <span class="form-field">{{ user?.address || 'Not provided' }}</span>
                 </div>
-              </div>
-              <div class="form-group">
-                <label for="address" class="form-label">Address</label>
-                <input 
-                  type="text" 
-                  class="form-field" 
-                  id="address" 
-                  v-model="profileForm.address"
-                />
               </div>
             </div>
             <div class="card-foot center">
-              <button class="btn btn-pill btn-primary" type="submit" :disabled="profileUpdating">
-                {{ profileUpdating ? 'Updating...' : 'Update' }}
+              <button class="btn btn-pill btn-primary" @click="openProfileModal" type="button">
+                <i class="bx bx-edit-alt"></i>
+                Edit Profile Information
               </button>
             </div>
-          </form>
+          </div>
+
+          <!-- Profile Edit Modal -->
+          <ProfileEditModal :is-open="isModalOpen" :profile-data="profileForm" @close="closeProfileModal"
+            @updated="handleProfileUpdated" />
 
           <!-- Reset Password Section -->
           <div class="card">
             <div class="card-head">
               <h3 class="card-title">Reset password</h3>
               <br><br>
-              <button 
-                class="btn btn-pill btn-primary btn-block" 
-                @click="sendPasswordReset"
-                :disabled="passwordResetLoading"
-              >
+              <button class="btn btn-pill btn-primary btn-block" @click="sendPasswordReset"
+                :disabled="passwordResetLoading">
                 {{ passwordResetLoading ? 'Sending...' : 'Send Password Reset Link' }}
               </button>
             </div>
@@ -184,6 +113,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { ApiUrl, apiRequest } from '@/utils/api'
 import { showMessage } from '@/utils/message'
+import ProfileEditModal from '@/components/ProfileEditModal.vue'
 
 const authStore = useAuthStore()
 
@@ -203,9 +133,8 @@ const profileForm = ref({
   address: ''
 })
 
-const profileUpdating = ref(false)
-const profileErrorMessage = ref('')
-const profileSuccessMessage = ref('')
+// Modal state
+const isModalOpen = ref(false)
 
 // Image upload
 const imageInput = ref(null)
@@ -241,7 +170,7 @@ const loadUserProfile = async () => {
 
 const handleImageChange = (event) => {
   const file = event.target.files[0]
-  
+
   if (file) {
     if (file.type.startsWith('image/')) {
       const reader = new FileReader()
@@ -293,29 +222,17 @@ const uploadProfileImage = async () => {
   }
 }
 
-const updateProfile = async () => {
-  profileUpdating.value = true
-  profileErrorMessage.value = ''
-  profileSuccessMessage.value = ''
+const openProfileModal = () => {
+  isModalOpen.value = true
+}
 
-  try {
-    await apiRequest(ApiUrl('nextash_store.events.profile.update'), {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Frappe-CSRF-Token': document.getElementById('csrf_token')?.value
-      },
-      body: JSON.stringify(profileForm.value)
-    })
+const closeProfileModal = () => {
+  isModalOpen.value = false
+}
 
-    await authStore.checkAuth() // Refresh user data
-    profileSuccessMessage.value = 'Profile updated successfully!'
-    showMessage('Profile updated successfully!', 'success')
-  } catch (error) {
-    profileErrorMessage.value = error.message || 'Failed to update profile'
-  } finally {
-    profileUpdating.value = false
-  }
+const handleProfileUpdated = () => {
+  // Profile data will be automatically updated via auth store
+  // Modal will close itself after update
 }
 
 const sendPasswordReset = async () => {
