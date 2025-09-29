@@ -14,8 +14,11 @@
         </nav>
         <nav class="cart-section">
           <router-link to="/cart" class="cart-button">
-            <i class="bx bx-shopping-bag"></i>
-            <span v-if="cartStore.itemCount > 0" class="cart-count">{{ cartStore.itemCount }}</span>
+            <div class="cart-icon-wrapper">
+              <i class="bx bx-shopping-bag cart-icon"></i>
+              <span v-if="cartStore.itemCount > 0" class="cart-count">{{ cartStore.itemCount }}</span>
+              <div class="cart-ripple"></div>
+            </div>
           </router-link>
         </nav>
         <nav class="auth-items">

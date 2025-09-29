@@ -1,8 +1,10 @@
 <template>
   <div class="order-completion">
-    <!-- Success Animation -->
-    <OrderSuccessAnimation :title="successTitle" :subtitle="successSubtitle" :order-details="orderSummary" />
-
+    <br>
+    <br>
+    <br>
+    <!-- <br> -->
+    <br>
     <!-- Hero Success Section -->
     <section class="success-hero boxed">
       <div class="success-container">
@@ -254,8 +256,6 @@ import { useOrderStore } from '@/stores/orders'
 import { InvoiceGenerator } from '@/utils/invoice'
 import { showMessage } from '@/utils/message'
 import { emailNotificationService } from '@/utils/emailNotifications'
-import OrderSuccessAnimation from '@/components/OrderSuccessAnimation.vue'
-import PostPurchaseRecommendations from '@/components/PostPurchaseRecommendations.vue'
 
 const route = useRoute()
 const router = useRouter()
