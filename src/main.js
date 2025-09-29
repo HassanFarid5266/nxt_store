@@ -26,9 +26,9 @@ app.mount('#app')
 const cartStore = useCartStore()
 const authStore = useAuthStore()
 
-// Check authentication and initialize cart
+// Auth state is now automatically restored when store is created
+// Do async auth check and initialize cart
 authStore.checkAuth().then(() => {
-  // Initialize cart after auth check
   cartStore.initializeCart()
 })
 

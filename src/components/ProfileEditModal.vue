@@ -1,13 +1,18 @@
 <template>
   <div v-if="isOpen" class="modal-overlay" @click="closeModal">
-    <div class="card modal-container" @click.stop>
+    <div class="modal-container" @click.stop>
       <div class="modal-header">
         <h3 class="modal-title">Edit Profile Information</h3>
-        <button type="button" class="modal-close-button" @click="closeModal" aria-label="Close modal">
+        <button 
+          type="button" 
+          class="modal-close-button"
+          @click="closeModal"
+          aria-label="Close modal"
+        >
           <i class="bx bx-x"></i>
         </button>
       </div>
-
+      
       <form @submit.prevent="handleSubmit" class="modal-body">
         <div v-if="errorMessage" class="alert alert-error">
           {{ errorMessage }}
@@ -15,62 +20,119 @@
         <div v-if="successMessage" class="alert alert-success">
           {{ successMessage }}
         </div>
-
+        
         <div class="form-cols-2">
           <div class="form-group">
             <label for="modal_first_name" class="form-label">First Name</label>
-            <input type="text" class="form-field" id="modal_first_name" v-model="localForm.first_name" required />
+            <input 
+              type="text" 
+              class="form-field" 
+              id="modal_first_name" 
+              v-model="localForm.first_name"
+              required
+            />
           </div>
           <div class="form-group">
             <label for="modal_last_name" class="form-label">Last Name</label>
-            <input type="text" class="form-field" id="modal_last_name" v-model="localForm.last_name" required />
+            <input 
+              type="text" 
+              class="form-field" 
+              id="modal_last_name" 
+              v-model="localForm.last_name"
+              required
+            />
           </div>
         </div>
-
+        
         <div class="form-cols-2">
           <div class="form-group">
             <label for="modal_email" class="form-label">Email Address</label>
-            <input type="email" class="form-field" id="modal_email" v-model="localForm.email" required />
+            <input 
+              type="email" 
+              class="form-field" 
+              id="modal_email" 
+              v-model="localForm.email"
+              required
+            />
           </div>
           <div class="form-group">
             <label for="modal_phone" class="form-label">Phone Number</label>
-            <input type="tel" class="form-field" id="modal_phone" v-model="localForm.phone" />
+            <input 
+              type="tel" 
+              class="form-field" 
+              id="modal_phone" 
+              v-model="localForm.phone"
+            />
           </div>
         </div>
-
+        
         <div class="form-cols-2">
           <div class="form-group">
             <label for="modal_country" class="form-label">Country</label>
-            <input type="text" class="form-field" id="modal_country" v-model="localForm.country" />
+            <input 
+              type="text" 
+              class="form-field" 
+              id="modal_country" 
+              v-model="localForm.country"
+            />
           </div>
           <div class="form-group">
             <label for="modal_state" class="form-label">State</label>
-            <input type="text" class="form-field" id="modal_state" v-model="localForm.state" />
+            <input 
+              type="text" 
+              class="form-field" 
+              id="modal_state" 
+              v-model="localForm.state"
+            />
           </div>
         </div>
-
+        
         <div class="form-cols-2">
           <div class="form-group">
             <label for="modal_city" class="form-label">City</label>
-            <input type="text" class="form-field" id="modal_city" v-model="localForm.city" />
+            <input 
+              type="text" 
+              class="form-field" 
+              id="modal_city" 
+              v-model="localForm.city"
+            />
           </div>
           <div class="form-group">
             <label for="modal_postal_code" class="form-label">Postal Code</label>
-            <input type="text" class="form-field" id="modal_postal_code" v-model="localForm.postal_code" />
+            <input 
+              type="text" 
+              class="form-field" 
+              id="modal_postal_code" 
+              v-model="localForm.postal_code"
+            />
           </div>
         </div>
-
+        
         <div class="form-group">
           <label for="modal_address" class="form-label">Address</label>
-          <input type="text" class="form-field" id="modal_address" v-model="localForm.address" />
+          <input 
+            type="text" 
+            class="form-field" 
+            id="modal_address" 
+            v-model="localForm.address"
+          />
         </div>
       </form>
-
+      
       <div class="modal-footer">
-        <button type="button" class="btn btn-pill btn-light" @click="closeModal">
+        <button 
+          type="button" 
+          class="btn btn-pill btn-light" 
+          @click="closeModal"
+        >
           Cancel
         </button>
-        <button type="submit" class="btn btn-pill btn-primary" @click="handleSubmit" :disabled="isUpdating">
+        <button 
+          type="submit" 
+          class="btn btn-pill btn-primary" 
+          @click="handleSubmit"
+          :disabled="isUpdating"
+        >
           {{ isUpdating ? 'Updating...' : 'Update Profile' }}
         </button>
       </div>
@@ -80,6 +142,7 @@
 
 <script setup>
 import { ref, watch, defineProps, defineEmits } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 import { showMessage } from '@/utils/message'
 
 const props = defineProps({
@@ -94,6 +157,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close', 'updated'])
+
+const authStore = useAuthStore()
 
 const localForm = ref({
   first_name: '',
@@ -151,10 +216,10 @@ const handleSubmit = async (event) => {
     // Simulate loading delay
     await new Promise(resolve => setTimeout(resolve, 800))
 
-    // Save to localStorage
-    const currentUser = JSON.parse(localStorage.getItem('user_profile') || '{}')
+    // Update user via auth store
+    const currentUser = authStore.user || {}
     const updatedUser = { ...currentUser, ...localForm.value }
-    localStorage.setItem('user_profile', JSON.stringify(updatedUser))
+    authStore.setUser(updatedUser)
 
     successMessage.value = 'Profile updated successfully!'
     showMessage('Profile updated successfully!', 'success')

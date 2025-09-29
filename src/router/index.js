@@ -13,6 +13,7 @@ const router = createRouter({
       path: "/profile",
       name: "profile",
       component: () => import("@/views/ProfileView.vue"),
+      meta: { requiresAuth: true },
     },
     {
       path: "/shop/:category?",
@@ -127,10 +128,13 @@ router.beforeEach(async (to, from, next) => {
     const { useAuthStore } = await import("@/stores/auth");
     const authStore = useAuthStore();
 
-    // if (!authStore.isLoggedIn) {
-    //   next("/login");
-    //   return;
-    // }
+    // Ensure auth is checked before routing
+    await authStore.checkAuth();
+
+    if (!authStore.isLoggedIn) {
+      next("/login");
+      return;
+    }
   }
   next();
 });

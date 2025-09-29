@@ -10,6 +10,16 @@ export const useAuthStore = defineStore('auth', () => {
   const setUser = (userData) => {
     user.value = userData
     isLoggedIn.value = !!userData
+
+    if (userData) {
+      // Save user data to localStorage for persistence
+      localStorage.setItem('user_profile', JSON.stringify(userData))
+      localStorage.setItem('is_logged_in', 'true')
+    } else {
+      // Clear user data from localStorage
+      localStorage.removeItem('user_profile')
+      localStorage.removeItem('is_logged_in')
+    }
   }
 
   const login = async (credentials) => {
@@ -60,20 +70,51 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  const restoreAuthFromStorage = () => {
+    try {
+      const token = localStorage.getItem('auth_token')
+      const isLoggedInStored = localStorage.getItem('is_logged_in')
+      const userProfile = localStorage.getItem('user_profile')
+
+      if (token && isLoggedInStored === 'true' && userProfile) {
+        const userData = JSON.parse(userProfile)
+        user.value = userData
+        isLoggedIn.value = true
+        return true
+      }
+    } catch (error) {
+      console.error('Error restoring auth from storage:', error)
+      // Clear invalid auth data
+      localStorage.removeItem('auth_token')
+      localStorage.removeItem('is_logged_in')
+      localStorage.removeItem('user_profile')
+    }
+    return false
+  }
+
   const checkAuth = async () => {
+    // First, try to restore from localStorage synchronously
+    if (restoreAuthFromStorage()) {
+      return
+    }
+
     try {
       const token = localStorage.getItem('auth_token')
       if (!token) {
         return
       }
 
+      // Fallback to API check if localStorage data is incomplete
       const response = await mockApi.auth.checkAuth()
       if (response.success && response.data.user) {
         setUser(response.data.user)
       }
     } catch (error) {
       console.error('Auth check error:', error)
+      // Clear invalid auth data
       localStorage.removeItem('auth_token')
+      localStorage.removeItem('is_logged_in')
+      localStorage.removeItem('user_profile')
     }
   }
 
@@ -97,6 +138,9 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  // Initialize auth state from localStorage immediately when store is created
+  restoreAuthFromStorage()
+
   return {
     user,
     isLoggedIn,
@@ -104,6 +148,7 @@ export const useAuthStore = defineStore('auth', () => {
     logout,
     signup,
     checkAuth,
+    restoreAuthFromStorage,
     forgotPassword,
     resetPassword,
     setUser

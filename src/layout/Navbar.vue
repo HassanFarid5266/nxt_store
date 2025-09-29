@@ -43,11 +43,11 @@
                 </div>
               </div>
               <div class="dropdown-divider"></div>
-              <router-link to="/profile" class="dropdown-item">
+              <router-link to="/profile" @click="toggleDropdown" class="dropdown-item">
                 <i class="bx bx-user"></i>
                 <span>My Profile</span>
               </router-link>
-              <router-link to="/orders" class="dropdown-item">
+              <router-link to="/orders" @click="toggleDropdown" class="dropdown-item">
                 <i class="bx bx-list-ul"></i>
                 <span>My Orders</span>
               </router-link>

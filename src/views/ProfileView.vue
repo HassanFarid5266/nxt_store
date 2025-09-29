@@ -90,18 +90,6 @@
           <!-- Profile Edit Modal -->
           <ProfileEditModal :is-open="isModalOpen" :profile-data="profileForm" @close="closeProfileModal"
             @updated="handleProfileUpdated" />
-
-          <!-- Reset Password Section -->
-          <div class="card">
-            <div class="card-head">
-              <h3 class="card-title">Reset password</h3>
-              <br><br>
-              <button class="btn btn-pill btn-primary btn-block" @click="sendPasswordReset"
-                :disabled="passwordResetLoading">
-                {{ passwordResetLoading ? 'Sending...' : 'Send Password Reset Link' }}
-              </button>
-            </div>
-          </div>
         </section>
       </template>
     </main>
@@ -109,11 +97,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 import { showMessage } from '@/utils/message'
 import ProfileEditModal from '@/components/ProfileEditModal.vue'
 
-const user = ref(null)
+const authStore = useAuthStore()
+const user = computed(() => authStore.user)
 const loading = ref(true)
 
 // Profile form
@@ -143,41 +133,22 @@ const passwordResetLoading = ref(false)
 
 const loadUserProfile = async () => {
   try {
-    // Simulate loading delay
-    await new Promise(resolve => setTimeout(resolve, 500))
+    // Ensure auth is checked
+    await authStore.checkAuth()
 
-    // Get profile from localStorage
-    const savedProfile = localStorage.getItem('user_profile')
-    if (savedProfile) {
-      user.value = JSON.parse(savedProfile)
-    } else {
-      // Set default demo data if no profile exists
-      user.value = {
-        first_name: 'John',
-        last_name: 'Doe',
-        email: 'john.doe@example.com',
-        phone: '+1 (555) 123-4567',
-        country: 'United States',
-        state: 'California',
-        city: 'San Francisco',
-        postal_code: '94102',
-        address: '123 Main Street',
-        user_image: null
+    if (user.value) {
+      // Update form with current user data
+      profileForm.value = {
+        first_name: user.value.first_name || '',
+        last_name: user.value.last_name || '',
+        email: user.value.email || '',
+        phone: user.value.phone || '',
+        country: user.value.country || '',
+        state: user.value.state || '',
+        city: user.value.city || '',
+        postal_code: user.value.postal_code || '',
+        address: user.value.address || ''
       }
-      localStorage.setItem('user_profile', JSON.stringify(user.value))
-    }
-
-    // Update form with current user data
-    profileForm.value = {
-      first_name: user.value.first_name || '',
-      last_name: user.value.last_name || '',
-      email: user.value.email || '',
-      phone: user.value.phone || '',
-      country: user.value.country || '',
-      state: user.value.state || '',
-      city: user.value.city || '',
-      postal_code: user.value.postal_code || '',
-      address: user.value.address || ''
     }
   } catch (error) {
     console.error('Error loading profile:', error)
@@ -221,12 +192,12 @@ const uploadProfileImage = async () => {
     // Simulate upload delay
     await new Promise(resolve => setTimeout(resolve, 1000))
 
-    // Save image as base64 to localStorage
+    // Save image as base64 to localStorage via auth store
     const reader = new FileReader()
     reader.onload = (e) => {
       const imageData = e.target.result
-      user.value.user_image = imageData
-      localStorage.setItem('user_profile', JSON.stringify(user.value))
+      const updatedUser = { ...user.value, user_image: imageData }
+      authStore.setUser(updatedUser)
       showMessage('Profile image updated successfully!', 'success')
       cancelImageChange()
       imageUploading.value = false
@@ -248,18 +219,21 @@ const closeProfileModal = () => {
 }
 
 const handleProfileUpdated = (updatedData) => {
-  // Update local user data
-  user.value = { ...user.value, ...updatedData }
+  // Update user data via auth store
+  const updatedUser = { ...user.value, ...updatedData }
+  authStore.setUser(updatedUser)
+
+  // Update form with new data
   profileForm.value = {
-    first_name: user.value.first_name || '',
-    last_name: user.value.last_name || '',
-    email: user.value.email || '',
-    phone: user.value.phone || '',
-    country: user.value.country || '',
-    state: user.value.state || '',
-    city: user.value.city || '',
-    postal_code: user.value.postal_code || '',
-    address: user.value.address || ''
+    first_name: updatedUser.first_name || '',
+    last_name: updatedUser.last_name || '',
+    email: updatedUser.email || '',
+    phone: updatedUser.phone || '',
+    country: updatedUser.country || '',
+    state: updatedUser.state || '',
+    city: updatedUser.city || '',
+    postal_code: updatedUser.postal_code || '',
+    address: updatedUser.address || ''
   }
 }
 
