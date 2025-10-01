@@ -64,7 +64,7 @@
               <th scope="col">Tax</th>
               <th scope="col">Sub total</th>
               <th scope="col">Total</th>
-              <th scope="col">Status</th>
+              <th scope="col" class="center">Status</th>
               <th scope="col">Date</th>
               <th scope="col">Controls</th>
             </tr>
@@ -77,7 +77,7 @@
               <td>${{ order.tax || '0.00' }}</td>
               <td>${{ order.subtotal }}</td>
               <td>${{ order.total }}</td>
-              <td>
+              <td class="center">
                 <span class="badge" :class="`badge-${orderStore.getStatusColor(order.status)}`">
                   {{ orderStore.getStatusLabel(order.status) }}
                 </span>
@@ -269,3 +269,17 @@ onMounted(() => {
   loadOrders()
 })
 </script>
+
+<style>
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  gap: 1rem;
+}
+
+.pagination-controls .btn {
+  margin: 0px;
+}
+</style>
