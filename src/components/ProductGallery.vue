@@ -167,29 +167,3 @@ onUnmounted(() => {
   stopAutoSlide()
 })
 </script>
-
-
-<style scoped>
-.gallery {
-  position: relative;
-  height: 470px;
-}
-
-.gallery-image {
-  width: 100%;
-  border-radius: 10px;
-  position: absolute;
-  top: 50px;
-  left: 0;
-  right: 0;
-  box-shadow: 2px 2px 10px #6a0408;
-  z-index: 0;
-  transition: all 0.5s ease;
-  cursor: pointer;
-}
-
-.z-index {
-  z-index: 2 !important;
-  scale: 1 !important;
-}
-</style>

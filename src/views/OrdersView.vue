@@ -269,11 +269,3 @@ onMounted(() => {
   loadOrders()
 })
 </script>
-
-<style>
-.order-actions, .filter-controls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-</style>
