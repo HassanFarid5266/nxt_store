@@ -1,19 +1,7 @@
 // API utility functions
 export function url(name, params = null) {
-  let query = "";
-
-  if (params) {
-    query = Object.keys(params)
-      .map(
-        (key) => encodeURIComponent(key) + "=" + encodeURIComponent(params[key])
-      )
-      .join("&");
-
-    query = "?" + decodeURIComponent(query);
-  } else {
-    query = "";
-  }
-  return `${window.location.origin}/api/method/nextash_store.${name}` + query;
+  const query = params ? '?' + new URLSearchParams(params).toString() : '';
+  return `${window.location.origin}/api/method/nextash_store.${name}${query}`;
 }
 
 export function csrf_token() {
@@ -25,17 +13,11 @@ export function ApiUrl(name) {
 }
 
 export function searchParams(params) {
-  let query = Object.keys(params)
-    .map(
-      (key) => encodeURIComponent(key) + "=" + encodeURIComponent(params[key])
-    )
-    .join("&");
-  query = decodeURIComponent(query);
-  return query;
+  return new URLSearchParams(params).toString();
 }
 
-export function hasProperty(obj, property, other) {
-  return obj.hasOwnProperty(property) ? obj[property] : other;
+export function hasProperty(obj, property, fallback) {
+  return obj?.[property] ?? fallback;
 }
 
 // API request helper
