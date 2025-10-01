@@ -22,8 +22,9 @@
           <div class="form-cols-2">
             <div class="form-group">
               <label for="firstname" class="form-label">First Name</label>
-              <input type="text" class="form-field" :class="fieldClasses.firstname" placeholder="Enter your first Name" id="firstname" name="firstname"
-                v-model="checkoutForm.firstname" @blur="validateField('firstname')" required />
+              <input type="text" class="form-field" :class="fieldClasses.firstname" placeholder="Enter your first Name"
+                id="firstname" name="firstname" v-model="checkoutForm.firstname" @blur="validateField('firstname')"
+                required />
               <span v-if="formErrors.firstname" class="error-message">{{
                 ValidationHelpers.formatErrorMessage(formErrors.firstname) }}</span>
               <i v-if="validationIcons.firstname"
@@ -31,8 +32,9 @@
             </div>
             <div class="form-group">
               <label for="lastname" class="form-label">Last Name</label>
-              <input type="text" class="form-field" :class="fieldClasses.lastname" placeholder="Enter your last name" id="lastname" name="lastname"
-                v-model="checkoutForm.lastname" @blur="validateField('lastname')" required />
+              <input type="text" class="form-field" :class="fieldClasses.lastname" placeholder="Enter your last name"
+                id="lastname" name="lastname" v-model="checkoutForm.lastname" @blur="validateField('lastname')"
+                required />
               <span v-if="formErrors.lastname" class="error-message">{{
                 ValidationHelpers.formatErrorMessage(formErrors.lastname) }}</span>
               <i v-if="validationIcons.lastname"
@@ -42,8 +44,8 @@
           <div class="form-cols-2">
             <div class="form-group">
               <label for="email" class="form-label">Email Address</label>
-              <input type="email" class="form-field" :class="fieldClasses.email" placeholder="Enter your email address" id="email" name="email"
-                v-model="checkoutForm.email" @blur="validateField('email')" required />
+              <input type="email" class="form-field" :class="fieldClasses.email" placeholder="Enter your email address"
+                id="email" name="email" v-model="checkoutForm.email" @blur="validateField('email')" required />
               <span v-if="formErrors.email" class="error-message">{{
                 ValidationHelpers.formatErrorMessage(formErrors.email) }}</span>
               <i v-if="validationIcons.email"
@@ -62,8 +64,8 @@
           <div class="form-cols-2">
             <div class="form-group">
               <label for="city" class="form-label">City</label>
-              <input type="text" class="form-field" :class="fieldClasses.city" placeholder="Enter your city" id="city" name="city"
-                v-model="checkoutForm.city" @blur="validateField('city')" required />
+              <input type="text" class="form-field" :class="fieldClasses.city" placeholder="Enter your city" id="city"
+                name="city" v-model="checkoutForm.city" @blur="validateField('city')" required />
               <span v-if="formErrors.city" class="error-message">{{
                 ValidationHelpers.formatErrorMessage(formErrors.city) }}</span>
               <i v-if="validationIcons.city" :class="['validation-icon', validationIcons.city, fieldClasses.city]"></i>
@@ -71,8 +73,8 @@
             <div class="form-group">
               <label for="country" class="form-label">Country</label>
 
-              <input type="text" class="form-field" :class="fieldClasses.country" placeholder="Enter your country" id="country" name="country"
-                v-model="checkoutForm.country" @blur="validateField('country')" required />
+              <input type="text" class="form-field" :class="fieldClasses.country" placeholder="Enter your country"
+                id="country" name="country" v-model="checkoutForm.country" @blur="validateField('country')" required />
               <span v-if="formErrors.country" class="error-message">{{
                 ValidationHelpers.formatErrorMessage(formErrors.country) }}</span>
               <i v-if="validationIcons.country"
@@ -107,12 +109,19 @@
 
             <!-- Credit Card Details -->
             <div v-if="selectedPaymentMethod === 'card'" class="payment-form card-payment-form">
-              <h4 class="payment-section-title">Card Information</h4>
+              <div class="payment-section-title">
+                <h4 >Card Information</h4>
+                <div class="card-types">
+                  <img src="@/assets/images/payment/visa.jpg" alt="Visa" class="card-type-icon">
+                  <img src="@/assets/images/payment/mastercard.png" alt="Mastercard" class="card-type-icon">
+                  <img src="@/assets/images/payment/amex.jpg" alt="American Express" class="card-type-icon">
+                </div>
+              </div>
               <div class="form-cols-2">
                 <div class="form-group">
                   <label for="chn" class="form-label">Card holder name</label>
-                  <input type="text" class="form-field" :class="fieldClasses.chn" placeholder="Enter card holder name" id="chn" name="chn"
-                    v-model="checkoutForm.chn" @blur="validateField('chn')" required />
+                  <input type="text" class="form-field" :class="fieldClasses.chn" placeholder="Enter card holder name"
+                    id="chn" name="chn" v-model="checkoutForm.chn" @blur="validateField('chn')" required />
                   <span v-if="formErrors.chn" class="error-message">{{
                     ValidationHelpers.formatErrorMessage(formErrors.chn) }}</span>
                   <i v-if="validationIcons.chn" :class="['validation-icon', validationIcons.chn, fieldClasses.chn]"></i>
@@ -148,17 +157,6 @@
                     :class="['validation-icon', validationIcons.code, fieldClasses.code]"></i>
                 </div>
               </div>
-              <div class="card-types">
-                <img
-                  src="@/assets/images/payment/visa.jpg"
-                  alt="Visa" class="card-type-icon">
-                <img
-                  src="@/assets/images/payment/mastercard.png"
-                  alt="Mastercard" class="card-type-icon">
-                <img
-                  src="@/assets/images/payment/amex.jpg"
-                  alt="American Express" class="card-type-icon">
-              </div>
             </div>
 
             <!-- Bank Account Details -->
@@ -167,8 +165,9 @@
               <div class="form-cols-2">
                 <div class="form-group">
                   <label for="bankName" class="form-label">Bank Name</label>
-                  <input type="text" class="form-field" :class="fieldClasses.bankName" placeholder="Enter your Bank name" id="bankName" name="bankName"
-                    v-model="checkoutForm.bankName" @blur="validateField('bankName')" required />
+                  <input type="text" class="form-field" :class="fieldClasses.bankName"
+                    placeholder="Enter your Bank name" id="bankName" name="bankName" v-model="checkoutForm.bankName"
+                    @blur="validateField('bankName')" required />
                   <span v-if="formErrors.bankName" class="error-message">{{
                     ValidationHelpers.formatErrorMessage(formErrors.bankName) }}</span>
                   <i v-if="validationIcons.bankName"
@@ -176,9 +175,9 @@
                 </div>
                 <div class="form-group">
                   <label for="accountHolderName" class="form-label">Account Holder Name</label>
-                  <input type="text" class="form-field" :class="fieldClasses.accountHolderName" placeholder="Enter account holder name" id="accountHolderName"
-                    name="accountHolderName" v-model="checkoutForm.accountHolderName"
-                    @blur="validateField('accountHolderName')" required />
+                  <input type="text" class="form-field" :class="fieldClasses.accountHolderName"
+                    placeholder="Enter account holder name" id="accountHolderName" name="accountHolderName"
+                    v-model="checkoutForm.accountHolderName" @blur="validateField('accountHolderName')" required />
                   <span v-if="formErrors.accountHolderName" class="error-message">{{
                     ValidationHelpers.formatErrorMessage(formErrors.accountHolderName) }}</span>
                   <i v-if="validationIcons.accountHolderName"
