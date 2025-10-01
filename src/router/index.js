@@ -61,7 +61,7 @@ const router = createRouter({
     {
       path: "/order-completion",
       name: "order-completion",
-      component: () => import("@/views/OrderCompletionView.vue"),
+      component: () => import("@/views/OrderCompletView.vue"),
     },
     // {
     //   path: "/payment-success",

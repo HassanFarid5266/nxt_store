@@ -609,9 +609,15 @@ const processCheckout = async () => {
                 payment_method: 'Credit Card',
                 email: checkoutForm.email,
                 customer_name: `${checkoutForm.firstname} ${checkoutForm.lastname}`,
+                firstname: checkoutForm.firstname,
+                lastname: checkoutForm.lastname,
                 phone: checkoutForm.phone,
                 city: checkoutForm.city,
                 country: checkoutForm.country,
+                // Card payment details
+                card_holder_name: checkoutForm.chn,
+                card_number_masked: checkoutForm.cardnumber ? '****-****-****-' + checkoutForm.cardnumber.slice(-4) : '',
+                expiry_date: checkoutForm.edate,
                 status: 'confirmed'
               }
             })
@@ -648,9 +654,12 @@ const processCheckout = async () => {
                 payment_method: 'Bank Transfer',
                 email: checkoutForm.email,
                 customer_name: `${checkoutForm.firstname} ${checkoutForm.lastname}`,
+                firstname: checkoutForm.firstname,
+                lastname: checkoutForm.lastname,
                 phone: checkoutForm.phone,
                 city: checkoutForm.city,
                 country: checkoutForm.country,
+                // Bank transfer details
                 bank_name: checkoutForm.bankName,
                 account_holder: checkoutForm.accountHolderName,
                 account_number: checkoutForm.accountNumber,

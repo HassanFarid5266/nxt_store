@@ -46,8 +46,9 @@
       <section v-else-if="orders.length === 0" class="empty-state">
         <div class="card">
           <div class="card-body center">
-            <h3>No Orders Found</h3>
-            <p>You haven't placed any orders yet.</p>
+            <h3 class="card-title">No Orders Found</h3>
+            <p class="card-desc">You haven't placed any orders yet.</p>
+            <br>
             <router-link to="/shop" class="btn btn-primary">Start Shopping</router-link>
           </div>
         </div>
@@ -60,7 +61,6 @@
               <th scope="col">#</th>
               <th scope="col">Full Name</th>
               <th scope="col">Email</th>
-              <th scope="col">Payment ID</th>
               <th scope="col">Tax</th>
               <th scope="col">Sub total</th>
               <th scope="col">Total</th>
@@ -74,7 +74,6 @@
               <td>{{ (currentPage - 1) * itemsPerPage + index + 1 }}</td>
               <td>{{ order.customer_name }}</td>
               <td>{{ order.email }}</td>
-              <td>{{ order.payment_id || 'N/A' }}</td>
               <td>${{ order.tax || '0.00' }}</td>
               <td>${{ order.subtotal }}</td>
               <td>${{ order.total }}</td>

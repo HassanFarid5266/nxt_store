@@ -60,8 +60,23 @@
                   <span class="detail-label">Payment Method</span>
                   <span class="detail-value">{{ formatPaymentMethod(order?.payment_method) }}</span>
                 </div>
+                <!-- Card Payment Details -->
+                <template v-if="order?.payment_method === 'card' || order?.payment_method === 'Credit Card'">
+                  <div class="detail-row" v-if="order?.card_holder_name">
+                    <span class="detail-label">Card Holder Name</span>
+                    <span class="detail-value">{{ order.card_holder_name }}</span>
+                  </div>
+                  <div class="detail-row" v-if="order?.card_number_masked">
+                    <span class="detail-label">Card Number</span>
+                    <span class="detail-value card-masked">{{ order.card_number_masked }}</span>
+                  </div>
+                  <div class="detail-row" v-if="order?.expiry_date">
+                    <span class="detail-label">Expiry Date</span>
+                    <span class="detail-value">{{ order.expiry_date }}</span>
+                  </div>
+                </template>
                 <!-- Bank Transfer Details -->
-                <template v-if="order?.payment_method === 'bank-account'">
+                <template v-if="order?.payment_method === 'bank-account' || order?.payment_method === 'Bank Transfer'">
                   <div class="detail-row">
                     <span class="detail-label">Bank Name</span>
                     <span class="detail-value">{{ order?.bank_name || 'N/A' }}</span>
@@ -87,7 +102,8 @@
               <div class="detail-list">
                 <div class="detail-row">
                   <span class="detail-label">Full Name</span>
-                  <span class="detail-value">{{ order?.customer_name }}</span>
+                  <span class="detail-value">{{ order?.customer_name || `${order?.firstname} ${order?.lastname}`
+                    }}</span>
                 </div>
                 <div class="detail-row">
                   <span class="detail-label">Email Address</span>
@@ -96,10 +112,6 @@
                 <div class="detail-row">
                   <span class="detail-label">Phone Number</span>
                   <span class="detail-value">{{ order?.phone }}</span>
-                </div>
-                <div class="detail-row">
-                  <span class="detail-label">Location</span>
-                  <span class="detail-value">{{ shippingAddressText }}</span>
                 </div>
               </div>
             </div>
@@ -246,10 +258,6 @@
           <i class="bx bx-list-ul"></i>
           <span>View All Orders</span>
         </router-link>
-        <router-link v-if="order?.id" :to="`/product/${product.id}`" class="nav-btn secondary">
-          <i class="bx bx-show"></i>
-          <span>Product Details</span>
-        </router-link>
         <router-link to="/shop" class="nav-btn outline">
           <i class="bx bx-shopping-bag"></i>
           <span>Continue Shopping</span>
@@ -319,20 +327,6 @@ const estimatedDeliveryText = computed(() => {
     month: 'long',
     day: 'numeric'
   })
-})
-
-const shippingAddressText = computed(() => {
-  if (!order.value) return 'Address on file'
-  return `${order.value.city || 'City'}, ${order.value.country || 'Country'}`
-})
-
-const customerData = computed(() => {
-  if (!order.value) return {}
-  return {
-    name: order.value.customer_name,
-    email: order.value.email,
-    phone: order.value.phone
-  }
 })
 
 const nextSteps = computed(() => {
@@ -411,14 +405,19 @@ const loadOrderDetails = async () => {
         order.value = {
           id: orderId,
           customer_name: route.query.customer_name || 'Customer',
+          firstname: route.query.firstname,
+          lastname: route.query.lastname,
           email: route.query.email || 'customer@example.com',
           phone: route.query.phone || '+1234567890',
           total: parseFloat(route.query.total || '99.99'),
           payment_method: route.query.payment_method || 'card',
           status: route.query.status || 'confirmed',
           created_at: new Date().toISOString(),
-          city: route.query.city || 'City',
-          country: route.query.country || 'Country',
+          // Card details
+          card_holder_name: route.query.card_holder_name,
+          card_number_masked: route.query.card_number_masked,
+          expiry_date: route.query.expiry_date,
+          // Bank details
           bank_name: route.query.bank_name,
           account_holder: route.query.account_holder,
           account_number: route.query.account_number,
@@ -766,6 +765,16 @@ onMounted(async () => {
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   font-size: 0.85rem;
+}
+
+.detail-value.card-masked {
+  font-family: monospace;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: var(--primary);
+  font-weight: 600;
 }
 
 .delivery-status {

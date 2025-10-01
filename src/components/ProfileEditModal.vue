@@ -230,7 +230,7 @@ const handleSubmit = async (event) => {
     // Close modal after a short delay to show success message
     setTimeout(() => {
       closeModal()
-    }, 1500)
+    }, 500)
   } catch (error) {
     errorMessage.value = error.message || 'Failed to update profile'
   } finally {

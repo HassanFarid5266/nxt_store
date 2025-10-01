@@ -92,6 +92,8 @@ export const useOrderStore = defineStore('orders', () => {
     const order = {
       id: orderData.id || 'ORD-' + Date.now(),
       customer_name: `${orderData.firstname} ${orderData.lastname}`,
+      firstname: orderData.firstname,
+      lastname: orderData.lastname,
       email: orderData.email,
       phone: orderData.phone,
       payment_method: orderData.payment_method,
@@ -106,6 +108,10 @@ export const useOrderStore = defineStore('orders', () => {
         country: orderData.country,
         phone: orderData.phone
       },
+      // Card payment details (if applicable)
+      card_holder_name: orderData.chn,
+      card_number_masked: orderData.cardnumber ? '****-****-****-' + orderData.cardnumber.slice(-4) : null,
+      expiry_date: orderData.edate,
       // Bank transfer details (if applicable)
       bank_name: orderData.bankName,
       account_holder: orderData.accountHolderName,
