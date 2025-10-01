@@ -29,10 +29,10 @@ export const useShopStore = defineStore('shop', () => {
     // Filter by categories
     if (selectedCategories.value.length > 0) {
       filtered = filtered.filter(product => {
-        const category = productsStore.allCategories.find(cat => 
-          selectedCategories.value.includes(cat.name)
-        )
-        return category && product.category === category.title
+        return selectedCategories.value.some(selectedCategoryName => {
+          const category = productsStore.allCategories.find(cat => cat.name === selectedCategoryName)
+          return category && product.category === category.title
+        })
       })
     }
     
@@ -92,9 +92,16 @@ export const useShopStore = defineStore('shop', () => {
   }
 
   const initializeWithCategory = (categoryName) => {
-    if (categoryName && !selectedCategories.value.includes(categoryName)) {
+    // Clear all categories first
+    selectedCategories.value = []
+
+    // Set new category if provided
+    if (categoryName) {
       selectedCategories.value = [categoryName]
     }
+
+    // Reset pagination
+    currentPage.value = 1
   }
 
   const searchProducts = () => {

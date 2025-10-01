@@ -27,7 +27,7 @@
           <input type="hidden" id="categories" :value="routeCategory" name="categories">
           <label v-for="item in categories" :key="item.name" class="check check-block" :for="item.name">
             <input type="checkbox" name="category" class="category" :id="item.name" :value="item.name"
-              v-model="shopStore.selectedCategories" @change="filterProducts" :checked="routeCategory === item.name" />
+              v-model="shopStore.selectedCategories" @change="filterProducts" />
             {{ item.title }}
           </label>
         </div>
