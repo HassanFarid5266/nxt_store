@@ -52,22 +52,11 @@ const router = createRouter({
       component: () => import("@/views/OrdersView.vue"),
       meta: { requiresAuth: true },
     },
-    // {
-    //   path: "/order/:id",
-    //   name: "order-detail",
-    //   component: () => import("@/views/OrderView.vue"),
-    //   meta: { requiresAuth: true },
-    // },
     {
       path: "/order-completion",
       name: "order-completion",
       component: () => import("@/views/OrderCompletView.vue"),
     },
-    // {
-    //   path: "/payment-success",
-    //   name: "payment-success",
-    //   component: () => import("@/views/PaymentSuccessful.vue"),
-    // },
     {
       path: "/forgot-password",
       name: "forgot-password",
@@ -78,12 +67,6 @@ const router = createRouter({
       name: "update-password",
       component: () => import("@/views/auth/UpdatePasswordView.vue"),
     },
-    // {
-    //   path: "/downloads",
-    //   name: "downloads",
-    //   component: () => import("@/views/DownloadsView.vue"),
-    //   meta: { requiresAuth: true },
-    // },
     {
       path: "/terms-of-use",
       name: "terms",
@@ -122,17 +105,18 @@ const router = createRouter({
   ],
 });
 
-// Navigation guard for protected routes
 router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth) {
     const { useAuthStore } = await import("@/stores/auth");
     const authStore = useAuthStore();
-
-    // Ensure auth is checked before routing
     await authStore.checkAuth();
 
     if (!authStore.isLoggedIn) {
-      next("/login");
+      const redirectTo = to.fullPath
+      next({
+        path: "/login",
+        query: { redirect: redirectTo }
+      });
       return;
     }
   }

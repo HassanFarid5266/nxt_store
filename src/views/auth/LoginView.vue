@@ -3,6 +3,10 @@
     <form @submit.prevent="handleLogin" class="card card-form" data-aos-duration="1000" data-aos="fade-up" data-aos-once="true">
       <div class="card-head">
         <h1 class="card-title">Login</h1>
+        <div v-if="route.query.redirect" class="alert alert-info">
+          <i class="bx bx-info-circle"></i>
+          {{ getRedirectMessage() }}
+        </div>
         <p class="card-desc">
           Don't have an account?
           <router-link to="/signup" class="card-link">Signup</router-link>
@@ -53,11 +57,12 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { showMessage } from '@/utils/message'
 
 const router = useRouter()
+const route = useRoute()
 const authStore = useAuthStore()
 
 const form = ref({
@@ -67,6 +72,18 @@ const form = ref({
 
 const loading = ref(false)
 const errorMessage = ref('')
+
+const getRedirectMessage = () => {
+  const redirect = route.query.redirect
+  if (redirect === '/checkout') {
+    return 'Please log in to continue to checkout'
+  } else if (redirect === '/profile') {
+    return 'Please log in to view your profile'
+  } else if (redirect === '/orders') {
+    return 'Please log in to view your orders'
+  }
+  return 'Please log in to continue'
+}
 
 const handleLogin = async () => {
   if (!form.value.email || !form.value.password) {
@@ -81,7 +98,8 @@ const handleLogin = async () => {
     const result = await authStore.login(form.value)
     if (result.success) {
       showMessage('Login successful!', 'success')
-      router.push('/')
+      const redirectTo = route.query.redirect || '/'
+      router.push(redirectTo)
     } else {
       errorMessage.value = result.error || 'Login failed. Please try again.'
     }

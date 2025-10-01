@@ -21,4 +21,18 @@
     margin-bottom: 1rem;
     color: var(--primary);
   }
+  .alert-info {
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    background: rgba(var(--primary-rgb), 0.1);
+    border: 1px solid rgba(var(--primary-rgb), 0.2);
+    border-radius: 0.5rem;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    i {
+      font-size: 1.125rem;
+    }
+  }
 }
